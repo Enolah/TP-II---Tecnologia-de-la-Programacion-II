@@ -1,5 +1,7 @@
 package simulator.model;
 
+import java.util.List;
+
 import org.json.JSONObject;
 
 public class Vehicle extends SimulatedObject {
@@ -34,7 +36,7 @@ public class Vehicle extends SimulatedObject {
 	public VehicleStatus getStatus(){
 		return null;
 	}
-	public List<Junction> getItinerary(){
+	public List<Juction> getItinerary(){
 		return null;
 	}
 	public Road getRoad(){
