@@ -2,16 +2,29 @@ package simulator.model;
 
 public class CityRoad extends Road{
 
-	public CityRoad(String id, Juction srcJunc, Juction destJunc, int maxSpeed, int contLimit, int lenght, Weather weather){
-		super(id);
+	public CityRoad(String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int lenght, Weather weather){
+		super(id, srcJunc, destJunc, maxSpeed, contLimit, lenght, weather);
 	}
 	
 	//metodos
 	
-	reduceTotalContamination();
+	void reduceTotalContamination(){}
 	
+	
+	
+
+	@Override
+	void updateSpeedLimit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	//velocidad limite no cambia siempre es la velocidad maxima;
 	
-	calculateVehicleSpeed();
+	@Override
+	int calculateVehicleSpeed(Vehicle v) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

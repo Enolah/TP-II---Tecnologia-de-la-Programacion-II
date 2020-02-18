@@ -3,6 +3,8 @@ package simulator.model;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 public class Junction extends SimulatedObject{
 
 	
@@ -20,17 +22,18 @@ public class Junction extends SimulatedObject{
 		// TODO Auto-generated constructor stub
 	}
 
-	public getX(){};
-	public getY(){};
+	public void getX(){};
+	public void getY(){};
 	
 	//metodos
 	
-	void addIncommingRoad(Road r){};
-	void addOutGoingRoad(Road r){};
-	void enter (Vehicle v){};
-	Road roadTo (Junction j){};
-	void advance(time){};
-	public JSONObject report(){}
+	void addIncommingRoad(Road r){}
+	void addOutGoingRoad(Road r){}
+	void enter (Vehicle v){}
+	Road roadTo (Junction j){
+		return null;}
+	public JSONObject report(){
+		return null;}
 
 	@Override
 	void advance(int time) {

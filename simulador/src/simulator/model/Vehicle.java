@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 public class Vehicle extends SimulatedObject {
 
-	private List <Juction> itinerary;
+	private List <Junction> itinerary;
 	private int speedMax;
 	private int speed;
 	private VehicleStatus status;
@@ -17,7 +17,7 @@ public class Vehicle extends SimulatedObject {
 	private int totalDistance;
 	
 	
-	 Vehicle (String id,int maxSpeed, int contClass, List<Juction> itinerary){
+	 Vehicle (String id,int maxSpeed, int contClass, List<Junction> itinerary){
 		super(id);
 		//TODO complete
 	}
@@ -36,15 +36,15 @@ public class Vehicle extends SimulatedObject {
 	public VehicleStatus getStatus(){
 		return null;
 	}
-	public List<Juction> getItinerary(){
+	public List<Junction> getItinerary(){
 		return null;
 	}
 	public Road getRoad(){
 		return null;
 	}
 	
-	public void setSpeed(int s);
-	public void setContaminationClass(int c);
+	public void setSpeed(int s){}
+	public void setContaminationClass(int c){}
 	
 	//metodos
 	

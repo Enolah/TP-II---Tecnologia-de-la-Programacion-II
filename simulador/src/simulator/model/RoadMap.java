@@ -3,6 +3,8 @@ package simulator.model;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 public class RoadMap {
 	
 	private List<Junction> listJ;
@@ -20,12 +22,19 @@ public class RoadMap {
 	void addJunction(Junction j){};
 	void addRoad(Road r){};
 	void addVehicle (Vehicle v){};
-	public Junction getJunction(String id){}
-	public Road getROad(String id){}
-	public Vehicle getVehicle(String id){}
-	public List<Junction> getJunction(){}
-	public List<Road> getRoads(){}
-	public List <Vehicle> getVehicles(){}
+	public Junction getJunction(String id){
+		return null;}
+	public Road getROad(String id){
+		return null;}
+	public Vehicle getVehicle(String id){
+		return null;}
+	public List<Junction> getJunction(){
+		return null;}
+	public List<Road> getRoads(){
+		return null;}
+	public List <Vehicle> getVehicles(){
+		return null;}
 	void reset(){}
-	public JSONObject report(){}
+	public JSONObject report(){
+		return null;}
 }
