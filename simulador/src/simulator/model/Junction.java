@@ -1,9 +1,13 @@
 package simulator.model;
 
-public class Juction extends SimulatedObject{
+import java.util.List;
+import java.util.Map;
 
+public class Junction extends SimulatedObject{
+
+	
 	private List<Road> list;
-	private Map<Juction,Road> map;
+	private Map<Junction,Road> map;
 	private List<List<Vehicle>> q;
 	private int currGreen; //indice semafoto verde??
 	private int lastGreen; //ultimo paso de cambio de semaforo?
@@ -11,7 +15,7 @@ public class Juction extends SimulatedObject{
 	private DequeuingStrategy dqStrategy;
 	private int xCoor, yCoor;
 	
-	Juction(String id, LigthSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
+	Junction(String id, LigthSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(id);
 		// TODO Auto-generated constructor stub
 	}
@@ -24,7 +28,13 @@ public class Juction extends SimulatedObject{
 	void addIncommingRoad(Road r){};
 	void addOutGoingRoad(Road r){};
 	void enter (Vehicle v){};
-	Road roadTo (Juction j){};
+	Road roadTo (Junction j){};
 	void advance(time){};
-	public JSONObject report(){};
+	public JSONObject report(){}
+
+	@Override
+	void advance(int time) {
+		// TODO Auto-generated method stub
+		
+	};
 }
