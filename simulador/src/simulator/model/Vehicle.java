@@ -1,5 +1,7 @@
 package simulator.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -7,22 +9,38 @@ import org.json.JSONObject;
 public class Vehicle extends SimulatedObject {
 
 	private List <Junction> itinerary;
-	private int speedMax;
-	private int speed;
+	private int maxSpeed;
+	private int actSpeed;
 	private VehicleStatus status;
-	private Road road;
+	private Road road; //va ir actualizandose
 	private int location;
-	private int levelPollution;
+	private int contClass; //grado de contaminacion del vehiculo
 	private int totalPollution;
 	private int totalDistance;
 	
 	
 	 Vehicle (String id,int maxSpeed, int contClass, List<Junction> itinerary){
 		super(id);
-		//TODO complete
+		//TODO lanzar excepciones
+		this.maxSpeed= maxSpeed;
+		this.contClass=contClass;
+		this.itinerary= itinerary;
+		try{
+			if(maxSpeed < 0)throw new Exception ("algo va mal");
+			if (contClass <0 || contClass > 10)throw new Exception ("algo va mal");
+			if (itinerary.size()>= 2)throw new Exception ("algo va mal");
+				
+			
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		
+		this.itinerary=Collections.unmodifiableList(new ArrayList<>(itinerary));
+		
 	}
 
-	//getters ans setters
+	//getters ands setters
 	
 	public int getLocation() {
 		return 0;
@@ -43,22 +61,54 @@ public class Vehicle extends SimulatedObject {
 		return null;
 	}
 	
-	public void setSpeed(int s){}
-	public void setContaminationClass(int c){}
+	protected void setSpeed(int s){
+		try{
+			if(s<0) throw new Exception("s es negativo");
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		
+		actSpeed=Math.min(s, maxSpeed);
+		
+	}
+	public void setContaminationClass(int c){
+		try{
+			if(c<0 || c> 10) throw new Exception("s es negativo");
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		contClass= c;
+	}
 	
 	//metodos
 	
-	void moveToNextRoad(){
-		
-	}
-	
-	
-	// metodos  de por ahi
 	@Override
 	void advance(int time) {
-		// TODO Auto-generated method stub
+		//TODO advance
+		int locationPrev=location;
+		if(status!=status.TRAVELING){
+			//a) se actualiza la localizacion
+			location= Math.min(getLocation() + actSpeed,itinerary.size());			
+			//b)c=l*f
+			totalDistance= location-locationPrev;
+			totalPollution=contClass*(totalDistance);
+			road.addContamination(totalPollution);
+			//c)
+			if (location==itinerary.size())
+				//vehiculo entra en cola del J
+				status= status.WAITING;
+		}
 		
 	}
+	
+	void moveToNextRoad(){
+		//TODO moveTONextRoad
+	}
+	
+
+
 
 	@Override
 	public JSONObject report() {

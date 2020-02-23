@@ -138,6 +138,8 @@ public class UsageExample {
 
 		// build a JSONObject from a string
 		JSONObject joFromString = new JSONObject(jsonString);
+		//TODO quitar comentario de abajo
+		//Map<String,Object> map = joFromString.toMap(); para crear mapas con el json
 
 		// build a JSONObject from a file
 		JSONObject joFromFile1 = new JSONObject(

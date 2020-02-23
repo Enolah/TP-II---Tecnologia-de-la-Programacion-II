@@ -10,9 +10,9 @@ public abstract class Road extends SimulatedObject {
 	private Junction Src;
 	private int length;
 	private int limitSpeed;
-	private int alarmPollution;
+	private int alarmPollution; //contlimit
 	private Weather wea;
-	private int totalPollution;
+	private int totalPollution; //suma acumulada de todos los coches
 	private List<Vehicle> vehicle;
 	
 	Road (String id, Junction srcJunc, Junction destJunc, int maxSpeed, int contLimit, int lenght, Weather weather){
@@ -32,6 +32,7 @@ public abstract class Road extends SimulatedObject {
 		return null;
 	}
 	public void setWeather(Weather w){}
+	//getVehiculos { return collectio.unmoasdhfl...}
 	
 	
 	//metodos
@@ -42,7 +43,7 @@ public abstract class Road extends SimulatedObject {
 	abstract void reduceTotalContamination();
 	abstract void updateSpeedLimit();
 	abstract int calculateVehicleSpeed(Vehicle v);
-	void advance (int time){}
+	void advance (int time){} //cada carretera hace el advance del vehiculo
 	public JSONObject report(){
 		return null;}
 	
