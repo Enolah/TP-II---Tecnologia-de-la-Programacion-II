@@ -19,7 +19,6 @@ public class Junction extends SimulatedObject{
 	
 	Junction(String id, LigthSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(id);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void getX(){};

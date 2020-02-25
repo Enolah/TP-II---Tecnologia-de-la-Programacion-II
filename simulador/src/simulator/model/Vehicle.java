@@ -25,16 +25,11 @@ public class Vehicle extends SimulatedObject {
 		this.maxSpeed= maxSpeed;
 		this.contClass=contClass;
 		this.itinerary= itinerary;
-		try{
-			if(maxSpeed < 0)throw new Exception ("algo va mal");
-			if (contClass <0 || contClass > 10)throw new Exception ("algo va mal");
-			if (itinerary.size()>= 2)throw new Exception ("algo va mal");
+			if(maxSpeed <= 0)throw new IllegalArgumentException("Invalid value for maxSpeed");
+			if (contClass <0 || contClass > 10)throw new IllegalArgumentException ("Invalid value for contClass");
+			if (itinerary.size()>= 2)throw new IllegalArgumentException ("Invalid value for itinerary");
 				
 			
-		}
-		catch(Exception e){
-			System.out.println(e.getMessage());
-		}
 		
 		this.itinerary=Collections.unmodifiableList(new ArrayList<>(itinerary));
 		
@@ -43,10 +38,10 @@ public class Vehicle extends SimulatedObject {
 	//getters ands setters
 	
 	public int getLocation() {
-		return 0;
+		return location;
 	}
 	public int getSpeed(){
-		return 0;
+		return actSpeed;
 	}
 	public int getContClass(){
 		return 0;
@@ -61,25 +56,18 @@ public class Vehicle extends SimulatedObject {
 		return null;
 	}
 	
-	protected void setSpeed(int s){
-		try{
-			if(s<0) throw new Exception("s es negativo");
-		}
-		catch(Exception e){
-			System.out.println(e.getMessage());
-		}
-		
-		actSpeed=Math.min(s, maxSpeed);
-		
+	protected void setSpeed(int s) {
+		if (s < 0)
+			throw new IllegalArgumentException("Invalid value for Speed, cannot be negative");
+		else
+			actSpeed = Math.min(s, maxSpeed);
 	}
+	
 	public void setContaminationClass(int c){
-		try{
-			if(c<0 || c> 10) throw new Exception("s es negativo");
-		}
-		catch(Exception e){
-			System.out.println(e.getMessage());
-		}
-		contClass= c;
+			if(c<0 || c> 10) 
+				throw new IllegalArgumentException("Invalid value for Speed, cannot be negative");
+			else
+				contClass= c;
 	}
 	
 	//metodos
@@ -96,8 +84,10 @@ public class Vehicle extends SimulatedObject {
 			totalPollution=contClass*(totalDistance);
 			road.addContamination(totalPollution);
 			//c)
-			if (location==itinerary.size())
+			if (location==road.getLength())
 				//vehiculo entra en cola del J
+				
+				//cambiar estado
 				status= status.WAITING;
 		}
 		
@@ -105,6 +95,12 @@ public class Vehicle extends SimulatedObject {
 	
 	void moveToNextRoad(){
 		//TODO moveTONextRoad
+		road.exit(this);
+		road.enter(this);
+		//encontrar siguiente carretera (preguntar al cruce)
+		
+		
+		
 	}
 	
 
@@ -112,7 +108,20 @@ public class Vehicle extends SimulatedObject {
 
 	@Override
 	public JSONObject report() {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject jo1 = new JSONObject();
+	
+		jo1.put("id", _id);
+		jo1.put("speed", actSpeed);
+		jo1.put("distance", totalDistance);
+		jo1.put("co2", totalPollution);
+		jo1.put("class", contClass);
+		jo1.put("status", status);
+		if (status == status.ARRIVED || status == status.PENDING);
+		else {
+			jo1.put("road", road);
+			jo1.put("location", location);
+		}
+		
+		return jo1;
 	}
 }
