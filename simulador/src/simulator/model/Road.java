@@ -44,11 +44,39 @@ public abstract class Road extends SimulatedObject {
 	public Junction getSrc() {
 		return null;
 	}
+	
+	public int getMaxSpeed(){
+		return maxSpeed;
+	}
+	
+	public int getContLimit(){
+		return contLimit;
+	}
+	
+	public int getLimitSpeed(){
+		return limitSpeed;
+	}
+	public void setLimitSpeed(int s){
+		limitSpeed=s;
+	}
+	
+	public int getTotalPollution(){
+		return totalPollution;
+	}
+	
+	public void setTotalPollution(int p){
+		if(p<0)throw new IllegalArgumentException("Invalid value, cannot be negative");
+		totalPollution=p;
+	}
 	public void setWeather(Weather w){
 		if( w == null)throw new IllegalArgumentException("Invalid value, cannot be NULL");
 		else{
 			wea=w;
 		}
+	}
+	
+	public Weather getWeather(){
+		return 	wea;
 	}
 	//getListV { return collectio.unmoasdhfl...}
 	
@@ -81,10 +109,16 @@ public abstract class Road extends SimulatedObject {
 		//3. recorre listV a) velocidad= calculate, b) advance de vehiculo
 		//RECUERDA ORDENAR LA LISTA
 		for (Vehicle v : listV) {
-			calculateVehicleSpeed(v);
+			try{
+				v.setSpeed(calculateVehicleSpeed(v));
+			}
+			catch (Exception e) {
+				System.out.println(e);
+			}
 			v.advance(time);
 		}
 	} 
+	
 	abstract void reduceTotalContamination();
 	abstract void updateSpeedLimit();
 	abstract int calculateVehicleSpeed(Vehicle v);

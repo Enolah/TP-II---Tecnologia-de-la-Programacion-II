@@ -44,7 +44,7 @@ public class Vehicle extends SimulatedObject {
 		return actSpeed;
 	}
 	public int getContClass(){
-		return 0;
+		return contClass;
 	}
 	public VehicleStatus getStatus(){
 		return null;
@@ -64,6 +64,7 @@ public class Vehicle extends SimulatedObject {
 	}
 	
 	public void setContaminationClass(int c){
+		
 			if(c<0 || c> 10) 
 				throw new IllegalArgumentException("Invalid value for Speed, cannot be negative");
 			else

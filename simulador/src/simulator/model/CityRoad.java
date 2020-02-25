@@ -6,25 +6,37 @@ public class CityRoad extends Road{
 		super(id, srcJunc, destJunc, maxSpeed, contLimit, lenght, weather);
 	}
 	
-	//metodos
 	
-	void reduceTotalContamination(){}
-	
-	
-	
-
 	@Override
-	void updateSpeedLimit() {
-		// TODO Auto-generated method stub
-		
+	public void reduceTotalContamination(){
+		int x=0;
+		switch (getWeather()) {
+			case WINDY: x=10;
+				break;
+			case STORM : x=10;
+				break;
+			default: x=2;
+				break;
+		}
+		try{
+		setTotalPollution(getTotalPollution()-x);
+		}
+		catch (Exception e){
+			System.out.println(e);
+		}
 	}
 
-	//velocidad limite no cambia siempre es la velocidad maxima;
+	@Override
+	public void updateSpeedLimit() {
+		// La velocidad limite no cambia, siempre es la velocidad maxima
+		setLimitSpeed(getMaxSpeed()); //??
+	}
 	
 	@Override
-	int calculateVehicleSpeed(Vehicle v) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int calculateVehicleSpeed(Vehicle v) {
+		int s=getLimitSpeed();
+		int f=v.getContClass();
+		return (int)(((11.0-f)/11.0)*s);
 	}
 	
 }
