@@ -23,15 +23,15 @@ public class MostCrowdedStrategy implements LigthSwitchingStrategy {
 					if (qs.get(qs.indexOf(list)).size()>tama)
 						indice = qs.indexOf(list);
 				}
-			} else {
-				
+			}
+			else {
+
 				int i = (currGreen + 1) % qs.size();
-				while (!encontrado) {
-					if (qs.get(i).size()>tama) {
+				for (int j = 0; j <= qs.size(); j++) {
+					if (qs.get(i).size() > tama)
 						indice = i;
-						encontrado = true;
-					} else
-						i = (i + 1) % qs.size();
+
+					i = (i + 1) % qs.size();
 				}
 			}
 		}
