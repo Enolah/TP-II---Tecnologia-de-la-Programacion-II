@@ -63,8 +63,8 @@ public class Junction extends SimulatedObject{
 	@Override
 	void advance(int time) {
 		
-		dqStrategy.dequeue(listQ);
-		lsStrategy.chooseNextGreen(list, listQ, time, lastSwitchingTime, currTime);
+//		dqStrategy.dequeue(listQ);
+//		lsStrategy.chooseNextGreen(list, listQ, time, lastSwitchingTime, currTime);
 		
 	}
 	
