@@ -1,5 +1,7 @@
 package simulator.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -26,34 +28,68 @@ public class RoadMap {
 	
 	void addJunction(Junction j){
 		listJ.add(j);
-		mapJ.put(j._id, j);
+		if(mapJ.putIfAbsent(j._id, j)==null) throw new IllegalArgumentException("That id already exists");
+		
 	}
 	
 	void addRoad(Road r){
+		//TODO hacerlo bien
 		listR.add(r);
-		mapR.putIfAbsent(r._id, r);//(i)
-		if (mapJ.containsKey(r.getSrc()._id));//(iiççç9
-		else if (mapJ.containsKey(r.getDest()._id));
+		//(i)
+		if(mapR.putIfAbsent(r._id, r)==null) throw new IllegalArgumentException("That id already exists");
+		//(ii)
+		if (mapJ.containsKey(r.getSrc()._id)
+				||mapJ.containsKey(r.getDest()._id))throw new IllegalArgumentException("");
 		
 	}
 	
 	void addVehicle (Vehicle v){
 		listV.add(v);
-		
+		if(mapV.containsKey(v._id))throw new IllegalArgumentException("That id already exists");
+		//else if()
+		mapV.put(v._id, v);
 	}
+	
 	public Junction getJunction(String id){
-		return null;}
-	public Road getROad(String id){
-		return null;}
+		return mapJ.get(id);
+	}
+	
+	public Road getRoad(String id){
+		return mapR.get(id);
+	}
+	
 	public Vehicle getVehicle(String id){
-		return null;}
+		return mapV.get(id);
+	}
+	
 	public List<Junction> getJunction(){
-		return null;}
+		return Collections.unmodifiableList(listJ);
+	}
+	
 	public List<Road> getRoads(){
-		return null;}
+		return Collections.unmodifiableList(listR);
+	}
+	
 	public List <Vehicle> getVehicles(){
-		return null;}
-	void reset(){}
+		return Collections.unmodifiableList(listV);
+	}
+	
+	void reset(){
+		//limpiar listas
+		listJ.clear();
+		listR.clear();
+		listV.clear();
+		
+		//limpiar mapas
+		mapJ.clear();
+		mapR.clear();
+		mapV.clear();
+	}
+	
 	public JSONObject report(){
-		return null;}
+		
+		//JSONObject jo1= new JSONObject();
+		
+		return null;
+	}
 }
