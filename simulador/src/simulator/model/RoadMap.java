@@ -1,6 +1,5 @@
 package simulator.model;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -45,10 +44,11 @@ public class RoadMap {
 	
 	void addVehicle (Vehicle v){
 		listV.add(v);
-		if(mapV.containsKey(v._id))throw new IllegalArgumentException("That id already exists");
-		//else if()
-		mapV.put(v._id, v);
-	}
+		if(mapV.putIfAbsent(v._id,v)==null)throw new IllegalArgumentException("That id already exists");
+//		else{
+//		//	v.getItinerary().get(0)
+//	
+//	}
 	
 	public Junction getJunction(String id){
 		return mapJ.get(id);

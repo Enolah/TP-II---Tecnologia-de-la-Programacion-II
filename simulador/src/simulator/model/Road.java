@@ -1,9 +1,13 @@
 package simulator.model;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+
+import simulator.misc.SortedArrayList;
 
 public abstract class Road extends SimulatedObject {
 
@@ -16,6 +20,7 @@ public abstract class Road extends SimulatedObject {
 	private Weather wea;
 	private int totalPollution; //suma acumulada de todos los coches
 	private List<Vehicle> listV;
+	private MiCompi comparador;
 	
 	Road (String id, Junction srcJunc, Junction destJunc, int maxSpeed,
 			int contLimit, int lenght, Weather weather){
@@ -27,6 +32,7 @@ public abstract class Road extends SimulatedObject {
 		this.lenght= lenght;
 		this.wea= weather;
 		
+		MiCompi comparador = new MiCompi();
 		if (maxSpeed <=0)throw new IllegalArgumentException("Invalid value for maxSpeed");
 		if (contLimit<0)throw new IllegalArgumentException("Invalid value for conLimit");
 		if (lenght <=0)throw new IllegalArgumentException("Invalid value for lenght");
@@ -101,6 +107,17 @@ public abstract class Road extends SimulatedObject {
 			totalPollution+=c;
 	}
 	
+	public class MiCompi implements Comparator<Vehicle>{
+
+		public int compare(Vehicle v0, Vehicle v1) {
+			int ok=-1;
+			if (v0.getLocation()<v1.getLocation()) ok=1;
+			else if (v0.getLocation()==v1.getLocation()) ok=0;
+			else if (v0.getLocation()>v1.getLocation()) ok=-1;
+			return ok;
+		}
+		
+	}
 	void advance (int time){//cada carretera hace el advance del vehiculo
 		//1. llama a reduce totsl contamination
 		reduceTotalContamination();
@@ -116,7 +133,10 @@ public abstract class Road extends SimulatedObject {
 				System.out.println(e);
 			}
 			v.advance(time);
+			
 		}
+		
+		listV.sort(comparador);
 	} 
 	
 	abstract void reduceTotalContamination();
@@ -140,5 +160,16 @@ public abstract class Road extends SimulatedObject {
 
 		return jo1;
 	}
+	
+	
+	
+
+	
+		
+
+		
+		
+	
+	
 	
 }

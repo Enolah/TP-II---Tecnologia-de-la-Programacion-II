@@ -1,6 +1,8 @@
 package simulator.launcher;
 
 import java.io.IOException;
+import java.util.List;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -10,9 +12,14 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import simulator.factories.Factory;
+import simulator.misc.SortedArrayList;
 import simulator.model.Event;
+import simulator.model.Road.MiCompi;
+import simulator.model.Vehicle;
 
 public class Main {
+
+	private int posJ = -1;
 
 	private final static Integer _timeLimitDefaultValue = 10;
 	private static String _inFile = null;
@@ -112,6 +119,8 @@ public class Main {
 			e.printStackTrace();
 		}
 
+		
+		
 	}
 
 }

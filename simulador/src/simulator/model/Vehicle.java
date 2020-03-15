@@ -6,36 +6,36 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+
+
 public class Vehicle extends SimulatedObject {
 
-	private List <Junction> itinerary;
-	private int maxSpeed;
-	private int actSpeed;
-	private VehicleStatus status;
-	private Road road; //va ir actualizandose
-	private int location;
+	private List <Junction> itinerary; //itinerario
+	private int maxSpeed; //velocidad maxima
+	private int actSpeed; //velocidad actual
+	private VehicleStatus status; //estado
+	private Road road; //carretera
+	private int location; //localizacion
 	private int contClass; //grado de contaminacion del vehiculo
-	private int totalPollution;
-	private int totalDistance;
+	private int totalPollution; //contaminacion total
+	private int totalDistance; //distancia total recorrida
 	
 	
 	 Vehicle (String id,int maxSpeed, int contClass, List<Junction> itinerary){
 		super(id);
-		//TODO lanzar excepciones
+		
 		this.maxSpeed= maxSpeed;
 		this.contClass=contClass;
-		this.itinerary= itinerary;
+		this.itinerary=Collections.unmodifiableList(new ArrayList<>(itinerary));
 			if(maxSpeed <= 0)throw new IllegalArgumentException("Invalid value for maxSpeed");
 			if (contClass <0 || contClass > 10)throw new IllegalArgumentException ("Invalid value for contClass");
-			if (itinerary.size()>= 2)throw new IllegalArgumentException ("Invalid value for itinerary");
-				
-			
-		
-		this.itinerary=Collections.unmodifiableList(new ArrayList<>(itinerary));
-		
+			if (itinerary.size()< 2)throw new IllegalArgumentException ("Invalid value for itinerary");
+					
 	}
 
-	//getters ands setters
+	 /*
+	  * GET & SET
+	  */
 	
 	public int getLocation() {
 		return location;
@@ -47,13 +47,13 @@ public class Vehicle extends SimulatedObject {
 		return contClass;
 	}
 	public VehicleStatus getStatus(){
-		return null;
+		return status;
 	}
 	public List<Junction> getItinerary(){
-		return null;
+		return Collections.unmodifiableList(new ArrayList<>(this.itinerary));
 	}
 	public Road getRoad(){
-		return null;
+		return road;
 	}
 	
 	protected void setSpeed(int s) {
@@ -66,37 +66,44 @@ public class Vehicle extends SimulatedObject {
 	public void setContaminationClass(int c){
 		
 			if(c<0 || c> 10) 
-				throw new IllegalArgumentException("Invalid value for Speed, cannot be negative");
+				throw new IllegalArgumentException("Invalid value for ContaminationClass");
 			else
 				contClass= c;
 	}
 	
-	//metodos
+	/*
+	 * METODOS
+	 */
 	
 	@Override
 	void advance(int time) {
 		//TODO advance
 		int locationPrev=location;
+		Junction j=null;
 		if(status!=status.TRAVELING){
 			//a) se actualiza la localizacion
-			location= Math.min(getLocation() + actSpeed,itinerary.size());			
-			//b)c=l*f
-			totalDistance= location-locationPrev;
-			totalPollution=contClass*(totalDistance);
+			location= Math.min(location + actSpeed,itinerary.size());			
+			//b)
+			totalDistance= location-locationPrev; //l
+			totalPollution=contClass*(totalDistance);//c=l*f
+			setContaminationClass(totalPollution);
 			road.addContamination(totalPollution);
 			//c)
-			if (location==road.getLength())
+			if (location==road.getLength()){
 				//vehiculo entra en cola del J
-				
+				j.enter(this);
 				//cambiar estado
 				status= status.WAITING;
+			}
 		}
 		
 	}
 	
 	void moveToNextRoad(){
 		//TODO moveTONextRoad
+		//1. sales de la carretera actual
 		road.exit(this);
+		//2. entras en la siguiente carretera (location=0)
 		road.enter(this);
 		//encontrar siguiente carretera (preguntar al cruce)
 		
@@ -125,4 +132,8 @@ public class Vehicle extends SimulatedObject {
 		
 		return jo1;
 	}
+	
+	
+	
+	
 }

@@ -10,7 +10,7 @@ import org.json.JSONObject;
 public class Junction extends SimulatedObject{
 
 	
-	private List<Road> list;
+	private List<Road> listR;
 	private Map<Junction,Road> map; //carrteras salientes
 	private List<List<Vehicle>> listQ;
 	private int currGreen; //indice semafoto verde??
@@ -36,10 +36,18 @@ public class Junction extends SimulatedObject{
 	//metodos
 	
 	void addIncommingRoad(Road r){
-		list.add(r);
-		LinkedList link = new LinkedList();
-		link.add(r);
+		listR.add(r);
+	    LinkedList<Vehicle> link = new LinkedList<Vehicle>();
 		listQ.add(link);
+		
+		//ha llegado un ve de la carretera 1
+		int index=-1;
+		for (Road ve:listR){
+			if(ve._id=="c1")
+				index=listR.indexOf(ve);
+				
+		}
+		List<Vehicle> miColita=listQ.get(index);
 		//TODO completar
 		
 	}
@@ -73,12 +81,12 @@ public class Junction extends SimulatedObject{
 		JSONObject jo1 = new JSONObject();
 		jo1.put("id", _id);
 		if (currGreen==-1)
-			jo1.put("green", list.get(currGreen));
+			jo1.put("green", listR.get(currGreen));
 		else
 			jo1.put("green", "none");
 		
 		JSONArray jo2= new JSONArray();
-		for (Road listQ : list) {//mal
+		for (Road listQ : listR) {//mal
 			
 		}
 		
