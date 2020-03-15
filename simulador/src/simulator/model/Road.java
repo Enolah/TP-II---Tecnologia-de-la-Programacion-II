@@ -1,5 +1,7 @@
 package simulator.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -11,16 +13,17 @@ import simulator.misc.SortedArrayList;
 
 public abstract class Road extends SimulatedObject {
 
-	private Junction dest; //cruce destino
-	private Junction src; //cruce origen
-	private int lenght;
-	private int maxSpeed;
-	private int limitSpeed;
-	private int contLimit; //alarma por contaminacion excesiva
-	private Weather wea;
-	private int totalPollution; //suma acumulada de todos los coches
-	private List<Vehicle> listV;
-	private MiCompi comparador;
+	private Junction dest; // cruce destino
+	private Junction src; // cruce origen
+	private int lenght; // longitud
+	private int maxSpeed; // velocidad maxima
+	private int limitSpeed; // limite actual de velocidad
+	private int contLimit; // alarma por contaminacion excesiva
+	private Weather wea; // condiciones ambientales
+	private int totalPollution; // contaminacion total: suma acumulada del CO2
+								// de todos los coches
+	private List<Vehicle> listV; // vehiculos que circulan por dicha carretera
+	private MiCompi comparador; // Mi comparador
 	
 	Road (String id, Junction srcJunc, Junction destJunc, int maxSpeed,
 			int contLimit, int lenght, Weather weather){
@@ -39,16 +42,18 @@ public abstract class Road extends SimulatedObject {
 		if (src==null || dest==null || wea==null)throw new IllegalArgumentException("Invalid value, cannot be NULL");
 	}
 	
-	//getters and setters
+	/*
+	 * GET & SET
+	 */
 	
 	public int getLength() {
-		return 0;
+		return lenght;
 	}
 	public Junction getDest() {
-		return null;
+		return dest;
 	}
 	public Junction getSrc() {
-		return null;
+		return src;
 	}
 	
 	public int getMaxSpeed(){
@@ -62,14 +67,14 @@ public abstract class Road extends SimulatedObject {
 	public int getLimitSpeed(){
 		return limitSpeed;
 	}
-	public void setLimitSpeed(int s){
-		limitSpeed=s;
-	}
 	
 	public int getTotalPollution(){
 		return totalPollution;
 	}
-	
+	public void setLimitSpeed(int s){
+		limitSpeed=s;
+	}
+
 	public void setTotalPollution(int p){
 		if(p<0)throw new IllegalArgumentException("Invalid value, cannot be negative");
 		totalPollution=p;
@@ -84,13 +89,15 @@ public abstract class Road extends SimulatedObject {
 	public Weather getWeather(){
 		return 	wea;
 	}
-	//getListV { return collectio.unmoasdhfl...}
+	public List<Vehicle> getListV() {
+		return Collections.unmodifiableList(new ArrayList<>(this.listV));
+	}
 	
-	
-	//metodos
+	/*
+	 * METODOS
+	 */
 	
 	void enter(Vehicle v){
-		//TODO ordenar lista?
 		if (v.getLocation()==0 && v.getSpeed()==0){
 			listV.add(v);
 		}
@@ -107,6 +114,10 @@ public abstract class Road extends SimulatedObject {
 			totalPollution+=c;
 	}
 	
+	abstract void reduceTotalContamination();
+	abstract void updateSpeedLimit();
+	abstract int calculateVehicleSpeed(Vehicle v);
+	
 	public class MiCompi implements Comparator<Vehicle>{
 
 		public int compare(Vehicle v0, Vehicle v1) {
@@ -119,37 +130,36 @@ public abstract class Road extends SimulatedObject {
 		
 	}
 	void advance (int time){//cada carretera hace el advance del vehiculo
+		//TODO advance
 		//1. llama a reduce totsl contamination
 		reduceTotalContamination();
 		//2. updateSpeedLimit
 		updateSpeedLimit();
-		//3. recorre listV a) velocidad= calculate, b) advance de vehiculo
-		//RECUERDA ORDENAR LA LISTA
+		//3. recorre listV , b) advance de vehiculo
+		
 		for (Vehicle v : listV) {
 			try{
+				//a) velocidad= calculate
 				v.setSpeed(calculateVehicleSpeed(v));
 			}
 			catch (Exception e) {
 				System.out.println(e);
 			}
 			v.advance(time);
-			
+			//lista.sort??
 		}
-		
+		//RECUERDA ORDENAR LA LISTA
 		listV.sort(comparador);
 	} 
 	
-	abstract void reduceTotalContamination();
-	abstract void updateSpeedLimit();
-	abstract int calculateVehicleSpeed(Vehicle v);
-	
+
 	public JSONObject report() {
 		JSONObject jo1 = new JSONObject();
 		
 		jo1.put("id", _id);
 		jo1.put("speedLimit", limitSpeed);
 		jo1.put("weather", wea);
-		jo1.put("co2", contLimit);
+		jo1.put("co2", totalPollution);
 		
 		JSONArray jo2 = new JSONArray();
 		for (Vehicle v : listV) {
@@ -160,7 +170,8 @@ public abstract class Road extends SimulatedObject {
 
 		return jo1;
 	}
-	
+
+
 	
 	
 
