@@ -19,7 +19,7 @@ public class Vehicle extends SimulatedObject {
 	private int contClass; //grado de contaminacion del vehiculo
 	private int totalPollution; //contaminacion total
 	private int totalDistance; //distancia total recorrida
-	
+	private int indice=0;
 	
 	 Vehicle (String id,int maxSpeed, int contClass, List<Junction> itinerary){
 		super(id);
@@ -101,18 +101,27 @@ public class Vehicle extends SimulatedObject {
 	
 	void moveToNextRoad(){
 		//TODO moveTONextRoad
+		
+		Junction j=null;
 		//1. sales de la carretera actual
-		road.exit(this);
 		//2. entras en la siguiente carretera (location=0)
+		if(status==status.PENDING) //la primera vez el vehiculo no sale de ninguna carretera
+			road=j.roadTo(itinerary.get(indice)); //inidice debe ser =0
+		else if( status== status.WAITING){ //la ultima vez no se entra a ninguna carretera
+			road.exit(this);
+			indice++;
+			road=j.roadTo(itinerary.get(indice));
+		}
+		else
+			throw new IllegalArgumentException("Vehicle Status incorrect");
+		
+		
+		this.location=0;
+		this.actSpeed=0; //no estoy segura
 		road.enter(this);
 	
-		
-		
-		
 	}
 	
-
-
 
 	@Override
 	public JSONObject report() {
@@ -126,14 +135,11 @@ public class Vehicle extends SimulatedObject {
 		jo1.put("status", status);
 		if (status == status.ARRIVED || status == status.PENDING);
 		else {
-			jo1.put("road", road);
+			jo1.put("road", road._id);
 			jo1.put("location", location);
 		}
 		
 		return jo1;
 	}
-	
-	
-	
-	
+		
 }
