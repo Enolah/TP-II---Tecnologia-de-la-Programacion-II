@@ -11,8 +11,8 @@ import simulator.misc.SortedArrayList;
 
 public abstract class Road extends SimulatedObject {
 
-	private Junction dest;
-	private Junction src;
+	private Junction dest; //cruce destino
+	private Junction src; //cruce origen
 	private int lenght;
 	private int maxSpeed;
 	private int limitSpeed;
