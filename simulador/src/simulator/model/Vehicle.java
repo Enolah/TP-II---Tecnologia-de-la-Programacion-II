@@ -105,7 +105,7 @@ public class Vehicle extends SimulatedObject {
 		road.exit(this);
 		//2. entras en la siguiente carretera (location=0)
 		road.enter(this);
-		//encontrar siguiente carretera (preguntar al cruce)
+	
 		
 		
 		
