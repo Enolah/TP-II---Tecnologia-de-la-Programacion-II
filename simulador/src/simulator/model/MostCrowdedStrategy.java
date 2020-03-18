@@ -4,8 +4,10 @@ import java.util.List;
 
 public class MostCrowdedStrategy implements LigthSwitchingStrategy {
 
+	private int timeSlot;
 	public MostCrowdedStrategy(int timeSlot) {
 		super();
+		this.timeSlot= timeSlot;
 	}
 
 	@Override
@@ -14,24 +16,24 @@ public class MostCrowdedStrategy implements LigthSwitchingStrategy {
 		int tama = -1;
 		int indice = -1;
 		boolean encontrado = false;
-		if (roads == null)
+		if (roads == null)//1
 			indice = -1;
 		else {
-			if (currGreen == -1) {
-				
+			if (currGreen == -1) {//2
 				for (List<Vehicle> list : qs) {
 					if (qs.get(qs.indexOf(list)).size()>tama)
 						indice = qs.indexOf(list);
 				}
 			}
-			else {
+			else if((currTime-lastSwitchingTime)<timeSlot){ //3
+				indice= currGreen;
 
-				int i = (currGreen + 1) % qs.size();
-				for (int j = 0; j <= qs.size(); j++) {
+				int i = (currGreen+1)%roads.size();
+				for (int j = 0; j <= roads.size(); j++) {
 					if (qs.get(i).size() > tama)
 						indice = i;
-
-					i = (i + 1) % qs.size();
+					
+					i = (i + 1) % roads.size();
 				}
 			}
 		}
