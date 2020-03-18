@@ -10,14 +10,14 @@ import org.json.JSONObject;
 public class Junction extends SimulatedObject{
 
 	
-	private List<Road> listR;
-	private Map<Junction,Road> map; //carrteras salientes
-	private List<List<Vehicle>> listQ;
-	private int currGreen; //indice semafoto verde??
-	private int lastGreen; //ultimo paso de cambio de semaforo?
-	private LigthSwitchingStrategy lsStrategy;
-	private DequeuingStrategy dqStrategy;
-	private int xCoor, yCoor;
+	private List<Road> listR; //lista de carreteras entrantes
+	private Map<Junction,Road> map; //mapa de carrteras salientes
+	private List<List<Vehicle>> listQ; //lista de colas
+	private int currGreen; //indice semafoto verde (en la lista de carreteras entrantes)
+	private int lastGreen; //ultimo paso de cambio de semaforo. valor inicial =0
+	private LigthSwitchingStrategy lsStrategy; //estrategia de cambio de semaforo
+	private DequeuingStrategy dqStrategy; //estrategia para extraer elementos de la cola
+	private int xCoor, yCoor; 
 	
 	Junction(String id, LigthSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(id);
@@ -33,28 +33,48 @@ public class Junction extends SimulatedObject{
 	public void getX(){};
 	public void getY(){};
 	
-	//metodos
+	 /*
+	  * GET & SET
+	  */
+
+
+	 /*
+	  * METODOS
+	  */
 	
 	void addIncommingRoad(Road r){
-		listR.add(r);
-	    LinkedList<Vehicle> link = new LinkedList<Vehicle>();
-		listQ.add(link);
 		
-		//ha llegado un ve de la carretera 1
-		int index=-1;
-		for (Road ve:listR){
-			if(ve._id=="c1")
-				index=listR.indexOf(ve);
-				
+		
+		if(r.getDest()!= this) throw new IllegalArgumentException("Invalid value");
+		else{
+			listR.add(r);
+			List<Vehicle> cola = new LinkedList<Vehicle>();
+			//LinkedList<Vehicle> link = new LinkedList<Vehicle>();
+			listQ.add(cola);
+			//mapa carretera cola
 		}
-		List<Vehicle> miColita=listQ.get(index);
-		//TODO completar
+		
+		
+//		//ha llegado un ve de la carretera 1
+//		int index=-1;
+//		for (Road ve:listR){
+//			if(ve._id=="c1")
+//				index=listR.indexOf(ve);
+//				
+//		}
+//		List<Vehicle> miColita=listQ.get(index);
+//		
 		
 	}
 	
 	void addOutGoingRoad(Road r){
 	
-		map.put(r.getDest(), r);
+		if(r.getDest()!= this) throw new IllegalArgumentException("Invalid value");
+		else {
+			//comprobar que ninguna carretera va al cruce j
+			//r es una carretera saliente
+			map.put(r.getDest(), r);
+		}
 	}
 	
 	void enter (Vehicle v){
