@@ -69,9 +69,13 @@ public class Junction extends SimulatedObject{
 	
 	void addOutGoingRoad(Road r){
 	
-		if(r.getDest()!= this) throw new IllegalArgumentException("Invalid value");
+		//r es una carretera saliente
+		if(r.getSrc()!= this) throw new IllegalArgumentException("Invalid value");
 		else {
 			//comprobar que ninguna carretera va al cruce j
+			for (Road road : listR) {
+				if (road.getDest()== this)throw new IllegalArgumentException("Invalid value");
+			}
 			//r es una carretera saliente
 			map.put(r.getDest(), r);
 		}
@@ -82,8 +86,7 @@ public class Junction extends SimulatedObject{
 		
 	}
 	
-	Road roadTo (Junction j){
-		
+	Road roadTo (Junction j){	//actualizar mapa de carreteras salientes
 		Road r= map.get(j);
 		return r;
 	}
