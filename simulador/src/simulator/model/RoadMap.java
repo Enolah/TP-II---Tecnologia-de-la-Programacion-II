@@ -48,7 +48,7 @@ public class RoadMap {
 //		else{
 //		//	v.getItinerary().get(0)
 //	
-//	}
+		}
 	
 	public Junction getJunction(String id){
 		return mapJ.get(id);
