@@ -31,6 +31,9 @@ public class RoadMap {
 	public Junction getJunction(String id){
 		return mapJ.get(id);
 	}
+	public void setJunction(Junction j) {
+		mapJ.put(j._id, j);
+	}
 	
 	public Road getRoad(String id){
 		return mapR.get(id);
@@ -113,5 +116,15 @@ public class RoadMap {
 		//JSONObject jo1= new JSONObject();
 		
 		return null;
+	}
+
+
+
+	public void setMapR(Map<String, Road> mapR) {
+		this.mapR = mapR;
+	}
+
+	public void setMapV(Map<String, Vehicle> mapV) {
+		this.mapV = mapV;
 	}
 }
