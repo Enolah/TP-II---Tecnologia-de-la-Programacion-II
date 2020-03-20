@@ -8,12 +8,12 @@ import org.json.JSONObject;
 
 public class RoadMap {
 	
-	private List<Junction> listJ;
-	private List<Road> listR;
-	private List<Vehicle> listV;
-	private Map <String,Junction> mapJ;
-	private Map <String,Road> mapR;
-	private Map <String,Vehicle> mapV;
+	private List<Junction> listJ; //lista de cruces
+	private List<Road> listR; //lista de carreteras
+	private List<Vehicle> listV; //lista de vehiculos
+	private Map <String,Junction> mapJ; //mapa de cruces
+	private Map <String,Road> mapR; //mapa de carreteras
+	private Map <String,Vehicle> mapV; //mapa de vehiculos
 	
 	public RoadMap(List<Junction> listJ, List<Road> listR,List<Vehicle> listV,Map <String,Junction> mapJ,Map <String,Road> mapR,Map <String,Vehicle> mapV){
 		this.listJ=listJ;
@@ -24,32 +24,10 @@ public class RoadMap {
 		this.mapV=mapV;
 	}
 	
-	
-	void addJunction(Junction j){
-		listJ.add(j);
-		if(mapJ.putIfAbsent(j._id, j)==null) throw new IllegalArgumentException("That id already exists");
-		
-	}
-	
-	void addRoad(Road r){
-		//TODO hacerlo bien
-		listR.add(r);
-		//(i)
-		if(mapR.putIfAbsent(r._id, r)==null) throw new IllegalArgumentException("That id already exists");
-		//(ii)
-		if (mapJ.containsKey(r.getSrc()._id)
-				||mapJ.containsKey(r.getDest()._id))throw new IllegalArgumentException("");
-		
-	}
-	
-	void addVehicle (Vehicle v){
-		listV.add(v);
-		if(mapV.putIfAbsent(v._id,v)==null)throw new IllegalArgumentException("That id already exists");
-//		else{
-//		//	v.getItinerary().get(0)
-//	
-		}
-	
+	 /*
+	  * GET & SET
+	  */
+
 	public Junction getJunction(String id){
 		return mapJ.get(id);
 	}
@@ -73,6 +51,50 @@ public class RoadMap {
 	public List <Vehicle> getVehicles(){
 		return Collections.unmodifiableList(listV);
 	}
+
+	 /*
+	  * METODOS
+	  */
+	
+	void addJunction(Junction j){
+		listJ.add(j);
+		if(mapJ.putIfAbsent(j._id, j)==null) throw new IllegalArgumentException("That id already exists");
+		
+	}
+	
+	void addRoad(Road r){
+		
+		listR.add(r);
+		//(i)
+		if(mapR.putIfAbsent(r._id, r)==null) throw new IllegalArgumentException("That id already exists");
+		//(ii)
+		if (mapJ.containsKey(r.getSrc()._id)
+				||mapJ.containsKey(r.getDest()._id))throw new IllegalArgumentException("");
+	}
+	
+	void addVehicle (Vehicle v){
+		//TODO duda de los mapas
+		//no se como hacer que el itinerario sea valido
+		listV.add(v);
+		if(mapV.putIfAbsent(v._id,v)==null)throw new IllegalArgumentException("That id already exists");
+
+		for (int i = 0; i < v.getItinerary().size(); i++) {
+			boolean encontrado= false;
+			int j=0;
+			while(!encontrado || listR.size()>=j){
+				if(listR.get(j).getSrc()== v.getItinerary().get(i)){
+					if(listR.get(j).getDest()== v.getItinerary().get(i++))
+						encontrado= true;
+					else
+						j++;
+				}
+				else
+					j++;
+			}
+		}
+		
+	}
+	
 	
 	void reset(){
 		//limpiar listas
