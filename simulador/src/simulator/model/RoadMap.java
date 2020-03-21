@@ -46,7 +46,10 @@ public class RoadMap {
 	public Vehicle getVehicle(String id){
 		return mapV.get(id);
 	}
-	
+	public void setVehicle(Vehicle v) {
+		mapV.put(v._id, v);
+		
+	}
 	public List<Junction> getJunction(){
 		return Collections.unmodifiableList(listJ);
 	}
@@ -131,6 +134,8 @@ public class RoadMap {
 	public void setMapV(Map<String, Vehicle> mapV) {
 		this.mapV = mapV;
 	}
+
+	
 
 
 }

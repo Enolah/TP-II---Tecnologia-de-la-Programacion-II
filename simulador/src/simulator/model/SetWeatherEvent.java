@@ -6,14 +6,21 @@ import simulator.misc.Pair;
 
 public class SetWeatherEvent extends Event{
 
+	private List<Pair<String,Weather>> ws;
+	
 	SetWeatherEvent(int time, List<Pair<String,Weather>> ws) {
 		super(time);
-		// TODO Auto-generated constructor stub
+		this.ws= ws;
+		
+		if( ws==null) throw new IllegalArgumentException("Invalid value");
 	}
 
 	@Override
 	void execute(RoadMap map) {
-		// TODO Auto-generated method stub
+	//	if(map.getRoad(map.))
+		for (Pair<String, Weather> w : ws) {
+			w.getSecond();
+		}
 		
 	}
 

@@ -20,7 +20,9 @@ public class NewVehicleEvent extends Event {
 
 	@Override
 	void execute(RoadMap map) {
-		// TODO Auto-generated method stub
+		
+		Vehicle v= new Vehicle(id, maxSpeed, contClass, map.getVehicle(id).getItinerary());
+		map.setVehicle(v);
 		
 	}
 

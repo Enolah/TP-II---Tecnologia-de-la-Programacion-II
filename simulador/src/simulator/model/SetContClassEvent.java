@@ -6,9 +6,12 @@ import simulator.misc.Pair;
 
 public class SetContClassEvent extends Event {
 
+	private List<Pair<String,Weather>> cs;
+	
 	SetContClassEvent(int time, List<Pair<String,Weather>> cs) {
 		super(time);
-		// TODO Auto-generated constructor stub
+		this.cs=cs;
+		if( cs==null) throw new IllegalArgumentException("Invalid value");
 	}
 
 	@Override
