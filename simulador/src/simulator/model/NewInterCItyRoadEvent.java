@@ -24,8 +24,11 @@ public class NewInterCItyRoadEvent extends NewRoadEvent{
 
 	@Override
 	void execute(RoadMap map) {
-		// TODO Auto-generated method stub
-		
+		//TODO no se si se han confundido
+		// crea carretera
+		Road r= new InterCityRoad(id, map.getJunction(srcJun), map.getJunction(destJun), maxSpeed, co2limit, lenght, wea);
+		//añade al mapa
+		map.setRoad(r);
 	}
-
+	
 }

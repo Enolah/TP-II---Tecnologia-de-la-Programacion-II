@@ -38,6 +38,10 @@ public class RoadMap {
 	public Road getRoad(String id){
 		return mapR.get(id);
 	}
+	public void setRoad(Road r) {
+		mapR.put(r._id, r);
+		
+	}
 	
 	public Vehicle getVehicle(String id){
 		return mapV.get(id);
@@ -127,4 +131,6 @@ public class RoadMap {
 	public void setMapV(Map<String, Vehicle> mapV) {
 		this.mapV = mapV;
 	}
+
+
 }
