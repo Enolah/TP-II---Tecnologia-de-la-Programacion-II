@@ -17,8 +17,8 @@ public class InterCityRoad extends Road {
 		int tc = getTotalPollution();
 		int x = 0;
 		// TODO comprobar que con el get directamente funciona
-		//Weather w=getWeather();
-		switch (getWeather()) {
+		Weather w=getWeather();
+		switch (w) {
 		case SUNNY:
 			x = 2;
 			break;
