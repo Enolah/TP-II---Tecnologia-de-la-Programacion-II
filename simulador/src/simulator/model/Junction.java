@@ -12,6 +12,7 @@ public class Junction extends SimulatedObject{
 	
 	private List<Road> listR; //lista de carreteras entrantes
 	private Map<Junction,Road> map; //mapa de carrteras salientes
+	private Map<String,List<Vehicle>> mapR_Q ;
 	private List<List<Vehicle>> listQ; //lista de colas
 	private int currGreen; //indice semafoto verde (en la lista de carreteras entrantes)
 	private int lastGreen; //ultimo paso de cambio de semaforo. valor inicial =0
@@ -47,11 +48,14 @@ public class Junction extends SimulatedObject{
 		
 		if(r.getDest()!= this) throw new IllegalArgumentException("Invalid value");
 		else{
+			
 			listR.add(r);
 			List<Vehicle> cola = new LinkedList<Vehicle>();
 			//LinkedList<Vehicle> link = new LinkedList<Vehicle>();
 			listQ.add(cola);
 			//mapa carretera cola
+			
+			mapR_Q.put(r._id, cola);
 		}
 		
 		
@@ -73,11 +77,10 @@ public class Junction extends SimulatedObject{
 		if(r.getSrc()!= this) throw new IllegalArgumentException("Invalid value");
 		else {
 			//comprobar que ninguna carretera va al cruce j
-			for (Road road : listR) {
-				if (road.getDest()== this)throw new IllegalArgumentException("Invalid value");
-			}
+			if(map.containsKey(r.getDest())) throw new IllegalArgumentException("Invalid value");
+			else
 			//r es una carretera saliente
-			map.put(r.getDest(), r);
+				map.put(r.getDest(), r);
 		}
 	}
 	
