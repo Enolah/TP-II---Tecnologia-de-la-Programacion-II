@@ -126,15 +126,6 @@ public class RoadMap {
 	}
 
 
-
-	public void setMapR(Map<String, Road> mapR) {
-		this.mapR = mapR;
-	}
-
-	public void setMapV(Map<String, Vehicle> mapV) {
-		this.mapV = mapV;
-	}
-
 	
 
 

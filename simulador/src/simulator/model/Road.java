@@ -35,7 +35,7 @@ public abstract class Road extends SimulatedObject {
 		this.lenght= lenght;
 		this.wea= weather;
 		
-		MiCompi comparador = new MiCompi();
+		comparador = new MiCompi();
 		if (maxSpeed <=0)throw new IllegalArgumentException("Invalid value for maxSpeed");
 		if (contLimit<0)throw new IllegalArgumentException("Invalid value for conLimit");
 		if (lenght <=0)throw new IllegalArgumentException("Invalid value for lenght");
@@ -130,7 +130,6 @@ public abstract class Road extends SimulatedObject {
 		
 	}
 	void advance (int time){//cada carretera hace el advance del vehiculo
-		//TODO advance
 		//1. llama a reduce totsl contamination
 		reduceTotalContamination();
 		//2. updateSpeedLimit
