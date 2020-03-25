@@ -12,7 +12,7 @@ public class Junction extends SimulatedObject{
 	
 	private List<Road> listR; //lista de carreteras entrantes
 	private Map<Junction,Road> map; //mapa de carrteras salientes
-	private Map<String,List<Vehicle>> mapR_Q ;
+	private Map<String,List<Vehicle>> mapR_Q ; //mapa carrtera colas
 	private List<List<Vehicle>> listQ; //lista de colas
 	private int currGreen; //indice semafoto verde (en la lista de carreteras entrantes)
 	private int lastGreen; //ultimo paso de cambio de semaforo. valor inicial =0
@@ -85,7 +85,18 @@ public class Junction extends SimulatedObject{
 	}
 	
 	void enter (Vehicle v){
-		v.getRoad().enter(v);
+		
+		for (int i = 0; i < listR.size(); i++) {
+			if( listR.get(i)._id== v.getRoad()._id){
+				List<List<Vehicle>> oldValue = listQ;
+				listQ.get(i).add(v);
+				List<List<Vehicle>> newValue = listQ;
+				//actualizar mapa
+				//mapR_Q
+				mapR_Q.replace(v.getRoad()._id, oldValue, newValue); //remplaza unaaa lista de vehiculos no todas las listas
+																		// que hay en listQ
+			}
+		}
 		
 	}
 	

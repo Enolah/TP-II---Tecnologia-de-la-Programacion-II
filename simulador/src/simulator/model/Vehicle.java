@@ -77,9 +77,8 @@ public class Vehicle extends SimulatedObject {
 	
 	@Override
 	void advance(int time) {
-		//TODO advance
+		
 		int locationPrev=location;
-		Junction j=null;
 		if(status!=status.TRAVELING){
 			//a) se actualiza la localizacion
 			location= Math.min(location + actSpeed,itinerary.size());			
@@ -91,7 +90,7 @@ public class Vehicle extends SimulatedObject {
 			//c)
 			if (location==road.getLength()){
 				//vehiculo entra en cola del J
-				j.enter(this);
+				road.getDest().enter(this);
 				//cambiar estado
 				status= status.WAITING;
 			}
@@ -100,25 +99,30 @@ public class Vehicle extends SimulatedObject {
 	}
 	
 	void moveToNextRoad(){
-		//TODO moveTONextRoad
 		
-		Junction j=null;
 		//1. sales de la carretera actual
 		//2. entras en la siguiente carretera (location=0)
-		if(status==status.PENDING) //la primera vez el vehiculo no sale de ninguna carretera
-			road=j.roadTo(itinerary.get(indice)); //inidice debe ser =0
-		else if( status== status.WAITING){ //la ultima vez no se entra a ninguna carretera
+		if(status==status.PENDING){ //la primera vez el vehiculo no sale de ninguna carretera
+			road=itinerary.get(indice).roadTo(itinerary.get(indice)); //inidice debe ser =0
+			this.location=0;
+			this.actSpeed=0; 
+			road.enter(this);
+		}
+		else if( status== status.WAITING){ 
 			road.exit(this);
+			if(indice== road.getLength()){//la ultima vez no se entra a ninguna carretera
+				status= status.ARRIVED;
+			}
+			else{
 			indice++;
-			road=j.roadTo(itinerary.get(indice));
+			road=itinerary.get(indice).roadTo(itinerary.get(indice));
+			this.location=0;
+			this.actSpeed=0; 
+			road.enter(this);
+			}
 		}
 		else
 			throw new IllegalArgumentException("Vehicle Status incorrect");
-		
-		
-		this.location=0;
-		this.actSpeed=0; //no estoy segura
-		road.enter(this);
 	
 	}
 	
