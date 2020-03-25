@@ -88,13 +88,11 @@ public class Junction extends SimulatedObject{
 		
 		for (int i = 0; i < listR.size(); i++) {
 			if( listR.get(i)._id== v.getRoad()._id){
-				List<List<Vehicle>> oldValue = listQ;
+				List<Vehicle> oldValue = listQ.get(i);
 				listQ.get(i).add(v);
-				List<List<Vehicle>> newValue = listQ;
-				//actualizar mapa
-				//mapR_Q
-				mapR_Q.replace(v.getRoad()._id, oldValue, newValue); //remplaza unaaa lista de vehiculos no todas las listas
-																		// que hay en listQ
+				List<Vehicle> newValue = listQ.get(i);
+				//actualizar mapa mapR_Q
+				mapR_Q.replace(v.getRoad()._id, oldValue, newValue); //remplaza una lista de vehiculos
 			}
 		}
 		
