@@ -1,6 +1,12 @@
 package simulator.launcher;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
@@ -11,10 +17,25 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import simulator.control.Controller;
+import simulator.factories.Builder;
+import simulator.factories.BuilderBasedFactory;
 import simulator.factories.Factory;
+import simulator.factories.MostCrowdedStrategyBuilder;
+import simulator.factories.MoveAllStrategyBuilder;
+import simulator.factories.MoveFirstStrategyBuilder;
+import simulator.factories.NewCityRoadEventBuilder;
+import simulator.factories.NewInterCityRoadEventBuilder;
+import simulator.factories.NewJunctionEventBuilder;
+import simulator.factories.NewRoadEventBuilder;
+import simulator.factories.NewVehicleEventBuilder;
+import simulator.factories.RoundRobinStrategyBuilder;
 import simulator.misc.SortedArrayList;
+import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
+import simulator.model.LigthSwitchingStrategy;
 import simulator.model.Road.MiCompi;
+import simulator.model.TrafficSimulator;
 import simulator.model.Vehicle;
 
 public class Main {
@@ -22,8 +43,9 @@ public class Main {
 	private int posJ = -1;
 
 	private final static Integer _timeLimitDefaultValue = 10;
-	private static String _inFile = null;
-	private static String _outFile = null;
+	private static String _inFile = null; //fichero de entrada
+	private static Integer _timeLimit = null;//numnero de pasos
+	private static String _outFile = null; //fichero de salida
 	private static Factory<Event> _eventsFactory = null;
 
 	private static void parseArgs(String[] args) {
@@ -92,17 +114,50 @@ public class Main {
 	private static void initFactories() {
 
 		// TODO complete this method to initialize _eventsFactory
+		//se crean las estrategias de cambio de semaforo
+		ArrayList<Builder<LigthSwitchingStrategy>> lsbs = new ArrayList<>();
+		lsbs.add(new RoundRobinStrategyBuilder(_inFile));
+		lsbs.add(new MostCrowdedStrategyBuilder(_inFile));
+		Factory<LigthSwitchingStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
+		
+		//se crean las estrategias de extraccion de la cola
+		ArrayList<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
+		dqbs.add(new MoveFirstStrategyBuilder(_inFile));
+		dqbs.add(new MoveAllStrategyBuilder(_inFile));
+		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
+		
+		//se crea la lista de builders
+		List<Builder<Event>> eventBuilders = new ArrayList<>();
+		
+		eventBuilders.add(new NewJunctionEventBuilder(_inFile, lssFactory, dqsFactory));
+		eventBuilders.add(new NewCityRoadEventBuilder());
+		eventBuilders.add(new NewInterCityRoadEventBuilder());
+		eventBuilders.add(new NewVehicleEventBuilder());
+		eventBuilders.add(new NewRoadEventBuilder());
+		
+		
+		_eventsFactory = new BuilderBasedFactory<>(eventBuilders);
 
 	}
 
 	private static void startBatchMode() throws IOException {
 		// TODO complete this method to start the simulation
+		InputStream in = new FileInputStream(new File(_inFile));
+		OutputStream out = _outFile == null ?
+		System.out : new FileOutputStream(new File(_outFile));
+		TrafficSimulator sim = new TrafficSimulator();
+		Controller ctrl = new Controller(sim, _eventsFactory);
+		ctrl.loadEvents(in);
+		ctrl.run(_timeLimit, out);
+		in.close();
+		System.out.println("Done!");
+		
 	}
 
 	private static void start(String[] args) throws IOException {
-		initFactories();
-		parseArgs(args);
-		startBatchMode();
+		initFactories(); 
+		parseArgs(args); //procesa los argumentos de entrada
+		startBatchMode(); //inicia la simulacion con E/S estandar
 	}
 
 	// example command lines:
