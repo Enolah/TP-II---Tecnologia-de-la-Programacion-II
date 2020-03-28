@@ -131,12 +131,11 @@ public class Main {
 		List<Builder<Event>> eventBuilders = new ArrayList<>();
 		
 		eventBuilders.add(new NewJunctionEventBuilder(_inFile, lssFactory, dqsFactory));
-		eventBuilders.add(new NewRoadEventBuilder(_inFile));
+		//eventBuilders.add(new NewRoadEventBuilder(_inFile));
 		eventBuilders.add(new NewCityRoadEventBuilder(_inFile));
 		eventBuilders.add(new NewInterCityRoadEventBuilder(_inFile));
 		eventBuilders.add(new NewVehicleEventBuilder(_inFile));
-		;
-		
+
 		
 		_eventsFactory = new BuilderBasedFactory<>(eventBuilders);
 

@@ -10,7 +10,9 @@ public class NewCityRoadEvent extends NewRoadEvent{
 	private int maxSpeed;
 	private Weather wea;
 	
-	NewCityRoadEvent(int time, String id, String srcJun, String destJun, 
+	private Road r;
+	
+	public NewCityRoadEvent(int time, String id, String srcJun, String destJun, 
 			int lenght, int co2Limit, int maxSpeed, Weather weather) {
 		super(time);
 		this.id= id;
@@ -24,7 +26,11 @@ public class NewCityRoadEvent extends NewRoadEvent{
 	@Override
 	void execute(RoadMap map) {
 		
-		Road r = new CityRoad(id, map.getJunction(srcJun), map.getJunction(destJun), maxSpeed, co2limit, lenght, wea);
+		try{
+		 r = new CityRoad(id, map.getJunction(srcJun), map.getJunction(destJun), maxSpeed, co2limit, lenght, wea);
+		}catch(Exception e){
+			System.out.println(e);
+		}
 		map.setRoad(r);
 	}
 

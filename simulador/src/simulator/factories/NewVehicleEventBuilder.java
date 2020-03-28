@@ -5,35 +5,37 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import simulator.model.Event;
 import simulator.model.Junction;
+import simulator.model.NewVehicleEvent;
 import simulator.model.Vehicle;
 
-public class NewVehicleEventBuilder extends Builder<Vehicle>{
+public class NewVehicleEventBuilder extends Builder<Event>{
 
-	private Vehicle v;
+	private NewVehicleEvent e;
 	public NewVehicleEventBuilder(String type) {
 		super(type);
 		
 	}
 
 	@Override
-	protected Vehicle createTheInstance(JSONObject data) {
+	protected Event createTheInstance(JSONObject data) {
 		
 		//comprobamos que no es null
 		if(data!=null){
 			//parseamos el JSON
 			if(data.has("time")&& data.has("id")&& data.has("maxspeed")&&
 					data.has("class")&& data.has("itinerary")){
-				List<Junction> listJ = null;
+				List<String> listJ = null;
 				List<Object> a =data.getJSONArray("itinerary").toList();
 				for (int i = 0; i < a.size(); i++) {
-					listJ.add((Junction) a.get(i));
+					listJ.add((String) a.get(i));
 				}
-				v= new Vehicle(data.getString("id"),data.getInt("maxspeed"), 
+				e= new NewVehicleEvent(data.getInt("time"),data.getString("id"),data.getInt("maxspeed"), 
 						data.getInt("class"),listJ);
 			}
 		}
-		return v;
+		return e;
 	}
 
 }

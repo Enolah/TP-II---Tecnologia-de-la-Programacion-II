@@ -3,18 +3,33 @@ package simulator.factories;
 import org.json.JSONObject;
 
 import simulator.model.Event;
+import simulator.model.NewCityRoadEvent;
+import simulator.model.Weather;
 
 public class NewCityRoadEventBuilder extends Builder<Event>{
 
-	NewCityRoadEventBuilder(String type) {
+	private NewCityRoadEvent e;
+	private Weather w;
+	
+	public NewCityRoadEventBuilder(String type) {
 		super(type);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
 	protected Event createTheInstance(JSONObject data) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(data!= null){
+			if(data.has("time")&& data.has("id")&& data.has("src")&&data.has("dest")&&
+					data.has("length")&& data.has("co2limit")&&data.has("maxspeed")&&data.has("weather")){
+			
+				w= (Weather)data.get("weather");
+				e= new NewCityRoadEvent(data.getInt("time"),data.getString("id"),data.getString("src"),data.getString("dest"),
+					data.getInt("length"),data.getInt("co2limit"),data.getInt("maxspeed"),w);
+			}
+		}
+		
+		return e;
 	}
 
 }
