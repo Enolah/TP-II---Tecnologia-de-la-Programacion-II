@@ -8,6 +8,8 @@ public class NewJunctionEvent extends Event {
 	private int xCoor;
 	private int yCoor;
 	
+	private Junction j;
+	
 	public NewJunctionEvent(int time, String id, LigthSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(time);
 		this.id= id;
@@ -20,7 +22,12 @@ public class NewJunctionEvent extends Event {
 	@Override
 	void execute(RoadMap map) {
 		// TODO crea un cruce correspondiente 
-		Junction j= new Junction(id, lsStrategy, dqStrategy, xCoor, yCoor);
+		try{
+			j= new Junction(id, lsStrategy, dqStrategy, xCoor, yCoor);
+		}
+		catch(Exception e){
+			System.out.println(e);
+		}
 		//lo añade al mapa de carreteras
 		map.setJunction(j);
 	}
