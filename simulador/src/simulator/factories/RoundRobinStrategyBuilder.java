@@ -7,6 +7,7 @@ import simulator.model.RoundRobinStrategy;
 
 public class RoundRobinStrategyBuilder extends Builder<LigthSwitchingStrategy>{
 
+	private RoundRobinStrategy e ;
 	public RoundRobinStrategyBuilder(String type) {
 		super(type);
 	
@@ -16,14 +17,13 @@ public class RoundRobinStrategyBuilder extends Builder<LigthSwitchingStrategy>{
 	protected LigthSwitchingStrategy createTheInstance(JSONObject data) {
 		
 		if( data!= null){
-			RoundRobinStrategy e = new RoundRobinStrategy(data.getInt("timeslot"));
+			if(data.has("timeslot"))
+				e = new RoundRobinStrategy(data.getInt("timeslot")); //es opcional
+			else
+				e= new RoundRobinStrategy(1); //por defecto es 1
 		}
-		JSONObject jo1 = new JSONObject();
-		data.put("type", _type);
-		jo1.put("timeslot", 1);
-		data.put("data", jo1);
 		
-		return new RoundRobinStrategy(data.getInt("timeslot"));
+		return e;
 	}
 
 }

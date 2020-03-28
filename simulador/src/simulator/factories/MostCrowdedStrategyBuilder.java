@@ -1,11 +1,16 @@
 package simulator.factories;
 
+import java.util.List;
+
 import org.json.JSONObject;
 
 import simulator.model.LigthSwitchingStrategy;
+import simulator.model.MostCrowdedStrategy;
+
 
 public class MostCrowdedStrategyBuilder extends Builder<LigthSwitchingStrategy>{
 
+	private MostCrowdedStrategy e;
 	public MostCrowdedStrategyBuilder(String type) {
 		super(type);
 		
@@ -13,12 +18,15 @@ public class MostCrowdedStrategyBuilder extends Builder<LigthSwitchingStrategy>{
 
 	@Override
 	protected LigthSwitchingStrategy createTheInstance(JSONObject data) {
-		JSONObject jo1 = new JSONObject();
-		data.put("type", _type);
-		jo1.put("timeslot", 1);
-		data.put("data", jo1);
+	
+		if( data!= null){
+			if(data.has("timeslot"))
+				e= new MostCrowdedStrategy(data.getInt("timeslot"));
+			else 
+				e= new MostCrowdedStrategy(1);
+		}
 		
-		return (LigthSwitchingStrategy)data;
+		return e;
 	}
 	
 	
