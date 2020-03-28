@@ -153,6 +153,7 @@ public abstract class Road extends SimulatedObject {
 	
 
 	public JSONObject report() {
+		//TODO esto no es vehiculo?
 		JSONObject jo1 = new JSONObject();
 		
 		jo1.put("id", _id);

@@ -21,7 +21,7 @@ public class Vehicle extends SimulatedObject {
 	private int totalDistance; //distancia total recorrida
 	private int indice=0;
 	
-	 Vehicle (String id,int maxSpeed, int contClass, List<Junction> itinerary){
+	 public Vehicle (String id,int maxSpeed, int contClass, List<Junction> itinerary){
 		super(id);
 		
 		this.maxSpeed= maxSpeed;
@@ -129,6 +129,7 @@ public class Vehicle extends SimulatedObject {
 
 	@Override
 	public JSONObject report() {
+		//TODO hacerlo bien
 		JSONObject jo1 = new JSONObject();
 	
 		jo1.put("id", _id);

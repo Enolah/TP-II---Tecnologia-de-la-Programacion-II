@@ -35,6 +35,7 @@ import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
 import simulator.model.LigthSwitchingStrategy;
 import simulator.model.Road.MiCompi;
+import simulator.model.RoadMap;
 import simulator.model.TrafficSimulator;
 import simulator.model.Vehicle;
 
@@ -130,10 +131,11 @@ public class Main {
 		List<Builder<Event>> eventBuilders = new ArrayList<>();
 		
 		eventBuilders.add(new NewJunctionEventBuilder(_inFile, lssFactory, dqsFactory));
+		eventBuilders.add(new NewRoadEventBuilder(_inFile));
 		eventBuilders.add(new NewCityRoadEventBuilder());
 		eventBuilders.add(new NewInterCityRoadEventBuilder());
-		eventBuilders.add(new NewVehicleEventBuilder());
-		eventBuilders.add(new NewRoadEventBuilder());
+		eventBuilders.add(new NewVehicleEventBuilder(_inFile));
+		;
 		
 		
 		_eventsFactory = new BuilderBasedFactory<>(eventBuilders);

@@ -1,5 +1,5 @@
 package simulator.factories;
 
-public class NewCityRoadEventBuilder {
+public class NewCityRoadEventBuilder extends Builder<Road>{
 
 }

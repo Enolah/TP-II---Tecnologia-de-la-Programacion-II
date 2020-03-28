@@ -6,7 +6,7 @@ import simulator.model.LigthSwitchingStrategy;
 
 public class MostCrowdedStrategyBuilder extends Builder<LigthSwitchingStrategy>{
 
-	MostCrowdedStrategyBuilder(String type) {
+	public MostCrowdedStrategyBuilder(String type) {
 		super(type);
 		
 	}

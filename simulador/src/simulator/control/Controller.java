@@ -14,6 +14,7 @@ import simulator.model.Event;
 import simulator.model.TrafficSimulator;
 
 public class Controller {
+	
 	// eventsFactory y sim se crean en “Main”
 	private TrafficSimulator _sim;
 	private Factory<Event> _eventsFactory;
@@ -35,8 +36,10 @@ public class Controller {
 		
 		for(int i = 0; i < events.length(); i++){//crea el evento correspondiente utilizando la factoriza de eventos
 			_sim.addEvent(_eventsFactory.createInstance(events.getJSONObject(i)));
+			//return un evento
 		}
 	}
+	
 	public void run(int n, OutputStream out){
 		if( out == null){
 			out = new OutputStream(){
