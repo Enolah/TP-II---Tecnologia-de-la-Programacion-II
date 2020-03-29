@@ -15,12 +15,13 @@ public class TrafficSimulator {
 	private Comp comparador; // Mi comparador
 	
 	
-	public TrafficSimulator(RoadMap mapR, List<Event> listE, int tick){
+	public TrafficSimulator(){
 		
-			this.mapR= mapR;
-			this.listE= listE;
-			this.tick= tick; 
-			comparador = new Comp();
+		
+		this.mapR= new RoadMap(null, null, null, null, null, null);
+		this.listE=null;
+		this.tick=0; 
+		comparador = new Comp();
 			
 		}	
 

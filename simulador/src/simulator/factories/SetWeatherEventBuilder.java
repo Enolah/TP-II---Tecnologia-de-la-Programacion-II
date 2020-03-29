@@ -15,7 +15,7 @@ public class SetWeatherEventBuilder extends Builder<Event>{
 	private List<Pair<String,Weather>> ws;
 
 	
-	SetWeatherEventBuilder(String type) {
+	public SetWeatherEventBuilder(String type) {
 		super(type);
 	}
 

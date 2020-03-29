@@ -12,7 +12,9 @@ public class RoundRobinStrategyBuilder extends Builder<LigthSwitchingStrategy>{
 		super(type);
 	
 	}
-
+	
+	
+	
 	@Override
 	protected LigthSwitchingStrategy createTheInstance(JSONObject data) {
 		

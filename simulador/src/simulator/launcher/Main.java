@@ -30,6 +30,8 @@ import simulator.factories.NewJunctionEventBuilder;
 import simulator.factories.NewRoadEventBuilder;
 import simulator.factories.NewVehicleEventBuilder;
 import simulator.factories.RoundRobinStrategyBuilder;
+import simulator.factories.SetContClassEventBuilder;
+import simulator.factories.SetWeatherEventBuilder;
 import simulator.misc.SortedArrayList;
 import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
@@ -48,7 +50,11 @@ public class Main {
 	private static Integer _timeLimit = null;//numnero de pasos
 	private static String _outFile = null; //fichero de salida
 	private static Factory<Event> _eventsFactory = null;
-
+	
+	
+	
+	
+	
 	private static void parseArgs(String[] args) {
 
 		// define the valid command line options
@@ -111,30 +117,39 @@ public class Main {
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		_outFile = line.getOptionValue("o");
 	}
+	
+//	private static void parseTicksOption(CommandLine line) throws ParseException{
+//		if(line.hasOption("t")){
+//			_timeLimitDefaultValue;
+//		}
+		
+//	}
 
 	private static void initFactories() {
 
 		// TODO complete this method to initialize _eventsFactory
 		//se crean las estrategias de cambio de semaforo
 		ArrayList<Builder<LigthSwitchingStrategy>> lsbs = new ArrayList<>();
-		lsbs.add(new RoundRobinStrategyBuilder(_inFile));
-		lsbs.add(new MostCrowdedStrategyBuilder(_inFile));
+		lsbs.add(new RoundRobinStrategyBuilder("round_robin_lss"));
+		lsbs.add(new MostCrowdedStrategyBuilder("most_crowded_lss"));
 		Factory<LigthSwitchingStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
 		
 		//se crean las estrategias de extraccion de la cola
 		ArrayList<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
-		dqbs.add(new MoveFirstStrategyBuilder(_inFile));
-		dqbs.add(new MoveAllStrategyBuilder(_inFile));
+		dqbs.add(new MoveFirstStrategyBuilder("move_first_dqs"));
+		dqbs.add(new MoveAllStrategyBuilder("most_all_dqs"));
 		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
 		
 		//se crea la lista de builders
-		List<Builder<Event>> eventBuilders = new ArrayList<>();
+		 List<Builder<Event>> eventBuilders = new ArrayList<>();
 		
-		eventBuilders.add(new NewJunctionEventBuilder(_inFile, lssFactory, dqsFactory));
+		eventBuilders.add(new NewJunctionEventBuilder("new_junction",lssFactory, dqsFactory));
 		//eventBuilders.add(new NewRoadEventBuilder(_inFile));
-		eventBuilders.add(new NewCityRoadEventBuilder(_inFile));
-		eventBuilders.add(new NewInterCityRoadEventBuilder(_inFile));
-		eventBuilders.add(new NewVehicleEventBuilder(_inFile));
+		eventBuilders.add(new NewCityRoadEventBuilder("new_city_road"));
+		eventBuilders.add(new NewInterCityRoadEventBuilder("new_inter_city_road"));
+		eventBuilders.add(new NewVehicleEventBuilder("new_vehicle"));
+		eventBuilders.add(new SetContClassEventBuilder("set_cont_class"));
+		eventBuilders.add(new SetWeatherEventBuilder("set_weather"));
 
 		
 		_eventsFactory = new BuilderBasedFactory<>(eventBuilders);

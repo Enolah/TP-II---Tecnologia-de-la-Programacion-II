@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -15,13 +16,16 @@ public class RoadMap {
 	private Map <String,Road> mapR; //mapa de carreteras
 	private Map <String,Vehicle> mapV; //mapa de vehiculos
 	
-	public RoadMap(List<Junction> listJ, List<Road> listR,List<Vehicle> listV,Map <String,Junction> mapJ,Map <String,Road> mapR,Map <String,Vehicle> mapV){
+	RoadMap(List<Junction> listJ, List<Road> listR,List<Vehicle> listV,Map <String,Junction> mapJ,Map <String,Road> mapR,Map <String,Vehicle> mapV){
+		//TODO new de las  listas paraa reservar memoria
 		this.listJ=listJ;
 		this.listR= listR;
 		this.listV= listV;
 		this.mapJ= mapJ;
 		this.mapR=mapR;
 		this.mapV=mapV;
+		
+		
 	}
 	
 	 /*
