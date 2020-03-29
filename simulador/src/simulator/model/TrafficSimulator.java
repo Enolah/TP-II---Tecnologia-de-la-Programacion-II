@@ -53,12 +53,15 @@ public class TrafficSimulator {
 		//los elimina de la lista. Después llama a sus correspondientes métodos execute.
 		 for (int i = 0; i < listE.size(); i++) {
 			if(listE.get(i)._time==tick){
-				listE.get(i).execute(mapR);
+				Event e= listE.get(i);
 				listE.remove(i);
+				e.execute(mapR);
+				i--;
 			}
+			
 		}
 		//3. llama al método advance de todos los cruces.
-		for (Junction j : mapR.getJunction()) {
+		for (Junction j : mapR.getJunctions()) {
 			j.advance(tick);
 		}
 		//4. llama al método advance de todas las carreteras.

@@ -21,6 +21,7 @@ public class NewCityRoadEvent extends NewRoadEvent{
 		this.lenght=lenght;
 		this.co2limit=co2Limit;
 		this.maxSpeed= maxSpeed;
+		this.wea=weather;
 	}
 
 	@Override

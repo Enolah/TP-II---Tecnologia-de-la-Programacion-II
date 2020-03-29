@@ -34,12 +34,13 @@ public abstract class Road extends SimulatedObject {
 		this.contLimit= contLimit;
 		this.lenght= lenght;
 		this.wea= weather;
-		
+		this.listV= new ArrayList<>();
 		comparador = new MiCompi();
+		
 		if (maxSpeed <=0)throw new IllegalArgumentException("Invalid value for maxSpeed");
 		if (contLimit<0)throw new IllegalArgumentException("Invalid value for conLimit");
 		if (lenght <=0)throw new IllegalArgumentException("Invalid value for lenght");
-		if (src==null || dest==null || wea==null)throw new IllegalArgumentException("Invalid value, cannot be NULL");
+		if (src==null || dest==null || wea==null)throw new IllegalArgumentException("Invalid value for src||dest||wea, cannot be NULL");
 	}
 	
 	/*

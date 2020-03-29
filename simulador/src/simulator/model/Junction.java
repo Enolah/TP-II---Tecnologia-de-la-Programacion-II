@@ -1,5 +1,7 @@
 package simulator.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -27,13 +29,17 @@ public class Junction extends SimulatedObject{
 		this.xCoor=xCoor;
 		this.yCoor=yCoor;
 		
+		this.listQ= new ArrayList<>();
+		this.map = new HashMap<>();
+		this.mapR_Q = new HashMap<>();
+		
 		if (lsStrategy == null || dqStrategy==null)throw new IllegalArgumentException("Invalid value, cannot be NULL");
 		if(xCoor<0||yCoor<0)throw new IllegalArgumentException("Invalid value,cannot be negative");
 	}
 
 	public void getX(){};
 	public void getY(){};
-	
+	 
 	 /*
 	  * GET & SET
 	  */
@@ -55,7 +61,7 @@ public class Junction extends SimulatedObject{
 			listQ.add(cola);
 			//mapa carretera cola
 			
-			mapR_Q.put(r._id, cola);
+			mapR_Q.put(r.getId(), cola);
 		}
 		
 		
@@ -107,9 +113,8 @@ public class Junction extends SimulatedObject{
 	void advance(int time) {	
 		//1
 		//devuelve uan lisa vehiculos
-		List <Vehicle> listV = dqStrategy.dequeue(listQ.get(currGreen));
 		//los vehiculos se mueven a sus carreteras
-		for (Vehicle vehicle : listV) {
+		for (Vehicle vehicle : dqStrategy.dequeue(listQ.get(currGreen))) {
 			vehicle.moveToNextRoad();
 		}
 		//eliminar de la cola

@@ -54,7 +54,7 @@ public class RoadMap {
 		mapV.put(v._id, v);
 		
 	}
-	public List<Junction> getJunction(){
+	public List<Junction> getJunctions(){
 		return Collections.unmodifiableList(listJ);
 	}
 	
@@ -80,33 +80,51 @@ public class RoadMap {
 		
 		listR.add(r);
 		//(i)
-		if(mapR.putIfAbsent(r._id, r)==null) throw new IllegalArgumentException("That id already exists");
+		if(mapR.putIfAbsent(r.getId(), r)!=null) throw new IllegalArgumentException("That id already exists");
 		//(ii)
-		if (mapJ.containsKey(r.getSrc()._id)
-				||mapJ.containsKey(r.getDest()._id))throw new IllegalArgumentException("");
+		if (mapR.containsKey(r.getSrc().getId())
+				||mapR.containsKey(r.getDest().getId()))throw new IllegalArgumentException("That id no exists");
 	}
 	
 	void addVehicle (Vehicle v){
 		//TODO duda de los mapas
 		//no se como hacer que el itinerario sea valido
 		listV.add(v);
-		if(mapV.putIfAbsent(v._id,v)==null)throw new IllegalArgumentException("That id already exists");
+		if(mapV.putIfAbsent(v.getId(),v)!=null)throw new IllegalArgumentException("That id already exists");
 
-		for (int i = 0; i < v.getItinerary().size(); i++) {
-			boolean encontrado= false;
-			int j=0;
-			while(!encontrado || listR.size()>=j){
-				if(listR.get(j).getSrc()== v.getItinerary().get(i)){
-					if(listR.get(j).getDest()== v.getItinerary().get(i++))
-						encontrado= true;
-					else
-						j++;
-				}
-				else
-					j++;
+		if(checkItinerary(v)==false) throw new IllegalArgumentException("That road no exists");
+//		for (int i = 0; i < v.getItinerary().size(); i++) {
+//			boolean encontrado= false;
+//			int j=0;
+//			while(!encontrado || listR.size()>=j){
+//				if(listR.get(j).getSrc().getId()== v.getItinerary().get(i).getId()){
+//					if(listR.get(j).getDest()== v.getItinerary().get(i++))
+//						encontrado= true;
+//					else
+//						j++;
+//				}
+//				else
+//					j++;
+//			}
+//		}
+//	
+	}
+	
+	boolean checkItinerary(Vehicle v){
+		boolean check= false;
+		int cont=0;
+		
+		for (Road road : listR) {
+			if(road.getSrc().getId() == v.getItinerary().get(cont).getId()){
+				if(road.getDest().getId()== v.getItinerary().get(cont++).getId())
+					cont++;	
 			}
 		}
 		
+		if(cont== listR.size()-1)
+			check= true;
+		
+		return check;
 	}
 	
 	

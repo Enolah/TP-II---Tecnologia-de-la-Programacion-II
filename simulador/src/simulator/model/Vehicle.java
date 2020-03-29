@@ -102,11 +102,11 @@ public class Vehicle extends SimulatedObject {
 		
 		//1. sales de la carretera actual
 		//2. entras en la siguiente carretera (location=0)
-		if(status==status.PENDING){ //la primera vez el vehiculo no sale de ninguna carretera
-			road=itinerary.get(indice).roadTo(itinerary.get(indice)); //inidice debe ser =0
-			this.location=0;
-			this.actSpeed=0; 
-			road.enter(this);
+		if(status==null){ //la primera vez el vehiculo no sale de ninguna carretera
+			
+	//		road=itinerary.get(indice).roadTo(itinerary.get(indice)); //inidice debe ser =0
+		//	road.enter(this);
+			this.status=status.TRAVELING;
 		}
 		else if( status== status.WAITING){ 
 			road.exit(this);

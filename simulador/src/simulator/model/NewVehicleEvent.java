@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewVehicleEvent extends Event {
@@ -8,6 +9,9 @@ public class NewVehicleEvent extends Event {
 	private int maxSpeed;
 	private int contClass;
 	private List<String> itinerary;
+	
+	
+	private Vehicle v;
 
 	public NewVehicleEvent(int time, String id, int maxSpeed, int contClass, List<String> itinerary) {
 		super(time);
@@ -20,8 +24,12 @@ public class NewVehicleEvent extends Event {
 
 	@Override
 	void execute(RoadMap map) {
+		 List<Junction> iti = new ArrayList<>();
+		for (int i = 0; i <itinerary.size(); i++) {
+			iti.add(map.getJunction(itinerary.get(i)));
+		}
 		
-		Vehicle v= new Vehicle(id, maxSpeed, contClass, map.getVehicle(id).getItinerary());
+		v= new Vehicle(id, maxSpeed, contClass, iti);
 		map.addVehicle(v);
 		v.moveToNextRoad();
 		
