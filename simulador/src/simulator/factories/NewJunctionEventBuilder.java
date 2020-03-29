@@ -14,7 +14,9 @@ import simulator.model.NewJunctionEvent;
 public class NewJunctionEventBuilder extends Builder<Event>{
 
 	private Factory<LigthSwitchingStrategy> lssFactory;
+	private LigthSwitchingStrategy ls;
 	private Factory<DequeuingStrategy> dqsFactory;
+	private DequeuingStrategy dq;
 	private Event e= null;
 	
 	public NewJunctionEventBuilder(String type, Factory<LigthSwitchingStrategy>
@@ -36,11 +38,9 @@ public class NewJunctionEventBuilder extends Builder<Event>{
 				Integer y=(Integer)data.getJSONArray("coor").toList().get(1);
 				
 				//lss
-				lssFactory= (Factory<LigthSwitchingStrategy>) data.getJSONObject("ls_strategy");
-				LigthSwitchingStrategy ls =(LigthSwitchingStrategy) lssFactory;
+				ls=lssFactory.createInstance(data.getJSONObject("ls_strategy"));
 				//dqs 
-				dqsFactory= (Factory<DequeuingStrategy>) data.getJSONObject("dq_strategy");
-				DequeuingStrategy dq= (DequeuingStrategy) dqsFactory;
+				dq=dqsFactory.createInstance(data.getJSONObject("dq_strategy"));
 				
 				e= new NewJunctionEvent(data.getInt("time"), data.getString("id"), ls, dq, x, y);
 			}

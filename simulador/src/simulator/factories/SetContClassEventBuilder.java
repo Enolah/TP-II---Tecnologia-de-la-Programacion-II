@@ -1,5 +1,6 @@
 package simulator.factories;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -7,12 +8,15 @@ import org.json.JSONObject;
 import simulator.misc.Pair;
 import simulator.model.Event;
 import simulator.model.SetContClassEvent;
+import simulator.model.Weather;
 
 
 public class SetContClassEventBuilder extends Builder<Event>{
 
 	private SetContClassEvent e = null;
-	private List<Pair<String,Integer>> p;
+	private List<Pair<String,Integer>> c;
+	private Pair<String,Integer> p;
+	
 	public SetContClassEventBuilder(String type) {
 		super(type);
 	}
@@ -23,11 +27,15 @@ public class SetContClassEventBuilder extends Builder<Event>{
 		if(data!= null){
 			if(data.has("time")&&data.has("info")){
 						
-				for (int i = 0; i <data.getJSONObject("info").length(); i++) {
-					p.add((Pair)data.getJSONObject("info").toMap());
+				for (int i = 0; i <data.getJSONArray("info").length(); i++) {
+					JSONObject o= (JSONObject) data.getJSONArray("info").get(i);
+					String s= o.getString("vehicle");
+					Integer j= o.getInt("class");
+					c= new ArrayList<Pair<String,Integer>>();
+					c.add(new Pair(s,j));
 				}
 				try{
-				e= new SetContClassEvent(data.getInt("time"), p);
+				e= new SetContClassEvent(data.getInt("time"), c);
 				}catch(Exception e){
 					System.out.println(e);
 				}

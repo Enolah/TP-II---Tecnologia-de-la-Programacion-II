@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -19,7 +20,8 @@ public class TrafficSimulator {
 		
 		
 		this.mapR= new RoadMap(null, null, null, null, null, null);
-		this.listE=null;
+		listE= new ArrayList<Event>();
+		//this.listE=null;
 		this.tick=0; 
 		comparador = new Comp();
 			

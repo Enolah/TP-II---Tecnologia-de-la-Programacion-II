@@ -23,9 +23,10 @@ public class NewInterCityRoadEventBuilder extends Builder<Event>{
 			if(data.has("time")&& data.has("id")&& data.has("src")&&data.has("dest")&&
 					data.has("length")&& data.has("co2limit")&&data.has("maxspeed")&&data.has("weather")){
 			
-				w= (Weather)data.get("weather");
+				String posiblew= data.getString("weather").toUpperCase();
+				
 				e= new NewInterCityRoadEvent(data.getInt("time"),data.getString("id"),data.getString("src"),data.getString("dest"),
-					data.getInt("length"),data.getInt("co2limit"),data.getInt("maxspeed"),w);
+					data.getInt("length"),data.getInt("co2limit"),data.getInt("maxspeed"),w.valueOf(posiblew));
 			}
 		}
 		

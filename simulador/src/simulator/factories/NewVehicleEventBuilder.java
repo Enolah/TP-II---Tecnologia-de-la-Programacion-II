@@ -1,5 +1,6 @@
 package simulator.factories;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -26,7 +27,7 @@ public class NewVehicleEventBuilder extends Builder<Event>{
 			//parseamos el JSON
 			if(data.has("time")&& data.has("id")&& data.has("maxspeed")&&
 					data.has("class")&& data.has("itinerary")){
-				List<String> listJ = null;
+				List<String> listJ = new ArrayList<>();
 				List<Object> a =data.getJSONArray("itinerary").toList();
 				for (int i = 0; i < a.size(); i++) {
 					listJ.add((String) a.get(i));
