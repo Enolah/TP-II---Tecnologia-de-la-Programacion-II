@@ -33,7 +33,7 @@ public class NewInterCityRoadEvent extends NewRoadEvent{
 			System.out.println(e);
 		}
 		//añade al mapa
-		map.setRoad(r);
+		map.addRoad(r);
 	}
 	
 }

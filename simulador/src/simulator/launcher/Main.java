@@ -47,7 +47,7 @@ public class Main {
 
 	private final static Integer _timeLimitDefaultValue = 10;
 	private static String _inFile = null; //fichero de entrada
-	private static Integer _timeLimit = null;//numnero de pasos
+	private static Integer _timeLimit = 100;//numnero de pasos
 	private static String _outFile = null; //fichero de salida
 	private static Factory<Event> _eventsFactory = null;
 	

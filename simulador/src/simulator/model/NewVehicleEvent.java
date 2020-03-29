@@ -22,7 +22,8 @@ public class NewVehicleEvent extends Event {
 	void execute(RoadMap map) {
 		
 		Vehicle v= new Vehicle(id, maxSpeed, contClass, map.getVehicle(id).getItinerary());
-		map.setVehicle(v);
+		map.addVehicle(v);
+		v.moveToNextRoad();
 		
 	}
 

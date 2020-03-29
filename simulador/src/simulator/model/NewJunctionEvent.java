@@ -29,7 +29,8 @@ public class NewJunctionEvent extends Event {
 			System.out.println(e);
 		}
 		//lo añade al mapa de carreteras
-		map.setJunction(j);
+		
+		map.addJunction(j);
 	}
 
 }

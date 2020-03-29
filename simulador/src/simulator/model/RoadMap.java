@@ -2,6 +2,7 @@ package simulator.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,14 +18,13 @@ public class RoadMap {
 	private Map <String,Vehicle> mapV; //mapa de vehiculos
 	
 	RoadMap(List<Junction> listJ, List<Road> listR,List<Vehicle> listV,Map <String,Junction> mapJ,Map <String,Road> mapR,Map <String,Vehicle> mapV){
-		//TODO new de las  listas paraa reservar memoria
-		this.listJ=listJ;
-		this.listR= listR;
-		this.listV= listV;
-		this.mapJ= mapJ;
-		this.mapR=mapR;
-		this.mapV=mapV;
-		
+
+		this.listJ=new ArrayList<>();
+		this.listR= new ArrayList<>();
+		this.listV= new ArrayList<>();
+		this.mapJ= new HashMap<>();
+		this.mapR=new HashMap<>();
+		this.mapV=new HashMap<>();
 		
 	}
 	
@@ -72,7 +72,7 @@ public class RoadMap {
 	
 	void addJunction(Junction j){
 		listJ.add(j);
-		if(mapJ.putIfAbsent(j._id, j)==null) throw new IllegalArgumentException("That id already exists");
+		if(mapJ.putIfAbsent(j.getId(), j) != null) throw new IllegalArgumentException("That id already exists");
 		
 	}
 	

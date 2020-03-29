@@ -51,7 +51,12 @@ public class TrafficSimulator {
 		tick++;
 		//2. ejecuta todos los eventos cuyo tiempo sea el tiempo actual de la simulación y
 		//los elimina de la lista. Después llama a sus correspondientes métodos execute.
-		
+		 for (int i = 0; i < listE.size(); i++) {
+			if(listE.get(i)._time==tick){
+				listE.get(i).execute(mapR);
+				listE.remove(i);
+			}
+		}
 		//3. llama al método advance de todos los cruces.
 		for (Junction j : mapR.getJunction()) {
 			j.advance(tick);

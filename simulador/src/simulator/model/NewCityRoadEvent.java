@@ -31,7 +31,7 @@ public class NewCityRoadEvent extends NewRoadEvent{
 		}catch(Exception e){
 			System.out.println(e);
 		}
-		map.setRoad(r);
+		map.addRoad(r);
 	}
 
 }
