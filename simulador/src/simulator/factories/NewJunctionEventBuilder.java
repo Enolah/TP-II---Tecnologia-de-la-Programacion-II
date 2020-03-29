@@ -38,7 +38,7 @@ public class NewJunctionEventBuilder extends Builder<Event>{
 				//lss
 				lssFactory= (Factory<LigthSwitchingStrategy>) data.getJSONObject("ls_strategy");
 				LigthSwitchingStrategy ls =(LigthSwitchingStrategy) lssFactory;
-				//dqs
+				//dqs 
 				dqsFactory= (Factory<DequeuingStrategy>) data.getJSONObject("dq_strategy");
 				DequeuingStrategy dq= (DequeuingStrategy) dqsFactory;
 				
