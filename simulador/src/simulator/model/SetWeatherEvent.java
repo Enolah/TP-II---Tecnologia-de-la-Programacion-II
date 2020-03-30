@@ -17,9 +17,10 @@ public class SetWeatherEvent extends Event{
 
 	@Override
 	void execute(RoadMap map) {
-	//	if(map.getRoad(map.))
-		for (Pair<String, Weather> w : ws) {
-			w.getSecond();
+		
+		for (Pair<String, Weather> r : ws) {
+			if(map.getRoads().contains(r.getFirst())) throw new IllegalArgumentException("no existe la carretera");
+				map.getRoad(r.getFirst()).setWeather(r.getSecond());
 		}
 		
 	}

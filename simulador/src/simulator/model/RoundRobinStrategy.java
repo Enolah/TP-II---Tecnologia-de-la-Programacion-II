@@ -14,7 +14,7 @@ public class RoundRobinStrategy implements LigthSwitchingStrategy{
 	public int chooseNextGreen(List<Road> roads, List<List<Vehicle>> qs, int currGreen, int lastSwitchingTime,
 			int currTime) {
 		int indice =-1;
-		if (qs==null); //1
+		if (qs==null || qs.size()==0); //1
 		else{
 			if (currGreen==-1){//2
 				indice = 0;

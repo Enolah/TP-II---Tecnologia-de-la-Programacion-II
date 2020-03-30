@@ -16,8 +16,11 @@ public class SetContClassEvent extends Event {
 
 	@Override
 	void execute(RoadMap map) {
-		// TODO Auto-generated method stub
 		
+		for (Pair<String, Integer> c : cs) {
+			if(map.getVehicles().contains(c.getFirst()))throw new IllegalArgumentException("no existe la carretera");
+				map.getVehicle(c.getFirst()).setContaminationClass(c.getSecond());
+		}
 	}
 
 }

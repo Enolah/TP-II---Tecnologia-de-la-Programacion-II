@@ -20,6 +20,7 @@ public class SetWeatherEventBuilder extends Builder<Event>{
 	
 	public SetWeatherEventBuilder(String type) {
 		super(type);
+		
 	}
 
 	@Override
@@ -27,13 +28,15 @@ public class SetWeatherEventBuilder extends Builder<Event>{
 
 		if(data!= null){
 			if(data.has("time")&&data.has("info")){
-						
+				ws= new ArrayList<Pair<String,Weather>>();
+				
 				for (int i = 0; i <data.getJSONArray("info").length(); i++) {
 					JSONObject o= (JSONObject) data.getJSONArray("info").get(i);
 					String s= o.getString("road");
 					String w= o.getString("weather").toUpperCase();
-					ws= new ArrayList<Pair<String,Weather>>();
-					ws.add(new Pair(s,wea.valueOf(w)));
+					
+					//p= new Pair(s,wea.valueOf(w));
+					ws.add( new Pair(s,wea.valueOf(w)));
 				}
 				try{
 				e= new SetWeatherEvent(data.getInt("time"), ws);

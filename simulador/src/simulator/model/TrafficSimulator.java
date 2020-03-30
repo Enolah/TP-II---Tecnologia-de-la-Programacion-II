@@ -55,7 +55,11 @@ public class TrafficSimulator {
 			if(listE.get(i)._time==tick){
 				Event e= listE.get(i);
 				listE.remove(i);
+				try{
 				e.execute(mapR);
+				} catch (Exception e1){
+					System.out.println(e1);
+				}
 				i--;
 			}
 			

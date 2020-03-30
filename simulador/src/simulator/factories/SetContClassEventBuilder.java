@@ -26,12 +26,12 @@ public class SetContClassEventBuilder extends Builder<Event>{
 		
 		if(data!= null){
 			if(data.has("time")&&data.has("info")){
-						
+				c= new ArrayList<Pair<String,Integer>>();
 				for (int i = 0; i <data.getJSONArray("info").length(); i++) {
 					JSONObject o= (JSONObject) data.getJSONArray("info").get(i);
 					String s= o.getString("vehicle");
 					Integer j= o.getInt("class");
-					c= new ArrayList<Pair<String,Integer>>();
+					
 					c.add(new Pair(s,j));
 				}
 				try{
