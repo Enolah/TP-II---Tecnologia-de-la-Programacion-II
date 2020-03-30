@@ -93,12 +93,13 @@ public class Junction extends SimulatedObject{
 	}
 	
 	void enter (Vehicle v){
-		
+		List<Vehicle> oldValue = new ArrayList<>();
+		List<Vehicle> newValue = new ArrayList<>();
 		for (int i = 0; i < listR.size(); i++) {
-			if( listR.get(i)._id== v.getRoad()._id){
-				List<Vehicle> oldValue = listQ.get(i);
+			if( listR.get(i).getId()== v.getRoad().getId()){
+				 oldValue = listQ.get(i);
 				listQ.get(i).add(v);
-				List<Vehicle> newValue = listQ.get(i);
+				 newValue = listQ.get(i);
 				//actualizar mapa mapR_Q
 				mapR_Q.replace(v.getRoad()._id, oldValue, newValue); //remplaza una lista de vehiculos
 			}
@@ -113,28 +114,35 @@ public class Junction extends SimulatedObject{
 	
 	@Override
 	void advance(int time) {
-		//TODO junction
+		// TODO junction
 		// 1
 		// devuelve uan lista vehiculos de la cola
 		List<Vehicle> listV = new ArrayList<>();
 		// if(listQ.indexOf(currGreen)!=-1);
-		if (currGreen!=-1) {
-			if(listQ.size()!=0){
-				listV = dqStrategy.dequeue(listQ.get(currGreen));
-			// los vehiculos se mueven a sus carreteras
-			if (dqStrategy.dequeue(listQ.get(currGreen)) == null) { // no hay
-																	// vehiculos
-																	// en la
-																	// cola del
-																	// cruce
-			} else {
-				for (Vehicle vehicle : listV) {
-					vehicle.moveToNextRoad();
-					listQ.remove(vehicle); // elimino en la lista auxiliar
+		if (currGreen != -1) {
+			if (listQ.size() != 0 && (currGreen < listQ.size())) {
+				if(listQ.get(currGreen).size() != 0){
+				
+						listV = dqStrategy.dequeue(listQ.get(currGreen));
+						// los vehiculos se mueven a sus carreteras
+						if (listV == null) { // no hay vehiculos en la cola del
+												// cruce
+						} else {
+							for (Vehicle vehicle : listV) {
+								vehicle.moveToNextRoad();
+								listQ.get(listV.indexOf(vehicle)).remove(vehicle); // elimino
+																					// en
+																					// la
+																					// lista
+//								if (listQ.get(currGreen).size() == 0)
+//									listQ.remove(currGreen);
+							}
+						}
+					}
 				}
-			}
-		}
-		}
+				}
+			
+		
 		// eliminar de la cola
 		// listQ.remove(currGreen);
 

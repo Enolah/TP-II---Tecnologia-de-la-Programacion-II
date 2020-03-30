@@ -155,7 +155,7 @@ public class RoadMap {
 		jo1.put("junctions", j);
 		
 		for(Road road: listR){
-			j.put(road.report());
+			r.put(road.report());
 		}
 		jo1.put("roads", r);
 		

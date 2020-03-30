@@ -110,16 +110,21 @@ public class Vehicle extends SimulatedObject {
 		}
 		else if( status== status.WAITING){ 
 			road.exit(this);
-			if(indice== road.getLength()){//la ultima vez no se entra a ninguna carretera
+
+			if(indice == (itinerary.size()-1)){//la ultima vez no se entra a ninguna carretera
 				status= status.ARRIVED;
 			}
 			else{
-			indice++;
+			
 			road=itinerary.get(indice).roadTo(itinerary.get(indice));
 			this.location=0;
 			this.actSpeed=0; 
 			road.enter(this);
+			indice++;
 			}
+		}
+		else if (status == status.ARRIVED){
+			//no se hace nada pq el vehiculo ya ha llegado al final de su itinerario
 		}
 		else
 			throw new IllegalArgumentException("Vehicle Status incorrect");

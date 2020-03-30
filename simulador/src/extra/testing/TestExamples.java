@@ -61,7 +61,7 @@ public class TestExamples {
 	private static void test(String path, JSONObject info) {
 		File inFile = new File(path + "/" + info.getString("file") + ".json");
 		File outFile = new File(path + "/" + info.getString("file") + ".expout.json");
-		File myoutFile = new File("resource" + "/" + info.getString("file") + ".myout.json");
+		File myoutFile = new File(path + "/" + info.getString("file") + ".myout.json");
 		Integer ticks = info.getInt("ticks");
 
 		_stdOut.println("-> Running: " + inFile);
@@ -92,7 +92,7 @@ public class TestExamples {
 		String path = args.length == 0 ? "resources/examples" : args[0];
 
 		// change 'true' to 'false' to generate the expected output instead of testing
-		start(path, true);
+		start(path, false);
 	}
 
 }
