@@ -148,30 +148,31 @@ public class Junction extends SimulatedObject{
 	public JSONObject report(){
 		
 		JSONObject jo1 = new JSONObject();
+		JSONObject jo2= new JSONObject();
+		JSONArray jaq = new JSONArray();
+		JSONArray jav = new JSONArray();
+		
 		jo1.put("id", _id);
 		if (currGreen==-1)
 			jo1.put("green", "none");
 		else
 			jo1.put("green", map.get(_id));
 		
-		JSONObject q= new JSONObject();
-		JSONArray a = new JSONArray();
+	
+		for (Road r : listR) {
+			jav.put(r.getListV().toString());
+		}
 		
 		for (int i=0; i< listQ.size(); i++) {
 			
-			q.put("road", listR.get(i).getId());
-			q.put("vehicles", listR.get(i).getListV());
+			jo2.put("road", listR.get(i).getId());
+			jo2.put("vehicles",jav);
 			
-			a.put(i, q);
+			jaq.put(jav);
 		}
 		
-		jo1.put("queues", a);
-//		for (Road r : listR) {
-//			q.put("road", r.getId());
-//			q.put("vehicles", r.getListV());
-//		}
-//		
-		
+		jo1.put("queues", jaq);
+	
 
 		
 		return jo1;

@@ -129,7 +129,7 @@ public class Vehicle extends SimulatedObject {
 
 	@Override
 	public JSONObject report() {
-		//TODO hacerlo bien
+		
 		JSONObject jo1 = new JSONObject();
 	
 		jo1.put("id", _id);
@@ -140,7 +140,7 @@ public class Vehicle extends SimulatedObject {
 		jo1.put("status", status);
 		if (status == status.ARRIVED || status == status.PENDING);
 		else {
-			jo1.put("road", road._id);
+			jo1.put("road", road.getId());
 			jo1.put("location", location);
 		}
 		
