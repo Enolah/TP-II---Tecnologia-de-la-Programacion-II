@@ -64,18 +64,7 @@ public class Junction extends SimulatedObject{
 			//mapa carretera cola
 			
 			mapR_Q.put(r.getId(), cola);
-		}
-		
-		
-//		//ha llegado un ve de la carretera 1
-//		int index=-1;
-//		for (Road ve:listR){
-//			if(ve._id=="c1")
-//				index=listR.indexOf(ve);
-//				
-//		}
-//		List<Vehicle> miColita=listQ.get(index);
-//		
+		}	
 		
 	}
 	
@@ -134,8 +123,7 @@ public class Junction extends SimulatedObject{
 																					// en
 																					// la
 																					// lista
-//								if (listQ.get(currGreen).size() == 0)
-//									listQ.remove(currGreen);
+			
 							}
 						}
 					}
@@ -143,8 +131,6 @@ public class Junction extends SimulatedObject{
 				}
 			
 		
-		// eliminar de la cola
-		// listQ.remove(currGreen);
 
 		// 2
 		// devuelve currGreen

@@ -12,7 +12,7 @@ public class MoveFirstStrategy implements DequeuingStrategy {
 		List<Vehicle> a = new LinkedList<Vehicle>();
 		if (q.size() != 0) {
 			a.add(q.get(0));
-	//		Collections.copy(a, q);
+	
 			for (int i = 1; i < a.size(); i++) { // elimino todos los elementos
 													// de
 													// la lista, excepto el

@@ -119,12 +119,7 @@ public class Main {
 		_outFile = line.getOptionValue("o");
 	}
 	
-//	private static void parseTicksOption(CommandLine line) throws ParseException{
-//		if(line.hasOption("t")){
-//			_timeLimitDefaultValue;
-//		}
-		
-//	}
+
 
 	private static void initFactories() {
 
@@ -145,7 +140,6 @@ public class Main {
 		 List<Builder<Event>> eventBuilders = new ArrayList<>();
 		
 		eventBuilders.add(new NewJunctionEventBuilder("new_junction",lssFactory, dqsFactory));
-		//eventBuilders.add(new NewRoadEventBuilder(_inFile));
 		eventBuilders.add(new NewCityRoadEventBuilder("new_city_road"));
 		eventBuilders.add(new NewInterCityRoadEventBuilder("new_inter_city_road"));
 		eventBuilders.add(new NewVehicleEventBuilder("new_vehicle"));

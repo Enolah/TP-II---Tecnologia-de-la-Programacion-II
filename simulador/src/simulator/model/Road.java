@@ -153,7 +153,7 @@ public abstract class Road extends SimulatedObject {
 				System.out.println(e);
 			}
 			v.advance(time);
-			//lista.sort??
+			
 		}
 		//RECUERDA ORDENAR LA LISTA
 		listV.sort(comparador);

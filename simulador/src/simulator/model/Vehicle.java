@@ -57,6 +57,10 @@ public class Vehicle extends SimulatedObject {
 		return road;
 	}
 	
+	public int getTotalPollution() {
+		return totalPollution+road.getTotalPollution();
+	}
+	
 	protected void setSpeed(int s) {
 		if (s < 0)
 			throw new IllegalArgumentException("Invalid value for Speed, cannot be negative");
@@ -84,9 +88,8 @@ public class Vehicle extends SimulatedObject {
 			//a) se actualiza la localizacion
 			location= Math.min((location + actSpeed),road.getLength());			
 			//b)
-			totalDistance= location-locationPrev; //l
+			totalDistance+= location-locationPrev; //l
 			totalPollution=contClass*(totalDistance);//c=l*f
-//			setContaminationClass(totalPollution);
 			road.addContamination(totalPollution);
 			//c)
 			if (location==road.getLength()){
@@ -120,6 +123,7 @@ public class Vehicle extends SimulatedObject {
 			this.location=0;
 			this.actSpeed=0; 
 			road.enter(this);
+			this.status=status.TRAVELING;
 			indice++;
 			}
 		}
@@ -139,8 +143,8 @@ public class Vehicle extends SimulatedObject {
 	
 		jo1.put("id", getId());
 		jo1.put("speed", this.getSpeed());
-		jo1.put("distance", location);
-		jo1.put("co2", this.getContClass());
+		jo1.put("distance", this.totalDistance);
+		jo1.put("co2", road.getTotalPollution());
 		jo1.put("class", this.getContClass());
 		jo1.put("status", this.getStatus());
 		if (status == status.ARRIVED || status == status.PENDING);
@@ -151,5 +155,7 @@ public class Vehicle extends SimulatedObject {
 		
 		return jo1;
 	}
+
+	
 		
 }

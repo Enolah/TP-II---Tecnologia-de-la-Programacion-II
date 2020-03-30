@@ -94,21 +94,7 @@ public class RoadMap {
 		if(mapV.putIfAbsent(v.getId(),v)!=null)throw new IllegalArgumentException("That id already exists");
 
 		if(checkItinerary(v)==false) throw new IllegalArgumentException("That road no exists");
-//		for (int i = 0; i < v.getItinerary().size(); i++) {
-//			boolean encontrado= false;
-//			int j=0;
-//			while(!encontrado || listR.size()>=j){
-//				if(listR.get(j).getSrc().getId()== v.getItinerary().get(i).getId()){
-//					if(listR.get(j).getDest()== v.getItinerary().get(i++))
-//						encontrado= true;
-//					else
-//						j++;
-//				}
-//				else
-//					j++;
-//			}
-//		}
-//	
+
 	}
 	
 	boolean checkItinerary(Vehicle v){
