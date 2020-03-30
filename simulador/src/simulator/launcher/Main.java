@@ -95,6 +95,7 @@ public class Main {
 		cmdLineOptions.addOption(
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
+		cmdLineOptions.addOption(Option.builder("t").longOpt("tick").hasArg().build());
 
 		return cmdLineOptions;
 	}

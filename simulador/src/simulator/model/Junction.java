@@ -113,6 +113,7 @@ public class Junction extends SimulatedObject{
 	
 	@Override
 	void advance(int time) {
+		//TODO junction
 		// 1
 		// devuelve uan lista vehiculos de la cola
 		List<Vehicle> listV = new ArrayList<>();

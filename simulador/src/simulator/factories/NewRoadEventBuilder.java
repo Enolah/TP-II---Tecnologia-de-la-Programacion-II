@@ -2,9 +2,10 @@ package simulator.factories;
 
 import org.json.JSONObject;
 
+import simulator.model.Event;
 import simulator.model.Road;
 
-public class NewRoadEventBuilder extends Builder<Road>{
+public class NewRoadEventBuilder extends Builder<Event>{
 
 	public NewRoadEventBuilder(String type) {
 		super(type);
@@ -12,7 +13,7 @@ public class NewRoadEventBuilder extends Builder<Road>{
 	}
 
 	@Override
-	protected Road createTheInstance(JSONObject data) {
+	protected Event createTheInstance(JSONObject data) {
 		return null;
 	}
 

@@ -80,13 +80,13 @@ public class Vehicle extends SimulatedObject {
 	void advance(int time) {
 		
 		int locationPrev=location;
-		if(status!=status.TRAVELING){
+		if(status==status.TRAVELING){
 			//a) se actualiza la localizacion
-			location= Math.min(location + actSpeed,itinerary.size());			
+			location= Math.min((location + actSpeed),road.getLength());			
 			//b)
 			totalDistance= location-locationPrev; //l
 			totalPollution=contClass*(totalDistance);//c=l*f
-			setContaminationClass(totalPollution);
+//			setContaminationClass(totalPollution);
 			road.addContamination(totalPollution);
 			//c)
 			if (location==road.getLength()){
@@ -132,16 +132,16 @@ public class Vehicle extends SimulatedObject {
 		
 		JSONObject jo1 = new JSONObject();
 	
-		jo1.put("id", _id);
-		jo1.put("speed", actSpeed);
-		jo1.put("distance", totalDistance);
-		jo1.put("co2", totalPollution);
-		jo1.put("class", contClass);
-		jo1.put("status", status);
+		jo1.put("id", getId());
+		jo1.put("speed", this.getSpeed());
+		jo1.put("distance", location);
+		jo1.put("co2", this.getContClass());
+		jo1.put("class", this.getContClass());
+		jo1.put("status", this.getStatus());
 		if (status == status.ARRIVED || status == status.PENDING);
 		else {
 			jo1.put("road", road.getId());
-			jo1.put("location", location);
+			jo1.put("location", this.getLocation());
 		}
 		
 		return jo1;

@@ -30,7 +30,7 @@ public class CityRoad extends Road{
 	@Override
 	public void updateSpeedLimit() {
 		// La velocidad limite no cambia, siempre es la velocidad maxima
-		//setLimitSpeed(getMaxSpeed());
+		setLimitSpeed(getMaxSpeed());
 	}
 	
 	@Override

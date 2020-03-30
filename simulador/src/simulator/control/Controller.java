@@ -56,7 +56,8 @@ public class Controller {
 			_sim.advance();
 			 p.print(_sim.report()); p.println(",");
 		}
-		 
+		_sim.advance();
+		 p.print(_sim.report());
 		// escribir el último paso
 		
 		p.println("]");

@@ -81,8 +81,10 @@ public abstract class Road extends SimulatedObject {
 	}
 
 	public void setTotalPollution(int p){
-		if(p<0)throw new IllegalArgumentException("Invalid value, cannot be negative");
-		totalPollution=p;
+		if(p<0)
+			totalPollution=0;
+		else
+			totalPollution=p;
 	}
 	public void setWeather(Weather w){
 		if( w == null)throw new IllegalArgumentException("Invalid value, cannot be NULL");
