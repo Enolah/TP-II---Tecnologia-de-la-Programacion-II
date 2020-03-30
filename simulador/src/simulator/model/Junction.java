@@ -33,6 +33,7 @@ public class Junction extends SimulatedObject{
 		this.listQ= new ArrayList<>();
 		this.map = new HashMap<>();
 		this.mapR_Q = new HashMap<>();
+		this.currGreen=-1;
 		
 		if (lsStrategy == null || dqStrategy==null)throw new IllegalArgumentException("Invalid value, cannot be NULL");
 		if(xCoor<0||yCoor<0)throw new IllegalArgumentException("Invalid value,cannot be negative");
@@ -115,16 +116,21 @@ public class Junction extends SimulatedObject{
 		// 1
 		// devuelve uan lista vehiculos de la cola
 		List<Vehicle> listV = new ArrayList<>();
-		if(listQ.get(currGreen)!=null){
+		// if(listQ.indexOf(currGreen)!=-1);
+		if (currGreen!=-1) {
 			listV = dqStrategy.dequeue(listQ.get(currGreen));
-		// los vehiculos se mueven a sus carreteras
-		if (dqStrategy.dequeue(listQ.get(currGreen)) == null) { //no hay vehiculos en la cola el cruce
-		} else {
-			for (Vehicle vehicle : listV) {
-				vehicle.moveToNextRoad();
-				listQ.remove(vehicle); // elimino en la lista auxiliar
+			// los vehiculos se mueven a sus carreteras
+			if (dqStrategy.dequeue(listQ.get(currGreen)) == null) { // no hay
+																	// vehiculos
+																	// en la
+																	// cola del
+																	// cruce
+			} else {
+				for (Vehicle vehicle : listV) {
+					vehicle.moveToNextRoad();
+					listQ.remove(vehicle); // elimino en la lista auxiliar
+				}
 			}
-		}
 		}
 		// eliminar de la cola
 		// listQ.remove(currGreen);
@@ -146,7 +152,7 @@ public class Junction extends SimulatedObject{
 		if (currGreen==-1)
 			jo1.put("green", "none");
 		else
-			jo1.put("green", listR.get(currGreen));
+			jo1.put("green", map.get(_id));
 		
 		JSONObject q= new JSONObject();
 		JSONArray a = new JSONArray();

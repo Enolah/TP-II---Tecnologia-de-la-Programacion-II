@@ -105,6 +105,7 @@ public abstract class Road extends SimulatedObject {
 	void enter(Vehicle v){
 		if (v.getLocation()==0 && v.getSpeed()==0){
 			listV.add(v);
+			addContamination(v.getContClass());
 		}
 		else throw new IllegalArgumentException("Invalid value, can be zero");
 	}
@@ -114,7 +115,7 @@ public abstract class Road extends SimulatedObject {
 	}
 	
 	void addContamination(int c){
-		if (c<0)throw new IllegalArgumentException("Invalid value for Speed, cannot be negative");
+		if (c<0)throw new IllegalArgumentException("Invalid value, cannot be negative");
 		else
 			totalPollution+=c;
 	}
