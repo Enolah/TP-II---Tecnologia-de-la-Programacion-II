@@ -122,7 +122,7 @@ public class RoadMap {
 			}
 		}
 		
-		if(cont== listR.size()-1)
+		if(cont== v.getItinerary().size()-1)
 			check= true;
 		
 		return check;

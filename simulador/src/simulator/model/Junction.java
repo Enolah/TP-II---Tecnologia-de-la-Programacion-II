@@ -167,19 +167,20 @@ public class Junction extends SimulatedObject{
 		if (currGreen==-1)
 			jo1.put("green", "none");
 		else
-			jo1.put("green", map.get(_id));
+			jo1.put("green", map.get(this));
 		
-	
+
+		//vehiculos en la carretera
 		for (Road r : listR) {
 			jav.put(r.getListV().toString());
 		}
 		
 		for (int i=0; i< listQ.size(); i++) {
 			
-			jo2.put("road", listR.get(i).getId());
+			jo2.put("road", map.get(this));
 			jo2.put("vehicles",jav);
 			
-			jaq.put(jav);
+			jaq.put(jo2);
 		}
 		
 		jo1.put("queues", jaq);
