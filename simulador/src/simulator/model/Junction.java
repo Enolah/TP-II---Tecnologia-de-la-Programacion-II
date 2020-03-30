@@ -118,7 +118,8 @@ public class Junction extends SimulatedObject{
 		List<Vehicle> listV = new ArrayList<>();
 		// if(listQ.indexOf(currGreen)!=-1);
 		if (currGreen!=-1) {
-			listV = dqStrategy.dequeue(listQ.get(currGreen));
+			if(listQ.size()!=0){
+				listV = dqStrategy.dequeue(listQ.get(currGreen));
 			// los vehiculos se mueven a sus carreteras
 			if (dqStrategy.dequeue(listQ.get(currGreen)) == null) { // no hay
 																	// vehiculos
@@ -131,6 +132,7 @@ public class Junction extends SimulatedObject{
 					listQ.remove(vehicle); // elimino en la lista auxiliar
 				}
 			}
+		}
 		}
 		// eliminar de la cola
 		// listQ.remove(currGreen);
