@@ -29,6 +29,7 @@ public class Junction extends SimulatedObject{
 		this.xCoor=xCoor;
 		this.yCoor=yCoor;
 		
+		this.listR= new ArrayList<>();
 		this.listQ= new ArrayList<>();
 		this.map = new HashMap<>();
 		this.mapR_Q = new HashMap<>();
@@ -55,7 +56,7 @@ public class Junction extends SimulatedObject{
 		if(r.getDest()!= this) throw new IllegalArgumentException("Invalid value");
 		else{
 			
-			listR.add(r);
+			listR.add(r); //lista carreteras entrantes
 			List<Vehicle> cola = new LinkedList<Vehicle>();
 			//LinkedList<Vehicle> link = new LinkedList<Vehicle>();
 			listQ.add(cola);
@@ -86,7 +87,7 @@ public class Junction extends SimulatedObject{
 			if(map.containsKey(r.getDest())) throw new IllegalArgumentException("Invalid value");
 			else
 			//r es una carretera saliente
-				map.put(r.getDest(), r);
+				map.put(r.getSrc(), r);//src
 		}
 	}
 	
@@ -110,26 +111,34 @@ public class Junction extends SimulatedObject{
 	}
 	
 	@Override
-	void advance(int time) {	
-		//1
-		//devuelve uan lisa vehiculos
-		//los vehiculos se mueven a sus carreteras
-		for (Vehicle vehicle : dqStrategy.dequeue(listQ.get(currGreen))) {
-			vehicle.moveToNextRoad();
+	void advance(int time) {
+		// 1
+		// devuelve uan lista vehiculos de la cola
+		List<Vehicle> listV = new ArrayList<>();
+		if(listQ.get(currGreen)!=null){
+			listV = dqStrategy.dequeue(listQ.get(currGreen));
+		// los vehiculos se mueven a sus carreteras
+		if (dqStrategy.dequeue(listQ.get(currGreen)) == null) { //no hay vehiculos en la cola el cruce
+		} else {
+			for (Vehicle vehicle : listV) {
+				vehicle.moveToNextRoad();
+				listQ.remove(vehicle); // elimino en la lista auxiliar
+			}
 		}
-		//eliminar de la cola
-		listQ.remove(currGreen);
+		}
+		// eliminar de la cola
+		// listQ.remove(currGreen);
 
-		//2
-		//devuelve currGreen
-		int indice= lsStrategy.chooseNextGreen(listR, listQ, currGreen,lastGreen,time);
-		//si es disctinto al actual
-		if(indice!= currGreen){
-			currGreen= indice;
-			lastGreen= time;
+		// 2
+		// devuelve currGreen
+		int indice = lsStrategy.chooseNextGreen(listR, listQ, currGreen, lastGreen, time);
+		// si es disctinto al actual
+		if (indice != currGreen) {
+			currGreen = indice;
+			lastGreen = time;
 		}
 	}
-	
+
 	public JSONObject report(){
 		
 		JSONObject jo1 = new JSONObject();
@@ -139,13 +148,27 @@ public class Junction extends SimulatedObject{
 		else
 			jo1.put("green", listR.get(currGreen));
 		
-		//queues lista de colas de las carreteras entrantes
-		JSONArray jo2= new JSONArray();
-		for (List<Vehicle> v : listQ) {//mal
+		JSONObject q= new JSONObject();
+		JSONArray a = new JSONArray();
+		
+		for (int i=0; i< listQ.size(); i++) {
 			
+			q.put("road", listR.get(i).getId());
+			q.put("vehicles", listR.get(i).getListV());
+			
+			a.put(i, q);
 		}
 		
-		return null;
+		jo1.put("queues", a);
+//		for (Road r : listR) {
+//			q.put("road", r.getId());
+//			q.put("vehicles", r.getListV());
+//		}
+//		
+		
+
+		
+		return jo1;
 	}
 
 

@@ -41,6 +41,10 @@ public abstract class Road extends SimulatedObject {
 		if (contLimit<0)throw new IllegalArgumentException("Invalid value for conLimit");
 		if (lenght <=0)throw new IllegalArgumentException("Invalid value for lenght");
 		if (src==null || dest==null || wea==null)throw new IllegalArgumentException("Invalid value for src||dest||wea, cannot be NULL");
+	
+		src.addOutGoingRoad(this);
+		dest.addIncommingRoad(this);
+	
 	}
 	
 	/*

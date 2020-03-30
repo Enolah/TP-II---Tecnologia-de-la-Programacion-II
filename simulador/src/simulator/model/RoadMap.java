@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class RoadMap {
@@ -113,7 +114,7 @@ public class RoadMap {
 	boolean checkItinerary(Vehicle v){
 		boolean check= false;
 		int cont=0;
-		
+		//comprobar que los junction existen
 		for (Road road : listR) {
 			if(road.getSrc().getId() == v.getItinerary().get(cont).getId()){
 				if(road.getDest().getId()== v.getItinerary().get(cont++).getId())
@@ -142,9 +143,30 @@ public class RoadMap {
 	
 	public JSONObject report(){
 		
-		//JSONObject jo1= new JSONObject();
+		JSONObject jo1= new JSONObject();
 		
-		return null;
+		JSONArray j= new JSONArray();
+		JSONArray r= new JSONArray();
+		JSONArray v= new JSONArray();
+		
+		for(Junction junction: listJ){
+			j.put(junction.report());
+		}
+		jo1.put("junctions", j);
+		
+		for(Road road: listR){
+			j.put(road.report());
+		}
+		jo1.put("roads", r);
+		
+		for(Vehicle vehicle: listV){
+			v.put(vehicle.report());
+		}
+		jo1.put("vehicles", v);
+				
+		
+		
+		return jo1;
 	}
 
 

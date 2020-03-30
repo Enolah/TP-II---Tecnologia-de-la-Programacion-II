@@ -27,6 +27,7 @@ public class Vehicle extends SimulatedObject {
 		this.maxSpeed= maxSpeed;
 		this.contClass=contClass;
 		this.itinerary=Collections.unmodifiableList(new ArrayList<>(itinerary));
+		this.status= status.PENDING;
 			if(maxSpeed <= 0)throw new IllegalArgumentException("Invalid value for maxSpeed");
 			if (contClass <0 || contClass > 10)throw new IllegalArgumentException ("Invalid value for contClass");
 			if (itinerary.size()< 2)throw new IllegalArgumentException ("Invalid value for itinerary");
@@ -102,10 +103,9 @@ public class Vehicle extends SimulatedObject {
 		
 		//1. sales de la carretera actual
 		//2. entras en la siguiente carretera (location=0)
-		if(status==null){ //la primera vez el vehiculo no sale de ninguna carretera
-			
-	//		road=itinerary.get(indice).roadTo(itinerary.get(indice)); //inidice debe ser =0
-		//	road.enter(this);
+		if(status==status.PENDING){ //la primera vez el vehiculo no sale de ninguna carretera	
+			road=itinerary.get(indice).roadTo(itinerary.get(indice)); //inidice debe ser =0
+			road.enter(this);
 			this.status=status.TRAVELING;
 		}
 		else if( status== status.WAITING){ 

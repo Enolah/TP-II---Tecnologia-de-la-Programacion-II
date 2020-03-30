@@ -60,10 +60,10 @@ public class TrafficSimulator {
 			}
 			
 		}
-		//3. llama al método advance de todos los cruces.
-		for (Junction j : mapR.getJunctions()) {
-			j.advance(tick);
-		}
+	//	3. llama al método advance de todos los cruces.
+//		for (Junction j : mapR.getJunctions()) {
+//			j.advance(tick);
+//		}
 		//4. llama al método advance de todas las carreteras.
 		for (Road r : mapR.getRoads()) {
 			r.advance(tick);
@@ -83,6 +83,6 @@ public class TrafficSimulator {
 		jo1.put("time", tick);
 		jo1.put("state", mapR.report());
 		
-		return null;
+		return jo1;
 	}
 }
