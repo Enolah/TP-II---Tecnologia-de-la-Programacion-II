@@ -107,30 +107,27 @@ public class Junction extends SimulatedObject{
 		// 1
 		// devuelve uan lista vehiculos de la cola
 		List<Vehicle> listV = new ArrayList<>();
-		// if(listQ.indexOf(currGreen)!=-1);
 		if (currGreen != -1) {
 			if (listQ.size() != 0 && (currGreen < listQ.size())) {
-				if(listQ.get(currGreen).size() != 0){
-				
-						listV = dqStrategy.dequeue(listQ.get(currGreen));
-						// los vehiculos se mueven a sus carreteras
-						if (listV == null) { // no hay vehiculos en la cola del
-												// cruce
-						} else {
-							for (Vehicle vehicle : listV) {
-								vehicle.moveToNextRoad();
-								listQ.get(listV.indexOf(vehicle)).remove(vehicle); // elimino
-																					// en
-																					// la
-																					// lista
-			
-							}
+				if (listQ.get(currGreen).size() != 0) {
+
+					listV = dqStrategy.dequeue(listQ.get(currGreen));
+					// los vehiculos se mueven a sus carreteras
+					if (listV != null) { // no hay vehiculos en la cola del
+											// cruce
+
+						for (Vehicle vehicle : listV) {
+							vehicle.moveToNextRoad();
+							// listQ.get(listV.indexOf(vehicle)).remove(vehicle);
+							// // elimino v de listV
+							listQ.get(listQ.indexOf(listV)).remove(vehicle);
+							//listR.remove(vehicle);
 						}
+
 					}
 				}
-				}
-			
-		
+			}
+		}
 
 		// 2
 		// devuelve currGreen
@@ -145,29 +142,34 @@ public class Junction extends SimulatedObject{
 	public JSONObject report(){
 		
 		JSONObject jo1 = new JSONObject();
-		JSONObject jo2= new JSONObject();
+	
 		JSONArray jaq = new JSONArray();
-		JSONArray jav = new JSONArray();
+	//	JSONArray jav = new JSONArray();
+		
 		
 		jo1.put("id", _id);
 		if (currGreen==-1)
 			jo1.put("green", "none");
-		else
-			jo1.put("green", map.get(this));
-		
-
-		//vehiculos en la carretera
-		for (Road r : listR) {
-			jav.put(r.getListV().toString());
-		}
-		
-		for (int i=0; i< listQ.size(); i++) {
+		else{
 			
-			jo2.put("road", map.get(this));
-			jo2.put("vehicles",jav);
+			jo1.put("green",listR.get(currGreen).toString());
 			
-			jaq.put(jo2);
+		
+			
+			for (int i=0; i< listQ.size(); i++) {
+				JSONObject jo2= new JSONObject();
+				jo2.put("road", listR.get(i).toString());
+				//vehiculos en la cola
+//				for (Vehicle v :listR.get(i).getListV()) {
+//					jav.put(v.toString());
+//				}
+				
+				jo2.put("vehicles",mapR_Q.get(listR.get(i).toString()).toString());
+				
+				jaq.put(jo2);
+			}
 		}
+			
 		
 		jo1.put("queues", jaq);
 	

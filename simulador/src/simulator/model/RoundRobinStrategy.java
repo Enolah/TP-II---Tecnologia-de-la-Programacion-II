@@ -21,6 +21,8 @@ public class RoundRobinStrategy implements LigthSwitchingStrategy{
 			}
 			//3 y 4
 			else if((currTime-lastSwitchingTime)<timeSlot)
+				indice= currGreen;
+			else
 				indice= (currGreen+1)%roads.size();
 		}
 		return indice;

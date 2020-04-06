@@ -96,6 +96,7 @@ public class Vehicle extends SimulatedObject {
 				//vehiculo entra en cola del J
 				road.getDest().enter(this);
 				//cambiar estado
+	//			indice++; //es el estado de su itinerario
 				status= status.WAITING;
 			}
 		}
