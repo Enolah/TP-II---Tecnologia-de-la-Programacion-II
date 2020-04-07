@@ -97,8 +97,9 @@ public class Junction extends SimulatedObject{
 	}
 	
 	Road roadTo (Junction j){	//actualizar mapa de carreteras salientes
-		Road r= map.get(j);
-		return r;
+		return map.get(j);
+		 
+		
 	}
 	
 	@Override

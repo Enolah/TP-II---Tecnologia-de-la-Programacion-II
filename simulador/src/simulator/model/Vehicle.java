@@ -21,7 +21,7 @@ public class Vehicle extends SimulatedObject {
 	private int totalDistance; //distancia total recorrida
 	private int indice=0;
 	
-	 public Vehicle (String id,int maxSpeed, int contClass, List<Junction> itinerary){
+	Vehicle (String id,int maxSpeed, int contClass, List<Junction> itinerary){
 		super(id);
 		
 		this.maxSpeed= maxSpeed;
@@ -82,15 +82,16 @@ public class Vehicle extends SimulatedObject {
 	
 	@Override
 	void advance(int time) {
-		
+		int pollution =totalPollution;
 		int locationPrev=location;
 		if(status==status.TRAVELING){
 			//a) se actualiza la localizacion
 			location= Math.min((location + actSpeed),road.getLength());			
 			//b)
-			totalDistance+= location-locationPrev; //l
-			totalPollution=contClass*(totalDistance);//c=l*f
-			road.addContamination(totalPollution);
+			int c= location-locationPrev; //l
+			totalDistance+=c;//sumo la contaminacion a la cont
+			totalPollution+=contClass*(c);//c=f*l
+			road.addContamination(totalPollution-pollution);
 			//c)
 			if (location==road.getLength()){
 				//vehiculo entra en cola del J
@@ -119,13 +120,13 @@ public class Vehicle extends SimulatedObject {
 				status= status.ARRIVED;
 			}
 			else{
-			
+			indice++;
 			road=itinerary.get(indice).roadTo(itinerary.get(indice));
 			this.location=0;
 			this.actSpeed=0; 
 			road.enter(this);
 			this.status=status.TRAVELING;
-			indice++;
+			
 			}
 		}
 		else if (status == status.ARRIVED){
@@ -145,7 +146,7 @@ public class Vehicle extends SimulatedObject {
 		jo1.put("id", getId());
 		jo1.put("speed", this.getSpeed());
 		jo1.put("distance", this.totalDistance);
-		jo1.put("co2", road.getTotalPollution());
+		jo1.put("co2",this.totalPollution);
 		jo1.put("class", this.getContClass());
 		jo1.put("status", this.getStatus());
 		if (status == status.ARRIVED || status == status.PENDING);
