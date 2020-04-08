@@ -47,7 +47,7 @@ public class Main {
 
 	private final static Integer _timeLimitDefaultValue = 10;
 	private static String _inFile = null; //fichero de entrada
-	private static Integer _timeLimit = 300;//numnero de pasos
+	private static Integer _timeLimit = null;//numnero de pasos
 	private static String _outFile = null; //fichero de salida
 	private static Factory<Event> _eventsFactory = null;
 	
@@ -69,6 +69,7 @@ public class Main {
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			parseOutFileOption(line);
+			parseTickOption(line);
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -119,7 +120,14 @@ public class Main {
 		_outFile = line.getOptionValue("o");
 	}
 	
+	private static void parseTickOption(CommandLine line) { //indica el numero de ticks que necesita el simulador
 
+		String s=line.getOptionValue("t");
+		_timeLimit = Integer.valueOf(s);
+		if (_timeLimit == null)
+			_timeLimit = 10;
+
+	}
 
 	private static void initFactories() {
 

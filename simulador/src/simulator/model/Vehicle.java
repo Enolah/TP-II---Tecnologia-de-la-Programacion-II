@@ -97,7 +97,6 @@ public class Vehicle extends SimulatedObject {
 				//vehiculo entra en cola del J
 				road.getDest().enter(this);
 				//cambiar estado
-	//			indice++; //es el estado de su itinerario
 				status= status.WAITING;
 			}
 		}
@@ -114,13 +113,14 @@ public class Vehicle extends SimulatedObject {
 			this.status=status.TRAVELING;
 		}
 		else if( status== status.WAITING){ 
+			indice++;
 			road.exit(this);
 
 			if(indice == (itinerary.size()-1)){//la ultima vez no se entra a ninguna carretera
 				status= status.ARRIVED;
 			}
 			else{
-			indice++;
+			
 			road=itinerary.get(indice).roadTo(itinerary.get(indice));
 			this.location=0;
 			this.actSpeed=0; 
@@ -129,9 +129,7 @@ public class Vehicle extends SimulatedObject {
 			
 			}
 		}
-		else if (status == status.ARRIVED){
-			//no se hace nada pq el vehiculo ya ha llegado al final de su itinerario
-		}
+
 		else
 			throw new IllegalArgumentException("Vehicle Status incorrect");
 	
