@@ -17,8 +17,6 @@ public class MoveAllStrategyBuilder extends Builder<DequeuingStrategy>{
 	protected DequeuingStrategy createTheInstance(JSONObject data) {
 
 		//La clave “data” se puede omitir ya que no incluye ninguna información.
-		      
-		
 		return new MoveAllStrategy();
 	}
 

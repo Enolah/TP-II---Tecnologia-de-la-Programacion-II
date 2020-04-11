@@ -1,7 +1,5 @@
 package simulator.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,10 +11,8 @@ public class MoveFirstStrategy implements DequeuingStrategy {
 		if (q.size() != 0) {
 			a.add(q.get(0));
 	
-			for (int i = 1; i < a.size(); i++) { // elimino todos los elementos
-													// de
-													// la lista, excepto el
-													// primero
+			for (int i = 1; i < a.size(); i++) { 
+		// elimino todos los elementos de la lista, excepto el primero							
 				if (a.get(i) != null) {
 					a.remove(i);
 				}

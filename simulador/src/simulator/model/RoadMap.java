@@ -88,8 +88,7 @@ public class RoadMap {
 	}
 	
 	void addVehicle (Vehicle v){
-		//TODO duda de los mapas
-		//no se como hacer que el itinerario sea valido
+	
 		listV.add(v);
 		if(mapV.putIfAbsent(v.getId(),v)!=null)throw new IllegalArgumentException("That id already exists");
 

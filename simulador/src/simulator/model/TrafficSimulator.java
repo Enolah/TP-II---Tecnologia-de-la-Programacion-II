@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import simulator.model.Road.MiCompi;
-
 public class TrafficSimulator {
 
 	private RoadMap mapR; //mapa de carreteras

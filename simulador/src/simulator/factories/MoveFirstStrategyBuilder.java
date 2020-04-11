@@ -14,7 +14,6 @@ public class MoveFirstStrategyBuilder extends Builder<DequeuingStrategy>{
 
 	@Override
 	protected DequeuingStrategy createTheInstance(JSONObject data) {
-		
 	
 		//La clave “data” se puede omitir ya que no incluye ninguna información.
 		

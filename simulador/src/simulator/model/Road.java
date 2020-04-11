@@ -8,9 +8,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
-import simulator.misc.SortedArrayList;
-
 public abstract class Road extends SimulatedObject {
 
 	private Junction dest; // cruce destino
@@ -136,8 +133,8 @@ public abstract class Road extends SimulatedObject {
 		}
 		
 	}
-	void advance (int time){//cada carretera hace el advance del vehiculo
-		//1. llama a reduce totsl contamination
+	void advance (int time){
+		//1. llama a reduce total contamination
 		reduceTotalContamination();
 		//2. updateSpeedLimit
 		updateSpeedLimit();

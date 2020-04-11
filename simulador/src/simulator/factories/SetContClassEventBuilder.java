@@ -8,14 +8,13 @@ import org.json.JSONObject;
 import simulator.misc.Pair;
 import simulator.model.Event;
 import simulator.model.SetContClassEvent;
-import simulator.model.Weather;
 
 
 public class SetContClassEventBuilder extends Builder<Event>{
 
 	private SetContClassEvent e = null;
 	private List<Pair<String,Integer>> c;
-	private Pair<String,Integer> p;
+
 	
 	public SetContClassEventBuilder(String type) {
 		super(type);

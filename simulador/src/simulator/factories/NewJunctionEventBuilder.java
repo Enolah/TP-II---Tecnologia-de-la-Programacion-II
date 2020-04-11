@@ -1,13 +1,9 @@
 package simulator.factories;
 
-import java.awt.peer.LightweightPeer;
-import java.util.List;
-
 import org.json.JSONObject;
 
 import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
-import simulator.model.Junction;
 import simulator.model.LigthSwitchingStrategy;
 import simulator.model.NewJunctionEvent;
 

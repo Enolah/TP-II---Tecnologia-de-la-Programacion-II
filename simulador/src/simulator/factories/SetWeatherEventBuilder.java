@@ -34,8 +34,7 @@ public class SetWeatherEventBuilder extends Builder<Event>{
 					String s= o.getString("road");
 					String w= o.getString("weather").toUpperCase();
 					
-					//p= new Pair(s,wea.valueOf(w));
-					ws.add( new Pair(s,wea.valueOf(w)));
+					ws.add(new Pair(s,wea.valueOf(w)));
 				}
 				try{
 				e= new SetWeatherEvent(data.getInt("time"), ws);

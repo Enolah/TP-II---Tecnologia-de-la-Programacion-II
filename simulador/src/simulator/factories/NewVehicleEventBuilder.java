@@ -3,13 +3,10 @@ package simulator.factories;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.model.Event;
-import simulator.model.Junction;
 import simulator.model.NewVehicleEvent;
-import simulator.model.Vehicle;
 
 public class NewVehicleEventBuilder extends Builder<Event>{
 

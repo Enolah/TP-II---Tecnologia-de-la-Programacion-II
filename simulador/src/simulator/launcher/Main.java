@@ -43,8 +43,6 @@ import simulator.model.Vehicle;
 
 public class Main {
 
-	private int posJ = -1;
-
 	private final static Integer _timeLimitDefaultValue = 10;
 	private static String _inFile = null; //fichero de entrada
 	private static Integer _timeLimit = null;//numnero de pasos
@@ -125,13 +123,12 @@ public class Main {
 		String s=line.getOptionValue("t");
 		_timeLimit = Integer.valueOf(s);
 		if (_timeLimit == null)
-			_timeLimit = 10;
+			_timeLimit = _timeLimitDefaultValue;
 
 	}
 
 	private static void initFactories() {
 
-		// TODO complete this method to initialize _eventsFactory
 		//se crean las estrategias de cambio de semaforo
 		ArrayList<Builder<LigthSwitchingStrategy>> lsbs = new ArrayList<>();
 		lsbs.add(new RoundRobinStrategyBuilder("round_robin_lss"));
@@ -160,7 +157,7 @@ public class Main {
 	}
 
 	private static void startBatchMode() throws IOException {
-		// TODO complete this method to start the simulation
+		
 		InputStream in = new FileInputStream(new File(_inFile));
 		OutputStream out = _outFile == null ?
 		System.out : new FileOutputStream(new File(_outFile));
