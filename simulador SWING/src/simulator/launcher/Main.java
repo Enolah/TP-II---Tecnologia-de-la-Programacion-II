@@ -43,7 +43,6 @@ import simulator.model.Vehicle;
 
 public class Main {
 
-	//Comentario de prueba para commit 
 	
 	private final static Integer _timeLimitDefaultValue = 10;
 	private static String _inFile = null; //fichero de entrada
@@ -51,8 +50,6 @@ public class Main {
 	private static String _outFile = null; //fichero de salida
 	private static Factory<Event> _eventsFactory = null;
 	
-	
-	//kjfkddljyfkljhfljfuy
 	
 	
 	private static void parseArgs(String[] args) {
