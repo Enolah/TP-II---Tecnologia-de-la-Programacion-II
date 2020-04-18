@@ -23,4 +23,10 @@ public class SetContClassEvent extends Event {
 		}
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

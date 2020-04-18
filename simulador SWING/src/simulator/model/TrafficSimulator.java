@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-public class TrafficSimulator {
+public class TrafficSimulator implements Observable<TrafficSimObserver>{
 
 	private RoadMap mapR; //mapa de carreteras
 	private List<Event> listE; //lista de eventos
@@ -23,8 +23,6 @@ public class TrafficSimulator {
 		comparador = new Comp();
 			
 		}	
-
-	
 	
 	public class Comp implements Comparator<Event>{
 
@@ -86,4 +84,37 @@ public class TrafficSimulator {
 		
 		return jo1;
 	}
+
+	//METOOS INTERFAZ
+	
+	@Override
+	public void addObserver(TrafficSimObserver o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeObserver(TrafficSimObserver o) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	//METODOS NUEVOS
+	
+	public void onAdvanceStart(){
+		//TODO 
+	}
+	public void onAdvanceEnd(){
+		//TODO
+	}
+	public void onReset(){
+		//TODO
+	}
+	public void onRegister(){
+		//TODO
+	}
+	public void onError(){
+		//TODO
+	}
+	
 }

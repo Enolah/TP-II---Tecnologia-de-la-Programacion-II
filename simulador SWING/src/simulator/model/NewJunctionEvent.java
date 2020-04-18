@@ -32,4 +32,10 @@ public class NewJunctionEvent extends Event {
 		map.addJunction(j);
 	}
 
+	
+	@Override
+	public String toString() {
+		//TODO devuelve su descripcion (imagino que completa)
+	return "New Vehicle '" + id + "'" ;
+	}
 }

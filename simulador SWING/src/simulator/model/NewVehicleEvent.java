@@ -34,5 +34,11 @@ public class NewVehicleEvent extends Event {
 		v.moveToNextRoad();
 		
 	}
+	
+	@Override
+	public String toString() {
+		//TODO devuelve su descripcion (imagino que completa)
+	return "New Vehicle '" + id + "'" ;
+	}
 
 }

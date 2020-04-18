@@ -78,5 +78,11 @@ public abstract class NewRoadEvent extends Event {
 	}
 
 	abstract Road createRoadObject(Junction srcJun, Junction destJun);
+	
+	@Override
+	public String toString() {
+		//TODO devuelve su descripcion (imagino que completa)
+	return "New Vehicle '" + id + "'" ;
+	}
 
 }
