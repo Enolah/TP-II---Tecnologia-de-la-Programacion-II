@@ -13,5 +13,12 @@ public class NewInterCityRoadEvent extends NewRoadEvent{
 		return new CityRoad(getId(), srcJun, destJun, getMaxSpeed(), getCo2limit(), getLenght(), getWea());
 		 
 	}
+
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
