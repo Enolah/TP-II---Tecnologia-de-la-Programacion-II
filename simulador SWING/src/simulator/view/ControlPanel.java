@@ -10,9 +10,11 @@ public class ControlPanel extends JPanel {
 
 	private Controller _ctrl;
 	private JButton cargaEventos, cambiaClase, cambiaTiempo, play, stop, ticks, exit;
+	private boolean _stopped;
 
 	public ControlPanel(Controller ctrl) {
 		this._ctrl = ctrl;
+		this._stopped = false;
 	}
 
 	private void run_sim(int n) {
@@ -34,6 +36,11 @@ public class ControlPanel extends JPanel {
 			enableToolBar(true);
 			_stopped = true;
 		}
+	}
+
+	private void enableToolBar(boolean b) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void stop() {

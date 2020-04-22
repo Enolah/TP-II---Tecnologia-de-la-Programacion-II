@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
+import simulator.control.Controller;
 import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
@@ -14,12 +15,13 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private Controller _ctrl;
 	
 	private List<EventEx> _events;
 	private String[] _colNames = { "#", "Time", "Priority" };
 
-	public EventsTableModel() {
+	public EventsTableModel(Controller _ctrl) {
+		this._ctrl = _ctrl;
 		_events=null;
 	}
 

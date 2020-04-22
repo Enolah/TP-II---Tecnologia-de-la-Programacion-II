@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -9,94 +10,100 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class Junction extends SimulatedObject{
+public class Junction extends SimulatedObject {
 
-	
-	private List<Road> listR; //lista de carreteras entrantes
-	private Map<Junction,Road> map; //mapa de carrteras salientes
-	private Map<String,List<Vehicle>> mapR_Q ; //mapa carrtera colas
-	private List<List<Vehicle>> listQ; //lista de colas
-	private int currGreen; //indice semafoto verde (en la lista de carreteras entrantes)
-	private int lastGreen; //ultimo paso de cambio de semaforo. valor inicial =0
-	private LigthSwitchingStrategy lsStrategy; //estrategia de cambio de semaforo
-	private DequeuingStrategy dqStrategy; //estrategia para extraer elementos de la cola
-	private int xCoor, yCoor; 
-	
+	private List<Road> listR; // lista de carreteras entrantes
+	private Map<Junction, Road> map; // mapa de carrteras salientes
+	private Map<String, List<Vehicle>> mapR_Q; // mapa carrtera colas
+	private List<List<Vehicle>> listQ; // lista de colas
+	private int currGreen; // indice semafoto verde (en la lista de carreteras entrantes)
+	private int lastGreen; // ultimo paso de cambio de semaforo. valor inicial =0
+	private LigthSwitchingStrategy lsStrategy; // estrategia de cambio de semaforo
+	private DequeuingStrategy dqStrategy; // estrategia para extraer elementos de la cola
+	private int xCoor, yCoor;
+
 	Junction(String id, LigthSwitchingStrategy lsStrategy, DequeuingStrategy dqStrategy, int xCoor, int yCoor) {
 		super(id);
-		this.lsStrategy=lsStrategy;
-		this.dqStrategy=dqStrategy;
-		this.xCoor=xCoor;
-		this.yCoor=yCoor;
-		
-		this.listR= new ArrayList<>();
-		this.listQ= new ArrayList<>();
+		this.lsStrategy = lsStrategy;
+		this.dqStrategy = dqStrategy;
+		this.xCoor = xCoor;
+		this.yCoor = yCoor;
+
+		this.listR = new ArrayList<>();
+		this.listQ = new ArrayList<>();
 		this.map = new HashMap<>();
 		this.mapR_Q = new HashMap<>();
-		this.currGreen=-1;
-		
-		if (lsStrategy == null || dqStrategy==null)throw new IllegalArgumentException("Invalid value, cannot be NULL");
-		if(xCoor<0||yCoor<0)throw new IllegalArgumentException("Invalid value,cannot be negative");
+		this.currGreen = -1;
+
+		if (lsStrategy == null || dqStrategy == null)
+			throw new IllegalArgumentException("Invalid value, cannot be NULL");
+		if (xCoor < 0 || yCoor < 0)
+			throw new IllegalArgumentException("Invalid value,cannot be negative");
 	}
 
-	public void getX(){};
-	public void getY(){};
-	 
+	public int getX() {
+		return this.xCoor;
+	};
 
-	 /*
-	  * METODOS
-	  */
-	
-	void addIncommingRoad(Road r){
-		
-		
-		if(r.getDest()!= this) throw new IllegalArgumentException("Invalid value");
-		else{
-			
-			listR.add(r); //lista carreteras entrantes
+	public int getY() {
+		return this.yCoor;
+	};
+
+	/*
+	 * METODOS
+	 */
+
+	void addIncommingRoad(Road r) {
+
+		if (r.getDest() != this)
+			throw new IllegalArgumentException("Invalid value");
+		else {
+
+			listR.add(r); // lista carreteras entrantes
 			List<Vehicle> cola = new LinkedList<Vehicle>();
 			listQ.add(cola);
-			//mapa carretera cola
-			
+			// mapa carretera cola
+
 			mapR_Q.put(r.getId(), cola);
-		}	
-		
+		}
+
 	}
-	
-	void addOutGoingRoad(Road r){
-	
-		//r es una carretera saliente
-		if(r.getSrc()!= this) throw new IllegalArgumentException("Invalid value");
+
+	void addOutGoingRoad(Road r) {
+
+		// r es una carretera saliente
+		if (r.getSrc() != this)
+			throw new IllegalArgumentException("Invalid value");
 		else {
-			//comprobar que ninguna carretera va al cruce j
-			if(map.containsKey(r.getDest())) throw new IllegalArgumentException("Invalid value");
+			// comprobar que ninguna carretera va al cruce j
+			if (map.containsKey(r.getDest()))
+				throw new IllegalArgumentException("Invalid value");
 			else
-			//r es una carretera saliente
-				map.put(r.getSrc(), r);//src
+				// r es una carretera saliente
+				map.put(r.getSrc(), r);// src
 		}
 	}
-	
-	void enter (Vehicle v){
+
+	void enter(Vehicle v) {
 		List<Vehicle> oldValue = new ArrayList<>();
 		List<Vehicle> newValue = new ArrayList<>();
 		for (int i = 0; i < listR.size(); i++) {
-			if( listR.get(i).getId()== v.getRoad().getId()){
-				 oldValue = listQ.get(i);
+			if (listR.get(i).getId() == v.getRoad().getId()) {
+				oldValue = listQ.get(i);
 				listQ.get(i).add(v);
-				 newValue = listQ.get(i);
-				//actualizar mapa mapR_Q
-				mapR_Q.replace(v.getRoad()._id, oldValue, newValue); //remplaza una lista de vehiculos
+				newValue = listQ.get(i);
+				// actualizar mapa mapR_Q
+				mapR_Q.replace(v.getRoad()._id, oldValue, newValue); // remplaza una lista de vehiculos
 			}
 		}
-		
+
 	}
-	
-	Road roadTo (Junction j){	//actualizar mapa de carreteras salientes
+
+	Road roadTo(Junction j) { // actualizar mapa de carreteras salientes
 		return map.get(j);
-		 
-		
+
 	}
-	
+
 	@Override
 	void advance(int time) {
 
@@ -116,7 +123,7 @@ public class Junction extends SimulatedObject{
 
 							// elimino v de listQ
 							listQ.get(listQ.indexOf(listV)).remove(vehicle);
-				
+
 						}
 
 					}
@@ -134,40 +141,41 @@ public class Junction extends SimulatedObject{
 		}
 	}
 
-	public JSONObject report(){
-		
+	public JSONObject report() {
+
 		JSONObject jo1 = new JSONObject();
-	
+
 		JSONArray jaq = new JSONArray();
-	
-		
-		
+
 		jo1.put("id", _id);
-		if (currGreen==-1)
+		if (currGreen == -1)
 			jo1.put("green", "none");
-		else{
-			
-			jo1.put("green",listR.get(currGreen).toString());
-			
-		
-			
-			for (int i=0; i< listQ.size(); i++) {
-				JSONObject jo2= new JSONObject();
+		else {
+
+			jo1.put("green", listR.get(currGreen).toString());
+
+			for (int i = 0; i < listQ.size(); i++) {
+				JSONObject jo2 = new JSONObject();
 				jo2.put("road", listR.get(i).toString());
-			
-				jo2.put("vehicles",mapR_Q.get(listR.get(i).toString()).toString());
-				
+
+				jo2.put("vehicles", mapR_Q.get(listR.get(i).toString()).toString());
+
 				jaq.put(jo2);
 			}
 		}
-			
-		
-		jo1.put("queues", jaq);
-	
 
-		
+		jo1.put("queues", jaq);
+
 		return jo1;
 	}
 
+	public int getGreenLightIndex() {
+		return this.lastGreen;
+	}
+
+	public List<Road> getInRoads() {
+		// TODO Auto-generated method stub
+		return this.listR;
+	}
 
 }

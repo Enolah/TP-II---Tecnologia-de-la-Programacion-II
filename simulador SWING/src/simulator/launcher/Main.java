@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -40,19 +42,16 @@ import simulator.model.Road.MiCompi;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimulator;
 import simulator.model.Vehicle;
+import simulator.view.MainWindow;
 
 public class Main {
 
 	private final static Integer _timeLimitDefaultValue = 10;
-	private static String _inFile = null; //fichero de entrada
-	private static Integer _timeLimit = null;//numnero de pasos
-	private static String _outFile = null; //fichero de salida
+	private static String _inFile = null; // fichero de entrada
+	private static Integer _timeLimit = null;// numnero de pasos
+	private static String _outFile = null; // fichero de salida
 	private static Factory<Event> _eventsFactory = null;
-	
-	
-	
-	
-	
+
 	private static void parseArgs(String[] args) {
 
 		// define the valid command line options
@@ -117,10 +116,10 @@ public class Main {
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		_outFile = line.getOptionValue("o");
 	}
-	
-	private static void parseTickOption(CommandLine line) { //indica el numero de ticks que necesita el simulador
 
-		String s=line.getOptionValue("t");
+	private static void parseTickOption(CommandLine line) { // indica el numero de ticks que necesita el simulador
+
+		String s = line.getOptionValue("t");
 		_timeLimit = Integer.valueOf(s);
 		if (_timeLimit == null)
 			_timeLimit = _timeLimitDefaultValue;
@@ -129,51 +128,68 @@ public class Main {
 
 	private static void initFactories() {
 
-		//se crean las estrategias de cambio de semaforo
+		// se crean las estrategias de cambio de semaforo
 		ArrayList<Builder<LigthSwitchingStrategy>> lsbs = new ArrayList<>();
 		lsbs.add(new RoundRobinStrategyBuilder("round_robin_lss"));
 		lsbs.add(new MostCrowdedStrategyBuilder("most_crowded_lss"));
 		Factory<LigthSwitchingStrategy> lssFactory = new BuilderBasedFactory<>(lsbs);
-		
-		//se crean las estrategias de extraccion de la cola
+
+		// se crean las estrategias de extraccion de la cola
 		ArrayList<Builder<DequeuingStrategy>> dqbs = new ArrayList<>();
 		dqbs.add(new MoveFirstStrategyBuilder("move_first_dqs"));
 		dqbs.add(new MoveAllStrategyBuilder("most_all_dqs"));
 		Factory<DequeuingStrategy> dqsFactory = new BuilderBasedFactory<>(dqbs);
-		
-		//se crea la lista de builders
-		 List<Builder<Event>> eventBuilders = new ArrayList<>();
-		
-		eventBuilders.add(new NewJunctionEventBuilder("new_junction",lssFactory, dqsFactory));
+
+		// se crea la lista de builders
+		List<Builder<Event>> eventBuilders = new ArrayList<>();
+
+		eventBuilders.add(new NewJunctionEventBuilder("new_junction", lssFactory, dqsFactory));
 		eventBuilders.add(new NewCityRoadEventBuilder("new_city_road"));
 		eventBuilders.add(new NewInterCityRoadEventBuilder("new_inter_city_road"));
 		eventBuilders.add(new NewVehicleEventBuilder("new_vehicle"));
 		eventBuilders.add(new SetContClassEventBuilder("set_cont_class"));
 		eventBuilders.add(new SetWeatherEventBuilder("set_weather"));
 
-		
 		_eventsFactory = new BuilderBasedFactory<>(eventBuilders);
 
 	}
 
 	private static void startBatchMode() throws IOException {
-		
+
 		InputStream in = new FileInputStream(new File(_inFile));
-		OutputStream out = _outFile == null ?
-		System.out : new FileOutputStream(new File(_outFile));
+		OutputStream out = _outFile == null ? System.out : new FileOutputStream(new File(_outFile));
 		TrafficSimulator sim = new TrafficSimulator();
 		Controller ctrl = new Controller(sim, _eventsFactory);
 		ctrl.loadEvents(in);
 		ctrl.run(_timeLimit, out);
 		in.close();
 		System.out.println("Done!");
+
+	}
+
+	private static void startGUIMode() throws IOException {
 		
+		InputStream in = new FileInputStream(new File(_inFile));
+		OutputStream out = _outFile == null ? System.out : new FileOutputStream(new File(_outFile));
+		TrafficSimulator sim = new TrafficSimulator();
+		Controller ctrl = new Controller(sim, _eventsFactory);
+		ctrl.loadEvents(in);
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new MainWindow(ctrl);
+			}
+		});
+		ctrl.run(_timeLimit, out);
+		in.close();
 	}
 
 	private static void start(String[] args) throws IOException {
-		initFactories(); 
-		parseArgs(args); //procesa los argumentos de entrada
-		startBatchMode(); //inicia la simulacion con E/S estandar
+		initFactories();
+		parseArgs(args); // procesa los argumentos de entrada
+		startGUIMode();
+		//startBatchMode(); // inicia la simulacion con E/S estandar
 	}
 
 	// example command lines:
@@ -190,8 +206,6 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		
-		
 	}
 
 }
