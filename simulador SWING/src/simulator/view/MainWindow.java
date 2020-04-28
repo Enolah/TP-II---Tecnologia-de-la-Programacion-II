@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.TitledBorder;
 
 import extra.jtable.EventsTableModel;
 import extra.jtable.JunctionsTableModel;
@@ -54,11 +56,19 @@ public class MainWindow extends JFrame {
 		tablesPanel.add(junctionsView);
 		// ...
 		// maps
+		//borde del panel
+		TitledBorder title = BorderFactory.createTitledBorder("Map");
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
+		mapView.setBorder(title);
 		mapView.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(mapView);
 		// TODO add a map for MapByRoadComponent
-		// ...
+		//borde del panel
+		TitledBorder title1 = BorderFactory.createTitledBorder("ByRoad");
+		JPanel byRoadView = createViewPanel(new MapByRoadComponent(_ctrl), "ByRoad");
+		mapView.setBorder(title1);
+		mapView.setPreferredSize(new Dimension(500, 400));
+		mapsPanel.add(byRoadView);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);

@@ -4,11 +4,16 @@ import java.util.List;
 
 import javax.swing.JComponent;
 
+import simulator.control.Controller;
 import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
 public class MapByRoadComponent extends JComponent implements TrafficSimObserver{
+
+	public MapByRoadComponent(Controller _ctrl) {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
