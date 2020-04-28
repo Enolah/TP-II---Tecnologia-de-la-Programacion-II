@@ -12,6 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import extra.jtable.EventsTableModel;
+import extra.jtable.JunctionsTableModel;
+import extra.jtable.RoadsTableModel;
+import extra.jtable.VehiclesTableModel;
 import simulator.control.Controller;
 
 public class MainWindow extends JFrame {
@@ -41,7 +44,14 @@ public class MainWindow extends JFrame {
 		JPanel eventsView = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");
 		eventsView.setPreferredSize(new Dimension(500, 200));
 		tablesPanel.add(eventsView);
+		
 		// TODO add other tables
+		JPanel vehiclesView = createViewPanel(new JTable(new VehiclesTableModel()), "Vehicles");
+		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel()), "Roads");
+		JPanel junctionsView = createViewPanel(new JTable(new JunctionsTableModel()), "Junctions");
+		tablesPanel.add(vehiclesView);
+		tablesPanel.add(roadsView);
+		tablesPanel.add(junctionsView);
 		// ...
 		// maps
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
