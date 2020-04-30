@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -21,6 +22,8 @@ import simulator.control.Controller;
 
 public class MainWindow extends JFrame {
 
+
+	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 
 	public MainWindow(Controller ctrl) {
@@ -28,6 +31,7 @@ public class MainWindow extends JFrame {
 		_ctrl = ctrl;
 		initGUI();
 	}
+	
 
 	private void initGUI() {
 		JPanel mainPanel = new JPanel(new BorderLayout());
@@ -57,16 +61,16 @@ public class MainWindow extends JFrame {
 		// ...
 		// maps
 		//borde del panel
-		TitledBorder title = BorderFactory.createTitledBorder("Map");
+		
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
-		mapView.setBorder(title);
+		
 		mapView.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(mapView);
 		// TODO add a map for MapByRoadComponent
 		//borde del panel
-		TitledBorder title1 = BorderFactory.createTitledBorder("ByRoad");
+		
 		JPanel byRoadView = createViewPanel(new MapByRoadComponent(_ctrl), "ByRoad");
-		mapView.setBorder(title1);
+	
 		mapView.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(byRoadView);
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -77,7 +81,10 @@ public class MainWindow extends JFrame {
 	private JPanel createViewPanel(JComponent c, String title) {
 		JPanel p = new JPanel(new BorderLayout());
 		// TODO add a framed border to p with title
+		TitledBorder tit = BorderFactory.createTitledBorder(title);
+		c.setBorder(tit);
 		p.add(new JScrollPane(c));
 		return p;
 	}
+	
 }
