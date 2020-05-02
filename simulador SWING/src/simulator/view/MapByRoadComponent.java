@@ -39,6 +39,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	private Image _car;
 
 	MapByRoadComponent(Controller ctrl) {
+		setPreferredSize(new Dimension(300,200));
 		initGUI();
 		ctrl.addObserver(this);
 	}
@@ -73,13 +74,13 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	}
 
 	private void drawRoads(Graphics g) {
+		int i =0;
 		for (Road r : _map.getRoads()) {
 
-			// the road goes from (x1,y1) to (x2,y2)
-			int x1 = r.getSrc().getX();
-			int y1 = r.getSrc().getY();
-			int x2 = r.getDest().getX();
-			int y2 = r.getDest().getY();
+			// the road goes from (x1,y) to (x2,y)
+			int x1 = 50;
+			int x2 =getWidth()-100;
+			int y= (i+1)*50;
 
 			// choose a color for the arrow depending on the traffic light of the road
 			Color arrowColor = _RED_LIGHT_COLOR;
@@ -96,7 +97,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 
 			// draw line from (x1,y1) to (x2,y2) with arrow of color arrowColor and line of
 			// color roadColor. The size of the arrow is 15px length and 5 px width
-			drawLineWithArrow(g, x1, y1, x2, y2, 15, 5, roadColor, arrowColor);
+			g.drawLine(x1, y, x2, y);
 		}
 
 	}
@@ -172,34 +173,34 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	// This method draws a line from (x1,y1) to (x2,y2) with an arrow.
 	// The arrow is of height h and width w.
 	// The last two arguments are the colors of the arrow and the line
-	private void drawLineWithArrow(//
-			Graphics g, //
-			int x1, int y1, //
-			int x2, int y2, //
-			int w, int h, //
-			Color lineColor, Color arrowColor) {
-
-		int dx = x2 - x1, dy = y2 - y1;
-		double D = Math.sqrt(dx * dx + dy * dy);
-		double xm = D - w, xn = xm, ym = h, yn = -h, x;
-		double sin = dy / D, cos = dx / D;
-
-		x = xm * cos - ym * sin + x1;
-		ym = xm * sin + ym * cos + y1;
-		xm = x;
-
-		x = xn * cos - yn * sin + x1;
-		yn = xn * sin + yn * cos + y1;
-		xn = x;
-
-		int[] xpoints = { x2, (int) xm, (int) xn };
-		int[] ypoints = { y2, (int) ym, (int) yn };
-
-		g.setColor(lineColor);
-		g.drawLine(x1, y1, x2, y2);
-		g.setColor(arrowColor);
-		g.fillPolygon(xpoints, ypoints, 3);
-	}
+//	private void drawLineWithArrow(//
+//			Graphics g, //
+//			int x1, int y, //
+//			int x2, //
+//			int w, int h, //
+//			Color lineColor, Color arrowColor) {
+//
+//		int dx = x2 - x1, dy = y - y;
+//		double D = Math.sqrt(dx * dx + dy * dy);
+//		double xm = D - w, xn = xm, ym = h, yn = -h, x;
+//		double sin = dy / D, cos = dx / D;
+//
+//		x = xm * cos - ym * sin + x1;
+//		ym = xm * sin + ym * cos + y;
+//		xm = x;
+//
+//		x = xn * cos - yn * sin + x1;
+//		yn = xn * sin + yn * cos + y;
+//		xn = x;
+//
+//		int[] xpoints = { x2, (int) xm, (int) xn };
+//		int[] ypoints = { y, (int) ym, (int) yn };
+//
+//		g.setColor(lineColor);
+//		g.drawLine(x1, y, x2, y);
+//		g.setColor(arrowColor);
+//		g.fillPolygon(xpoints, ypoints, 3);
+//	}
 
 	// loads an image from a file
 	private Image loadImage(String img) {
