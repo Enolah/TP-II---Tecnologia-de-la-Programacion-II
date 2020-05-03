@@ -3,6 +3,7 @@ package simulator.model;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Observer;
 
 import org.json.JSONObject;
 
@@ -12,6 +13,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	private List<Event> listE; //lista de eventos
 	private int tick; //timepo (paso) de la simulacion
 	private Comp comparador; // Mi comparador
+	private List<Observable> listO; // lista de observadores
 	
 	
 	public TrafficSimulator(){
@@ -19,6 +21,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 		
 		this.mapR= new RoadMap(null, null, null, null, null, null);
 		listE= new ArrayList<Event>();
+		listO= new ArrayList<Observable>();
 		this.tick=0; 
 		comparador = new Comp();
 			
@@ -39,11 +42,16 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	public void addEvent(Event e){
 		listE.add(e);
 		listE.sort(comparador);
+		onEventAdded(mapR, listE, e, tick);
 	}
 	
 	public void advance(){
 		//1. incrementa el tiempo de la simulación en 1.
 		tick++;
+		
+	
+		onAdvanceStart(mapR, listE, tick);
+		
 		//2. ejecuta todos los eventos cuyo tiempo sea el tiempo actual de la simulación y
 		//los elimina de la lista. Después llama a sus correspondientes métodos execute.
 		 for (int i = 0; i < listE.size(); i++) {
@@ -67,6 +75,8 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 		for (Road r : mapR.getRoads()) {
 			r.advance(tick);
 		}
+		
+		onAdvanceEnd(mapR, listE, tick);
 	}
 	
 	public void reset(){
@@ -75,6 +85,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 		//lista de eventos
 		listE.clear();
 		tick=0;
+		onReset(mapR,listE,tick);
 		
 	}
 	public JSONObject report(){
@@ -101,19 +112,22 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	
 	//METODOS NUEVOS
 	
-	public void onAdvanceStart(){
+	public void onAdvanceStart(RoadMap map , List<Event> events , int time ){
 		//TODO 
 	}
-	public void onAdvanceEnd(){
+	public void onAdvanceEnd(RoadMap map , List<Event> events , int time ){
 		//TODO
 	}
-	public void onReset(){
+	public void onEventAdded(RoadMap map , List<Event> events , Event e , int time ){
+		
+	}
+	public void onReset(RoadMap map , List<Event> events , int time ){
 		//TODO
 	}
-	public void onRegister(){
+	public void onRegister(RoadMap map , List<Event> events , int time ){
 		//TODO
 	}
-	public void onError(){
+	public void onError(String err){
 		//TODO
 	}
 	

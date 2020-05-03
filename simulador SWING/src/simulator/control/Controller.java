@@ -73,12 +73,15 @@ public class Controller {
 	
 	public void addObserver(TrafficSimObserver o){
 		//TODO invoca addObserver de TrafficSimulator
+		_sim.addObserver(o);
 	}
 	public void removeObserver(TrafficSimObserver o){
 		//TODO invoca removeObserver de TrafficSimulator
+		_sim.removeObserver(o);
 	}
 	public void addEvent (Event e){
 		//TODO invoca addEvent de TrafficSimulator
+		_sim.addEvent(e);
 	}
 	
 }
