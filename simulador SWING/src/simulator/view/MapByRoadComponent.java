@@ -81,14 +81,8 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			int x1 = 50;
 			int x2 =getWidth()-100;
 			int y= (i+1)*50;
-
-			// choose a color for the arrow depending on the traffic light of the road
-			Color arrowColor = _RED_LIGHT_COLOR;
-			int idx = r.getDest().getGreenLightIndex();
-			if (idx != -1 && r.equals(r.getDest().getInRoads().get(idx))) {
-				arrowColor = _GREEN_LIGHT_COLOR;
-			}
-
+			
+			
 			// choose a color for the road depending on the total contamination, the darker
 			// the
 			// more contaminated (wrt its co2 limit)
@@ -97,33 +91,46 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 
 			// draw line from (x1,y1) to (x2,y2) with arrow of color arrowColor and line of
 			// color roadColor. The size of the arrow is 15px length and 5 px width
+			g.setColor(roadColor);
 			g.drawLine(x1, y, x2, y);
+			
+			//escribimos el nombre de la carretera
+			g.setColor(Color.BLACK);
+			g.drawString(r.getId(), x1, y);
+			
+			//dibujar imagen del tiempo
+			// hacer un switch con cada caso del tiempo y cargar la imagen
+			//despues dibujarla con g.drawImage
+			
+			//dibujar imagen de la contaminación
+			//co2(grafic, int x ....)
+			//mirar apuntes
+			
+			i++;
 		}
 
 	}
 
-	private void drawVehicles(Graphics g) {
+	private void drawVehicles(Graphics g, int x1, int x2, int y, Road r_actual) {
 		for (Vehicle v : _map.getVehicles()) {
 			if (v.getStatus() != VehicleStatus.ARRIVED) {
 
 				// The calculation below compute the coordinate (vX,vY) of the vehicle on the
 				// corresponding road. It is calculated relativly to the length of the road, and
 				// the location on the vehicle.
-				Road r = v.getRoad();
-				int x1 = r.getSrc().getX();
-				int y1 = r.getSrc().getY();
-				int x2 = r.getDest().getX();
-				int y2 = r.getDest().getY();
-				double roadLength = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-				double alpha = Math.atan(((double) Math.abs(x1 - x2)) / ((double) Math.abs(y1 - y2)));
-				double relLoc = roadLength * ((double) v.getLocation()) / ((double) r.getLength());
-				double x = Math.sin(alpha) * relLoc;
-				double y = Math.cos(alpha) * relLoc;
+				Road r_vehicle = v.getRoad(); //es la carreetera de mi vehiculo
+				if (r_vehicle == r_actual){} //es la carretera que estoy pintando
+												//si es igual a la del vehiculo, pinto el coche
+				double roadLength = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y - y, 2));
+				double alpha = Math.atan(((double) Math.abs(x1 - x2)) / ((double) Math.abs(y - y)));
+				double relLoc = roadLength * ((double) v.getLocation()) / ((double) r_vehicle.getLength());
+//				double x = Math.sin(alpha) * relLoc;
+//				double y = Math.cos(alpha) * relLoc;
 				int xDir = x1 < x2 ? 1 : -1;
-				int yDir = y1 < y2 ? 1 : -1;
+				int yDir = y < y ? 1 : -1;
 
 				int vX = x1 + xDir * ((int) x);
-				int vY = y1 + yDir * ((int) y);
+				int vY = y + yDir * ((int) y);
 
 				// Choose a color for the vehcile's label and background, depending on its
 				// contamination class
@@ -149,6 +156,15 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			g.setColor(_JUNCTION_COLOR);
 			g.fillOval(x - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
 
+			//color del semaforo
+			int idx = r.getDest().getGreenLightIndex();
+			if (idx != -1 && r.equals(r.getDest().getInRoads().get(idx))) 
+				g.setColor(_GREEN_LIGHT_COLOR);
+			else 
+				g.setColor(_RED_LIGHT_COLOR);
+			g.fillOval(x - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
+			
+			
 			// draw the junction's identifier at (x,y)
 			g.setColor(_JUNCTION_LABEL_COLOR);
 			g.drawString(j.getId(), x, y);
