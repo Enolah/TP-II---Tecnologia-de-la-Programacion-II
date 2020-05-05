@@ -9,8 +9,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
@@ -19,7 +22,8 @@ public class ControlPanel extends JPanel {
 
 	private Controller _ctrl;
 	private JPanel ficheros;
-	private JButton cargaEventos, cambiaClase, cambiaTiempo, play, stop, ticks, exit;
+	private JButton cargaEventos, cambiaClase, cambiaTiempo, play, stop, exit;
+	private JSpinner ticks;
 	private boolean _stopped;
 
 	public ControlPanel(Controller ctrl) {
@@ -35,13 +39,55 @@ public class ControlPanel extends JPanel {
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser fc = new JFileChooser();
-				int respuesta = fc.showOpenDialog(ficheros);
-				if (respuesta == JFileChooser.APPROVE_OPTION) {
-					File archivoElegido = fc.getSelectedFile();
-					System.out.println(archivoElegido.getName());
-				}
+				cargaEventos();
 
+			}
+		});
+		
+		this.cambiaClase = new JButton((Icon) loadImage("co2class.png"));
+		this.cambiaClase.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cambiaClase();
+				
+			}
+		});
+		this.cambiaTiempo = new JButton((Icon) loadImage("weather.png"));
+		this.cambiaTiempo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				cambiaTiempo();
+				
+			}
+		});
+		this.play = new JButton((Icon) loadImage("run.png"));
+		this.play.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				run_sim((int) ticks.getValue()); //Provisional - Tiene que coger el valor de ticks
+				
+			}
+		});
+		this.stop = new JButton((Icon) loadImage("stop.png"));
+		this.stop.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				stop();
+				
+			}
+		});
+		this.ticks = new JSpinner();
+		this.exit = new JButton((Icon) loadImage("exit.png"));
+		this.exit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				exit();
+				
 			}
 		});
 	}
@@ -68,7 +114,12 @@ public class ControlPanel extends JPanel {
 	}
 
 	private void enableToolBar(boolean b) {
-		// TODO Auto-generated method stub
+		
+		this.cargaEventos.setEnabled(b);
+		this.cambiaClase.setEnabled(b);
+		this.cambiaTiempo.setEnabled(b);
+		this.play.setEnabled(b);
+		this.exit.setEnabled(b);
 
 	}
 
@@ -77,7 +128,12 @@ public class ControlPanel extends JPanel {
 	}
 
 	private void cargaEventos() {
-
+		JFileChooser fc = new JFileChooser();
+		int respuesta = fc.showOpenDialog(ficheros);
+		if (respuesta == JFileChooser.APPROVE_OPTION) {
+			File archivoElegido = fc.getSelectedFile();
+			System.out.println(archivoElegido.getName());
+		}
 	}
 
 	private void cambiaClase() {
@@ -89,7 +145,7 @@ public class ControlPanel extends JPanel {
 	}
 
 	private void exit() {
-
+		JOptionPane.showConfirmDialog(this, "¿Desea salir del programa?");
 		System.exit(0);
 	}
 
