@@ -12,7 +12,6 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
-
 import simulator.control.Controller;
 import simulator.model.Event;
 import simulator.model.Junction;
@@ -21,6 +20,7 @@ import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 import simulator.model.Vehicle;
 import simulator.model.VehicleStatus;
+import simulator.model.Weather;
 
 public class MapByRoadComponent extends JComponent implements TrafficSimObserver{
 
@@ -39,7 +39,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	private Image _car;
 
 	MapByRoadComponent(Controller ctrl) {
-		setPreferredSize(new Dimension(300,200));
+		setPreferredSize(new Dimension(300,200)); //comprobar esto
 		initGUI();
 		ctrl.addObserver(this);
 	}
@@ -62,15 +62,13 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			g.setColor(Color.red);
 			g.drawString("No map yet!", getWidth() / 2 - 50, getHeight() / 2);
 		} else {
-			updatePrefferedSize();
+			updatePrefferedSize(); //mirar esto si sale bien
 			drawMap(g);
 		}
 	}
 
 	private void drawMap(Graphics g) {
 		drawRoads(g);
-		drawVehicles(g);
-		drawJunctions(g);
 	}
 
 	private void drawRoads(Graphics g) {
@@ -94,24 +92,99 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			g.setColor(roadColor);
 			g.drawLine(x1, y, x2, y);
 			
-			//escribimos el nombre de la carretera
+			//dibujar dos circulos de extremo de la carretera
+			//cruce origen
+			g.setColor(_JUNCTION_COLOR);
+			g.fillOval(x1 - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
+			
+			//cruce destino
+			//color cruce destino dependiendo del semaforo
+			int idx = r.getDest().getGreenLightIndex();
+			if (idx != -1 && r.equals(r.getDest().getInRoads().get(idx))) 
+				g.setColor(_GREEN_LIGHT_COLOR);
+			else 
+				g.setColor(_RED_LIGHT_COLOR);
+			g.fillOval(x2 - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
+			
+			//3.Dibuja los vehículos utilizando la imagen car.png
+			drawVehicles(g,x1, x2,y,y,r);
+			
+			//4.Dibujamos el identificador de la carretera a la izq
 			g.setColor(Color.BLACK);
 			g.drawString(r.getId(), x1, y);
 			
-			//dibujar imagen del tiempo
+		
+			//5.Dibuja una imagen de 32x32 para las condiciones climatológicas de la carretera
+			drawWeather(g,x2,y,r);
 			// hacer un switch con cada caso del tiempo y cargar la imagen
 			//despues dibujarla con g.drawImage
 			
-			//dibujar imagen de la contaminación
+		
+			//6.Dibuja una imagen de 32x32 para el nivel de contaminación
+			drawContClass(g,x2,y,r);
 			//co2(grafic, int x ....)
 			//mirar apuntes
+			
 			
 			i++;
 		}
 
 	}
+	
+	private void drawWeather(Graphics g, int x, int y, Road r){
+		
+		Image img= null;
+		Weather w=r.getWeather();
+		
+		switch (w) {
+		case SUNNY:
+			img= loadImage("sun.png");
+			break;
+		case CLOUDY:
+			img= loadImage("cloud.png");		
+			break;
+		case RAINY:
+			img= loadImage("rain.png");	
+			break;
+		case WINDY:
+			img= loadImage("wind.png");	
+			break;
+		case STORM:
+			img= loadImage("storm.png");
+			break;
+		}
+		g.drawImage(img, x, y, 32, 32, this);
+	}
 
-	private void drawVehicles(Graphics g, int x1, int x2, int y, Road r_actual) {
+	private void drawContClass(Graphics g, int x, int y, Road r){
+		
+		Image img= null;
+		int C=( int ) Math.floor(Math.min(( double ) r.getTotalPollution()/(1.0 + ( double ) r.getContLimit()),1.0) / 0.19);
+		switch(C){
+		case 0:
+			img= loadImage("cont_0");
+			break;
+		case 1:
+			img= loadImage("cont_1");
+			break;
+		case 2:
+			img= loadImage("cont_2");
+			break;
+		case 3:
+			img= loadImage("cont_3");
+			break;
+		case 4:
+			img= loadImage("cont_4");
+			break;
+		case 5:
+			img= loadImage("cont_5");
+			break;
+		}
+		g.drawImage(img, x, y, 32, 32, this);
+	}
+	
+	
+	private void drawVehicles(Graphics g, int x1, int x2, int y1, int y2, Road r_actual) {
 		for (Vehicle v : _map.getVehicles()) {
 			if (v.getStatus() != VehicleStatus.ARRIVED) {
 
@@ -121,11 +194,11 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 				Road r_vehicle = v.getRoad(); //es la carreetera de mi vehiculo
 				if (r_vehicle == r_actual){} //es la carretera que estoy pintando
 												//si es igual a la del vehiculo, pinto el coche
-				double roadLength = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y - y, 2));
-				double alpha = Math.atan(((double) Math.abs(x1 - x2)) / ((double) Math.abs(y - y)));
+				double roadLength = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+				double alpha = Math.atan(((double) Math.abs(x1 - x2)) / ((double) Math.abs(y1 - y2)));
 				double relLoc = roadLength * ((double) v.getLocation()) / ((double) r_vehicle.getLength());
-//				double x = Math.sin(alpha) * relLoc;
-//				double y = Math.cos(alpha) * relLoc;
+				int x = x1 + ( int ) ((x2 - x1) * (( double ) v.getLocation() / ( double ) r_vehicle.getLength()));
+				int y = x1 + ( int ) ((y2 - y1) * (( double ) v.getLocation() / ( double ) r_vehicle.getLength()));
 				int xDir = x1 < x2 ? 1 : -1;
 				int yDir = y < y ? 1 : -1;
 
@@ -139,12 +212,13 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 
 				// draw an image of a car (with circle as background) and it identifier
 				g.fillOval(vX - 1, vY - 6, 14, 14);
-				g.drawImage(_car, vX, vY - 6, 12, 12, this);
+				g.drawImage(_car, vX, vY - 6, 16, 16, this);
 				g.drawString(v.getId(), vX, vY - 6);
 			}
 		}
 	}
 
+	
 	private void drawJunctions(Graphics g) {
 		for (Junction j : _map.getJunctions()) {
 
@@ -155,15 +229,6 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			// draw a circle with center at (x,y) with radius _JRADIUS
 			g.setColor(_JUNCTION_COLOR);
 			g.fillOval(x - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
-
-			//color del semaforo
-			int idx = r.getDest().getGreenLightIndex();
-			if (idx != -1 && r.equals(r.getDest().getInRoads().get(idx))) 
-				g.setColor(_GREEN_LIGHT_COLOR);
-			else 
-				g.setColor(_RED_LIGHT_COLOR);
-			g.fillOval(x - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
-			
 			
 			// draw the junction's identifier at (x,y)
 			g.setColor(_JUNCTION_LABEL_COLOR);
