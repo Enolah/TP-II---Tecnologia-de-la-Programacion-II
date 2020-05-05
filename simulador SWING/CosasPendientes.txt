@@ -1,0 +1,77 @@
+-Controller: 
+	-funcion run(int n)
+	
+-MainWindow:
+	??
+	
+-ControlPanel:
+	-funcion run_sim(int n)
+	-funcion cambiaTiempo()
+	-funcion cambiaClase()
+	-funcion initGUI()
+
+
+-ChangeCO2ClassDialog:
+	todo
+	
+-ChangeWeatherDialog:
+	todo
+	
+-MapByRoadComponent:
+	??
+	
+-StatusBar:
+	todo
+	
+-EventsTableModel:
+	-funcion onAdvanceStart(...)
+	-funcion onAdvanceEnd(...)
+	-funcion onEventAdded(...)
+	-funcion onReset(...)
+	-funcion onRegister(...)
+	-funcion onError(...)
+	
+-JunctionsTableModel:
+	-funcion getRowCount()
+	-funcion getColumnCount()
+	-funcion getValueAt()
+	-funcion onAdvanceStart(...)
+	-funcion onAdvanceEnd(...)
+	-funcion onEventAdded(...)
+	-funcion onReset(...)
+	-funcion onRegister(...)
+	-funcion onError(...)
+	
+-StatusBar:
+	-funcion onAdvanceStart(...)
+	-funcion onAdvanceEnd(...)
+	-funcion onEventAdded(...)
+	-funcion onReset(...)
+	-funcion onRegister(...)
+	-funcion onError(...)
+	
+-RoadsTableModel:
+	-funcion getRowCount()
+	-funcion getColumnCount()
+	-funcion getValueAt()
+	-funcion onAdvanceStart(...)
+	-funcion onAdvanceEnd(...)
+	-funcion onEventAdded(...)
+	-funcion onReset(...)
+	-funcion onRegister(...)
+	-funcion onError(...)
+	
+-VehiclesTableModel:
+	-funcion getRowCount()
+	-funcion getColumnCount()
+	-funcion getValueAt()
+	-funcion onAdvanceStart(...)
+	-funcion onAdvanceEnd(...)
+	-funcion onEventAdded(...)
+	-funcion onReset(...)
+	-funcion onRegister(...)
+	-funcion onError(...)
+	
+-Main:
+	-funcion startGUIMode()
+	-añadir opcion de iniciar en consola o gui

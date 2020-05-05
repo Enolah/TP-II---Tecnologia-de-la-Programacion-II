@@ -96,8 +96,10 @@ public class ControlPanel extends JPanel {
 		if (n > 0 && !_stopped) {
 			try {
 				_ctrl.run(1);
+				enableToolBar(false);
 			} catch (Exception e) {
 				// TODO show error message
+				e.printStackTrace();
 				_stopped = true;
 				return;
 			}
@@ -125,6 +127,7 @@ public class ControlPanel extends JPanel {
 
 	private void stop() {
 		_stopped = true;
+		enableToolBar(true);
 	}
 
 	private void cargaEventos() {
@@ -144,6 +147,7 @@ public class ControlPanel extends JPanel {
 
 	}
 
+	//Posible cambio cuando se ejecute
 	private void exit() {
 		JOptionPane.showConfirmDialog(this, "¿Desea salir del programa?");
 		System.exit(0);
