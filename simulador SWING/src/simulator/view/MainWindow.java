@@ -59,28 +59,28 @@ public class MainWindow extends JFrame {
 		tablesPanel.add(roadsView);
 		tablesPanel.add(junctionsView);
 		// ...
-		// maps
-		//borde del panel
+		
+		// AÑADIR MAPAS
+		//maps
 		
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
-		
 		mapView.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(mapView);
-		// TODO add a map for MapByRoadComponent
-		//borde del panel
-		
-		JPanel byRoadView = createViewPanel(new MapByRoadComponent(_ctrl), "ByRoad");
 	
+		//maps by road
+		JPanel byRoadView = createViewPanel(new MapByRoadComponent(_ctrl), "ByRoad");
 		mapView.setPreferredSize(new Dimension(500, 400));
 		mapsPanel.add(byRoadView);
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		
+		
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
 	}
 
 	private JPanel createViewPanel(JComponent c, String title) {
 		JPanel p = new JPanel(new BorderLayout());
-		// TODO add a framed border to p with title
+		//add a framed border to p with title
 		TitledBorder tit = BorderFactory.createTitledBorder(title);
 		c.setBorder(tit);
 		p.add(new JScrollPane(c));

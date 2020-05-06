@@ -1,30 +1,43 @@
 package simulator.view;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
+import simulator.model.Event;
+import simulator.model.RoadMap;
+import simulator.model.TrafficSimObserver;
 
-public class ControlPanel extends JPanel {
+public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	private Controller _ctrl;
-	private JPanel ficheros;
-	private JButton cargaEventos, cambiaClase, cambiaTiempo, play, stop, exit;
-	private JSpinner ticks;
+	private JPanel pnlFicheros;
+	private JButton btnCargaEventos, btnCambiaClase, btnCambiaTiempo, btnPlay, btnStop, btnExit;
+	private JSpinner spinTicks;
 	private boolean _stopped;
+	
 
 	public ControlPanel(Controller ctrl) {
 		this._ctrl = ctrl;
@@ -33,9 +46,21 @@ public class ControlPanel extends JPanel {
 	}
 
 	private void initGUI() {
-		this.ficheros = new JPanel();
-		this.cargaEventos = new JButton((Icon) loadImage("open.png"));
-		this.cargaEventos.addActionListener(new ActionListener() {
+		
+		//configuración del panel
+		pnlFicheros = new JPanel();
+		
+		pnlFicheros.setSize(200,200);
+		pnlFicheros.setLayout(new FlowLayout());
+		pnlFicheros.setVisible(true);
+		
+		
+		
+		
+		URL aux= getClass().getResource("../resources/icons/cargar.png");
+		ImageIcon icon= new ImageIcon("/resources/icons/cargar.png");
+		this.btnCargaEventos = new JButton(icon);
+		this.btnCargaEventos.addActionListener(new ActionListener() {
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -44,8 +69,10 @@ public class ControlPanel extends JPanel {
 			}
 		});
 		
-		this.cambiaClase = new JButton((Icon) loadImage("co2class.png"));
-		this.cambiaClase.addActionListener(new ActionListener() {
+		URL aux1= getClass().getResource("resources/icons/co2class.png");
+		ImageIcon icon1= new ImageIcon("resources/icons/co2class.png");
+		this.btnCambiaClase = new JButton(icon1);
+		this.btnCambiaClase.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -53,8 +80,10 @@ public class ControlPanel extends JPanel {
 				
 			}
 		});
-		this.cambiaTiempo = new JButton((Icon) loadImage("weather.png"));
-		this.cambiaTiempo.addActionListener(new ActionListener() {
+		URL aux2= getClass().getResource("resources/icons/weather.png");
+		ImageIcon icon2= new ImageIcon("resources/icons/weather.png");
+		this.btnCambiaTiempo = new JButton(icon2);
+		this.btnCambiaTiempo.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -62,17 +91,21 @@ public class ControlPanel extends JPanel {
 				
 			}
 		});
-		this.play = new JButton((Icon) loadImage("run.png"));
-		this.play.addActionListener(new ActionListener() {
+		URL aux3= getClass().getResource("resources/icons/run.png");
+		ImageIcon icon3= new ImageIcon("resources/icons/run.png");
+		this.btnPlay = new JButton(icon3);
+		this.btnPlay.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				run_sim((int) ticks.getValue()); //Provisional - Tiene que coger el valor de ticks
+				run_sim((int) spinTicks.getValue()); //Provisional - Tiene que coger el valor de ticks
 				
 			}
 		});
-		this.stop = new JButton((Icon) loadImage("stop.png"));
-		this.stop.addActionListener(new ActionListener() {
+		URL aux4= getClass().getResource("resources/icons/stop.png");
+		ImageIcon icon4= new ImageIcon("resources/icons/stop.png");
+		this.btnStop = new JButton(icon4);
+		this.btnStop.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -80,9 +113,13 @@ public class ControlPanel extends JPanel {
 				
 			}
 		});
-		this.ticks = new JSpinner();
-		this.exit = new JButton((Icon) loadImage("exit.png"));
-		this.exit.addActionListener(new ActionListener() {
+		URL aux5= getClass().getResource("resources/icons/exit.png");
+		ImageIcon icon5= new ImageIcon("resources/icons/exit.png");
+		JLabel tic= new JLabel("Ticks: ");
+		spinTicks= new JSpinner (new SpinnerNumberModel(0,0,5,1));
+		
+		this.btnExit = new JButton(icon5);
+		this.btnExit.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -90,6 +127,15 @@ public class ControlPanel extends JPanel {
 				
 			}
 		});
+		
+		
+		pnlFicheros.add(btnCargaEventos);
+		pnlFicheros.add(btnCambiaClase);
+		pnlFicheros.add(btnCambiaTiempo);
+		pnlFicheros.add(btnPlay);
+		pnlFicheros.add(btnExit);
+		pnlFicheros.add(spinTicks);
+		
 	}
 
 	private void run_sim(int n) {
@@ -117,11 +163,11 @@ public class ControlPanel extends JPanel {
 
 	private void enableToolBar(boolean b) {
 		
-		this.cargaEventos.setEnabled(b);
-		this.cambiaClase.setEnabled(b);
-		this.cambiaTiempo.setEnabled(b);
-		this.play.setEnabled(b);
-		this.exit.setEnabled(b);
+		this.btnCargaEventos.setEnabled(b);
+		this.btnCambiaClase.setEnabled(b);
+		this.btnCambiaTiempo.setEnabled(b);
+		this.btnPlay.setEnabled(b);
+		this.btnExit.setEnabled(b);
 
 	}
 
@@ -132,7 +178,7 @@ public class ControlPanel extends JPanel {
 
 	private void cargaEventos() {
 		JFileChooser fc = new JFileChooser();
-		int respuesta = fc.showOpenDialog(ficheros);
+		int respuesta = fc.showOpenDialog(pnlFicheros);
 		if (respuesta == JFileChooser.APPROVE_OPTION) {
 			File archivoElegido = fc.getSelectedFile();
 			System.out.println(archivoElegido.getName());
@@ -161,6 +207,44 @@ public class ControlPanel extends JPanel {
 		} catch (IOException e) {
 		}
 		return i;
+	}
+
+	
+	
+	@Override
+	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onReset(RoadMap map, List<Event> events, int time) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRegister(RoadMap map, List<Event> events, int time) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onError(String err) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

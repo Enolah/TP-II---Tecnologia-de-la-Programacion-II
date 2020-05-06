@@ -44,6 +44,7 @@ import simulator.model.TrafficSimulator;
 import simulator.model.Vehicle;
 import simulator.view.MainWindow;
 
+
 public class Main {
 
 	private final static Integer _timeLimitDefaultValue = 10;
@@ -175,12 +176,13 @@ public class Main {
 		Controller ctrl = new Controller(sim, _eventsFactory);
 		ctrl.loadEvents(in);
 		
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
+		SwingUtilities.invokeLater( new Runnable() {
+			@ Override
 			public void run() {
-				new MainWindow(ctrl);
+			new MainWindow(ctrl);
 			}
-		});
+			});
+ 
 		ctrl.run(_timeLimit, out);
 		in.close();
 	}

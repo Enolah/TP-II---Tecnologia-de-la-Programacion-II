@@ -13,15 +13,14 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	private List<Event> listE; //lista de eventos
 	private int tick; //timepo (paso) de la simulacion
 	private Comp comparador; // Mi comparador
-	private List<Observable> listO; // lista de observadores
+	private List<TrafficSimObserver> listO;
 	
 	
 	public TrafficSimulator(){
 		
-		
 		this.mapR= new RoadMap(null, null, null, null, null, null);
 		listE= new ArrayList<Event>();
-		listO= new ArrayList<Observable>();
+		listO= new ArrayList<TrafficSimObserver>();
 		this.tick=0; 
 		comparador = new Comp();
 			
@@ -42,7 +41,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	public void addEvent(Event e){
 		listE.add(e);
 		listE.sort(comparador);
-		onEventAdded(mapR, listE, e, tick);
+		notiOnEventAdded(mapR,listE,e, tick);
 	}
 	
 	public void advance(){
@@ -50,7 +49,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 		tick++;
 		
 	
-		onAdvanceStart(mapR, listE, tick);
+		notiOnAdvanceStart(mapR,listE,tick);
 		
 		//2. ejecuta todos los eventos cuyo tiempo sea el tiempo actual de la simulación y
 		//los elimina de la lista. Después llama a sus correspondientes métodos execute.
@@ -76,7 +75,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 			r.advance(tick);
 		}
 		
-		onAdvanceEnd(mapR, listE, tick);
+		notiOnAdvanceEnd(mapR,listE,tick);
 	}
 	
 	public void reset(){
@@ -85,7 +84,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 		//lista de eventos
 		listE.clear();
 		tick=0;
-		onReset(mapR,listE,tick);
+		notiOnReset(mapR,listE,tick);
 		
 	}
 	public JSONObject report(){
@@ -96,39 +95,54 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 		return jo1;
 	}
 
-	//METOOS INTERFAZ
+	//OBSERVADORES DE OBSERVABLE
 	
 	@Override
 	public void addObserver(TrafficSimObserver o) {
 		// TODO Auto-generated method stub
-		
+		listO.add(o);		
 	}
 
 	@Override
 	public void removeObserver(TrafficSimObserver o) {
 		// TODO Auto-generated method stub
-		
+		listO.remove(o);
 	}
 	
-	//METODOS NUEVOS
 	
-	public void onAdvanceStart(RoadMap map , List<Event> events , int time ){
-		//TODO 
-	}
-	public void onAdvanceEnd(RoadMap map , List<Event> events , int time ){
-		//TODO
-	}
-	public void onEventAdded(RoadMap map , List<Event> events , Event e , int time ){
-		
-	}
-	public void onReset(RoadMap map , List<Event> events , int time ){
-		//TODO
-	}
-	public void onRegister(RoadMap map , List<Event> events , int time ){
-		//TODO
-	}
-	public void onError(String err){
-		//TODO
+	//NOTIFICACIONES
+	
+	public void notiOnAdvanceStart(RoadMap map , List<Event> events , int time ){
+		for (TrafficSimObserver o : listO) {
+			o.onAdvanceStart(map, events, time);
+		}
 	}
 	
+	public void notiOnAdvanceEnd(RoadMap map , List<Event> events , int time ){
+		for (TrafficSimObserver o : listO) {
+			o.onAdvanceEnd(map, events, time);
+		}
+	}
+
+	public void notiOnEventAdded(RoadMap map , List<Event> events , Event e , int time ){
+		for (TrafficSimObserver o : listO) {
+			o.onEventAdded(map, events,e, time);
+		}
+	}
+	
+	public void notiOnReset(RoadMap map , List<Event> events , int time ){
+		for (TrafficSimObserver o : listO) {
+			o.onReset(map, events, time);
+		}
+	}
+	public void notiOnRegister(RoadMap map , List<Event> events , int time ){
+		for (TrafficSimObserver o : listO) {
+			o.onRegister(map, events, time);
+		}
+	}
+	public void notiOnError(String err){
+		for (TrafficSimObserver o : listO) {
+			o.onError(err);
+		}
+	}
 }

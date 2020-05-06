@@ -16,10 +16,7 @@
 	
 -ChangeWeatherDialog:
 	todo
-	
--MapByRoadComponent:
-	??
-	
+		
 -StatusBar:
 	todo
 	
