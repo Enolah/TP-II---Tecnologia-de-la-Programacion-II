@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
@@ -12,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import extra.jtable.EventsTableModel;
@@ -46,6 +48,7 @@ public class MainWindow extends JFrame {
 		JPanel mapsPanel = new JPanel();
 		mapsPanel.setLayout(new BoxLayout(mapsPanel, BoxLayout.Y_AXIS));
 		viewsPanel.add(mapsPanel);
+		
 		// tables
 		JPanel eventsView = createViewPanel(new JTable(new EventsTableModel(_ctrl)), "Events");
 		eventsView.setPreferredSize(new Dimension(500, 200));
@@ -80,8 +83,9 @@ public class MainWindow extends JFrame {
 
 	private JPanel createViewPanel(JComponent c, String title) {
 		JPanel p = new JPanel(new BorderLayout());
-		//add a framed border to p with title
-		TitledBorder tit = BorderFactory.createTitledBorder(title);
+	
+		Border blackline = BorderFactory.createLineBorder(Color.BLACK);
+		TitledBorder tit = BorderFactory.createTitledBorder(blackline,title);
 		c.setBorder(tit);
 		p.add(new JScrollPane(c));
 		return p;

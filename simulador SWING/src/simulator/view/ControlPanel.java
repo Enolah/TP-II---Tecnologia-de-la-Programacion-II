@@ -32,8 +32,9 @@ import simulator.model.TrafficSimObserver;
 
 public class ControlPanel extends JPanel implements TrafficSimObserver{
 
+
+	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
-	private JPanel pnlFicheros;
 	private JButton btnCargaEventos, btnCambiaClase, btnCambiaTiempo, btnPlay, btnStop, btnExit;
 	private JSpinner spinTicks;
 	private boolean _stopped;
@@ -42,23 +43,15 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	public ControlPanel(Controller ctrl) {
 		this._ctrl = ctrl;
 		this._stopped = false;
-		this.initGUI();
+		initGUI();
+		_ctrl.addObserver(this);
 	}
 
 	private void initGUI() {
-		
-		//configuración del panel
-		pnlFicheros = new JPanel();
-		
-		pnlFicheros.setSize(200,200);
-		pnlFicheros.setLayout(new FlowLayout());
-		pnlFicheros.setVisible(true);
+	
 		
 		
-		
-		
-		URL aux= getClass().getResource("../resources/icons/cargar.png");
-		ImageIcon icon= new ImageIcon("/resources/icons/cargar.png");
+		ImageIcon icon= new ImageIcon("resources/icons/open.png");
 		this.btnCargaEventos = new JButton(icon);
 		this.btnCargaEventos.addActionListener(new ActionListener() {
 		
@@ -69,7 +62,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			}
 		});
 		
-		URL aux1= getClass().getResource("resources/icons/co2class.png");
+
 		ImageIcon icon1= new ImageIcon("resources/icons/co2class.png");
 		this.btnCambiaClase = new JButton(icon1);
 		this.btnCambiaClase.addActionListener(new ActionListener() {
@@ -80,7 +73,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 				
 			}
 		});
-		URL aux2= getClass().getResource("resources/icons/weather.png");
+	
 		ImageIcon icon2= new ImageIcon("resources/icons/weather.png");
 		this.btnCambiaTiempo = new JButton(icon2);
 		this.btnCambiaTiempo.addActionListener(new ActionListener() {
@@ -91,18 +84,19 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 				
 			}
 		});
-		URL aux3= getClass().getResource("resources/icons/run.png");
+	
 		ImageIcon icon3= new ImageIcon("resources/icons/run.png");
 		this.btnPlay = new JButton(icon3);
 		this.btnPlay.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				run_sim((int) spinTicks.getValue()); //Provisional - Tiene que coger el valor de ticks
+				run_sim(10); //Provisional - Tiene que coger el valor de ticks
+				//(int) spinTicks.getValue()
 				
 			}
 		});
-		URL aux4= getClass().getResource("resources/icons/stop.png");
+	
 		ImageIcon icon4= new ImageIcon("resources/icons/stop.png");
 		this.btnStop = new JButton(icon4);
 		this.btnStop.addActionListener(new ActionListener() {
@@ -113,7 +107,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 				
 			}
 		});
-		URL aux5= getClass().getResource("resources/icons/exit.png");
+	
 		ImageIcon icon5= new ImageIcon("resources/icons/exit.png");
 		JLabel tic= new JLabel("Ticks: ");
 		spinTicks= new JSpinner (new SpinnerNumberModel(0,0,5,1));
@@ -129,12 +123,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		});
 		
 		
-		pnlFicheros.add(btnCargaEventos);
-		pnlFicheros.add(btnCambiaClase);
-		pnlFicheros.add(btnCambiaTiempo);
-		pnlFicheros.add(btnPlay);
-		pnlFicheros.add(btnExit);
-		pnlFicheros.add(spinTicks);
+		this.add(btnCargaEventos);
+		this.add(btnCambiaClase);
+		this.add(btnCambiaTiempo);
+		this.add(btnPlay);
+		this.add(btnExit);
+		this.add(spinTicks);
 		
 	}
 
@@ -174,11 +168,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private void stop() {
 		_stopped = true;
 		enableToolBar(true);
+		
 	}
 
 	private void cargaEventos() {
 		JFileChooser fc = new JFileChooser();
-		int respuesta = fc.showOpenDialog(pnlFicheros);
+		int respuesta = fc.showOpenDialog(this);
 		if (respuesta == JFileChooser.APPROVE_OPTION) {
 			File archivoElegido = fc.getSelectedFile();
 			System.out.println(archivoElegido.getName());
