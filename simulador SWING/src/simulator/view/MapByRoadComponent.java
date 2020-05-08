@@ -96,6 +96,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			//cruce origen
 			g.setColor(_JUNCTION_COLOR);
 			g.fillOval(x1 - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
+			g.drawString(r.getSrc().getId(), x1, y);
 			
 			//cruce destino
 			//color cruce destino dependiendo del semaforo
@@ -105,26 +106,22 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			else 
 				g.setColor(_RED_LIGHT_COLOR);
 			g.fillOval(x2 - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
+			g.drawString(r.getDest().getId(), x2, y);
 			
 			//3.Dibuja los vehículos utilizando la imagen car.png
 			drawVehicles(g,x1, x2,y,y,r);
 			
 			//4.Dibujamos el identificador de la carretera a la izq
 			g.setColor(Color.BLACK);
-			g.drawString(r.getId(), x1, y);
+			g.drawString(r.getId(), x1-20, y);
 			
 		
 			//5.Dibuja una imagen de 32x32 para las condiciones climatológicas de la carretera
-			drawWeather(g,x2,y,r);
-			// hacer un switch con cada caso del tiempo y cargar la imagen
-			//despues dibujarla con g.drawImage
-			
+			drawWeather(g,x2+30,y,r);
 		
 			//6.Dibuja una imagen de 32x32 para el nivel de contaminación
-			drawContClass(g,x2,y,r);
-			//co2(grafic, int x ....)
-			//mirar apuntes
-			
+			drawContClass(g,x2+60,y,r);
+
 			
 			i++;
 		}
@@ -162,22 +159,22 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 		int C=( int ) Math.floor(Math.min(( double ) r.getTotalPollution()/(1.0 + ( double ) r.getContLimit()),1.0) / 0.19);
 		switch(C){
 		case 0:
-			img= loadImage("cont_0");
+			img= loadImage("cont_0.png");
 			break;
 		case 1:
-			img= loadImage("cont_1");
+			img= loadImage("cont_1.png");
 			break;
 		case 2:
-			img= loadImage("cont_2");
+			img= loadImage("cont_2.png");
 			break;
 		case 3:
-			img= loadImage("cont_3");
+			img= loadImage("cont_3.png");
 			break;
 		case 4:
-			img= loadImage("cont_4");
+			img= loadImage("cont_4.png");
 			break;
 		case 5:
-			img= loadImage("cont_5");
+			img= loadImage("cont_5.png");
 			break;
 		}
 		g.drawImage(img, x, y, 32, 32, this);
@@ -188,32 +185,39 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 		for (Vehicle v : _map.getVehicles()) {
 			if (v.getStatus() != VehicleStatus.ARRIVED) {
 
-				// The calculation below compute the coordinate (vX,vY) of the vehicle on the
-				// corresponding road. It is calculated relativly to the length of the road, and
+				// The calculation below compute the coordinate (vX,vY) of the
+				// vehicle on the
+				// corresponding road. It is calculated relativly to the length
+				// of the road, and
 				// the location on the vehicle.
-				Road r_vehicle = v.getRoad(); //es la carreetera de mi vehiculo
-				if (r_vehicle == r_actual){} //es la carretera que estoy pintando
-												//si es igual a la del vehiculo, pinto el coche
-				double roadLength = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-				double alpha = Math.atan(((double) Math.abs(x1 - x2)) / ((double) Math.abs(y1 - y2)));
-				double relLoc = roadLength * ((double) v.getLocation()) / ((double) r_vehicle.getLength());
-				int x = x1 + ( int ) ((x2 - x1) * (( double ) v.getLocation() / ( double ) r_vehicle.getLength()));
-				int y = x1 + ( int ) ((y2 - y1) * (( double ) v.getLocation() / ( double ) r_vehicle.getLength()));
-				int xDir = x1 < x2 ? 1 : -1;
-				int yDir = y < y ? 1 : -1;
+				Road r_vehicle = v.getRoad(); // es la carreetera de mi vehiculo
+				if (r_vehicle == r_actual) { // es la carretera que estoy
+												// pintando
+												// si es igual a la del
+												// vehiculo, pinto el coche
+					double roadLength = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+					double alpha = Math.atan(((double) Math.abs(x1 - x2)) / ((double) Math.abs(y1 - y2)));
+					double relLoc = roadLength * ((double) v.getLocation()) / ((double) r_vehicle.getLength());
+					double x = x1 + (int) ((x2 - x1) * ((double) v.getLocation() / (double) r_vehicle.getLength()));
+					double y = Math.cos(alpha) * relLoc;
+					int xDir = x1 < x2 ? 1 : -1;
+					int yDir = y < y ? 1 : -1;
 
-				int vX = x1 + xDir * ((int) x);
-				int vY = y + yDir * ((int) y);
+					int vX = x1 + xDir * ((int) x);
+					int vY = y1 + yDir * ((int) y);
 
-				// Choose a color for the vehcile's label and background, depending on its
-				// contamination class
-				int vLabelColor = (int) (25.0 * (10.0 - (double) v.getContClass()));
-				g.setColor(new Color(0, vLabelColor, 0));
+					// Choose a color for the vehcile's label and background,
+					// depending on its
+					// contamination class
+					int vLabelColor = (int) (25.0 * (10.0 - (double) v.getContClass()));
+					g.setColor(new Color(0, vLabelColor, 0));
 
-				// draw an image of a car (with circle as background) and it identifier
-				g.fillOval(vX - 1, vY - 6, 14, 14);
-				g.drawImage(_car, vX, vY - 6, 16, 16, this);
-				g.drawString(v.getId(), vX, vY - 6);
+					// draw an image of a car (with circle as background) and it
+					// identifier
+					//g.fillOval(vX - 1, vY - 6, 14, 14);
+					g.drawImage(_car, vX, vY - 6, 16, 16, this);
+					g.drawString(v.getId(), vX, vY - 6);
+				}
 			}
 		}
 	}
@@ -247,8 +251,10 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 		}
 		maxW += 20;
 		maxH += 20;
-		setPreferredSize(new Dimension(maxW, maxH));
-		setSize(new Dimension(maxW, maxH));
+		if (maxW > getWidth() || maxH > getHeight()) {
+		    setPreferredSize(new Dimension(maxW, maxH));
+		   setSize(new Dimension(maxW, maxH));
+		}
 	}
 
 	// This method draws a line from (x1,y1) to (x2,y2) with an arrow.

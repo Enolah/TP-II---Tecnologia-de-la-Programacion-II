@@ -7,7 +7,10 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
@@ -47,7 +50,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		_ctrl.addObserver(this);
 	}
 
-	private void initGUI() {
+	private void initGUI(){
 	
 		
 		
@@ -57,7 +60,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				cargaEventos();
+				try {
+					cargaEventos();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
 			}
 		});
@@ -91,8 +99,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				run_sim(10); //Provisional - Tiene que coger el valor de ticks
-				//(int) spinTicks.getValue()
+				run_sim((int) spinTicks.getValue()); //Provisional - Tiene que coger el valor de ticks
 				
 			}
 		});
@@ -110,7 +117,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	
 		ImageIcon icon5= new ImageIcon("resources/icons/exit.png");
 		JLabel tic= new JLabel("Ticks: ");
-		spinTicks= new JSpinner (new SpinnerNumberModel(0,0,5,1));
+		//empieza desde 1, pq es el valor minimo que puedes añadir a los ticks
+		spinTicks= new JSpinner (new SpinnerNumberModel(1,1,10,1));
 		
 		this.btnExit = new JButton(icon5);
 		this.btnExit.addActionListener(new ActionListener() {
@@ -127,15 +135,18 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		this.add(btnCambiaClase);
 		this.add(btnCambiaTiempo);
 		this.add(btnPlay);
+		this.add(btnStop);
 		this.add(btnExit);
+		this.add(tic);
 		this.add(spinTicks);
 		
 	}
 
+	//TODO no funciona bien, solo se muestra la primera vez que se da al play
 	private void run_sim(int n) {
 		if (n > 0 && !_stopped) {
 			try {
-				_ctrl.run(1);
+				_ctrl.run(1,null);
 				enableToolBar(false);
 			} catch (Exception e) {
 				// TODO show error message
@@ -171,13 +182,18 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		
 	}
 
-	private void cargaEventos() {
+	private void cargaEventos() throws IOException {
+		//TODO lanzar excepción
 		JFileChooser fc = new JFileChooser();
 		int respuesta = fc.showOpenDialog(this);
 		if (respuesta == JFileChooser.APPROVE_OPTION) {
 			File archivoElegido = fc.getSelectedFile();
 			System.out.println(archivoElegido.getName());
+			_ctrl.reset();
+			InputStream in = new FileInputStream(archivoElegido);
+			_ctrl.loadEvents(in);
 		}
+		
 	}
 
 	private void cambiaClase() {
@@ -192,16 +208,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private void exit() {
 		JOptionPane.showConfirmDialog(this, "¿Desea salir del programa?");
 		System.exit(0);
-	}
-
-	// loads an image from a file - Funcion copiada de MapComponent.java
-	private Image loadImage(String img) {
-		Image i = null;
-		try {
-			return ImageIO.read(new File("resources/icons/" + img));
-		} catch (IOException e) {
-		}
-		return i;
 	}
 
 	

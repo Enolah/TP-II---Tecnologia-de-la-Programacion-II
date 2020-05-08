@@ -48,6 +48,14 @@ public class Junction extends SimulatedObject {
 	public int getY() {
 		return this.yCoor;
 	};
+	
+	public int getGreenLightIndex() {
+		return this.currGreen;
+	}
+
+	public List<Road> getInRoads() {
+		return this.listR;
+	}
 
 	/*
 	 * METODOS
@@ -169,13 +177,6 @@ public class Junction extends SimulatedObject {
 		return jo1;
 	}
 
-	public int getGreenLightIndex() {
-		return this.lastGreen;
-	}
 
-	public List<Road> getInRoads() {
-		// TODO Auto-generated method stub
-		return this.listR;
-	}
 
 }

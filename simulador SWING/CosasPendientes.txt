@@ -6,6 +6,7 @@
 	
 -ControlPanel:
 	-funcion run_sim(int n)
+	-funcion carharEventos(): lanzar excepción
 	-funcion cambiaTiempo()
 	-funcion cambiaClase()
 	-funcion initGUI()
@@ -18,7 +19,12 @@
 	todo
 		
 -StatusBar:
-	todo
+	-funcion onAdvanceStart(...)
+	-funcion onAdvanceEnd(...)
+	-funcion onEventAdded(...)
+	-funcion onReset(...)
+	-funcion onRegister(...)
+	-funcion onError(...)
 	
 -EventsTableModel:
 	-funcion onAdvanceStart(...)
@@ -32,14 +38,6 @@
 	-funcion getRowCount()
 	-funcion getColumnCount()
 	-funcion getValueAt()
-	-funcion onAdvanceStart(...)
-	-funcion onAdvanceEnd(...)
-	-funcion onEventAdded(...)
-	-funcion onReset(...)
-	-funcion onRegister(...)
-	-funcion onError(...)
-	
--StatusBar:
 	-funcion onAdvanceStart(...)
 	-funcion onAdvanceEnd(...)
 	-funcion onEventAdded(...)

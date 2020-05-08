@@ -171,7 +171,7 @@ public class Main {
 	private static void startGUIMode() throws IOException {
 		
 		InputStream in = new FileInputStream(new File(_inFile));
-		OutputStream out = _outFile == null ? System.out : new FileOutputStream(new File(_outFile));
+	//	OutputStream out = _outFile == null ? System.out : new FileOutputStream(new File(_outFile));
 		TrafficSimulator sim = new TrafficSimulator();
 		Controller ctrl = new Controller(sim, _eventsFactory);
 		ctrl.loadEvents(in);
@@ -183,7 +183,7 @@ public class Main {
 			}
 			});
  
-		ctrl.run(_timeLimit, out);
+	//	ctrl.run(_timeLimit, out);
 		in.close();
 	}
 

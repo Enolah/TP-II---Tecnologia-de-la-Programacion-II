@@ -67,9 +67,6 @@ public class Controller {
 		
 	}
 	
-	public void run(int n) {
-		
-	}
 	
 	public void addObserver(TrafficSimObserver o){
 		_sim.addObserver(o);
