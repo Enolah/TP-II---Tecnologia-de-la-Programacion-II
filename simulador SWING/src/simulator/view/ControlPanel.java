@@ -1,26 +1,16 @@
 package simulator.view;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -197,7 +187,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	}
 
 	private void cambiaClase() {
-
+		ChangeCO2ClassDialog myCo2= new ChangeCO2ClassDialog();
+		//int res=myCo2.showConfirmDialog("Change co2 class");
 	}
 
 	private void cambiaTiempo() {
