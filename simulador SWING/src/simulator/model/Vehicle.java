@@ -76,9 +76,27 @@ public class Vehicle extends SimulatedObject {
 				contClass= c;
 	}
 	
+	public int getMaxSpeed() {
+		return maxSpeed;
+	}
+
+	public void setMaxSpeed(int maxSpeed) {
+		this.maxSpeed = maxSpeed;
+	}
+
+	public int getTotalDistance() {
+		return totalDistance;
+	}
+
+	public void setTotalDistance(int totalDistance) {
+		this.totalDistance = totalDistance;
+	}
+
+	
 	/*
 	 * METODOS
 	 */
+	
 	
 	@Override
 	void advance(int time) {
