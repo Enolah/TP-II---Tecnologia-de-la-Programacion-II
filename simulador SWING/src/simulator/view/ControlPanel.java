@@ -188,7 +188,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	private void cambiaClase() {
 		ChangeCO2ClassDialog myCo2= new ChangeCO2ClassDialog();
-		//int res=myCo2.showConfirmDialog("Change co2 class");
+		int res=myCo2.showConfirmDialog("Change co2 class");
+		if (res == 0) {
+			
+		} 
+			
 	}
 
 	private void cambiaTiempo() {

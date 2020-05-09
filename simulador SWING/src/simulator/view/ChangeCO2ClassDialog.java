@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -15,6 +16,9 @@ import javax.swing.SpinnerNumberModel;
 public class ChangeCO2ClassDialog extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
+	public static final int OK_OPTION= 0;
+	public static final int CANCEL_OPTION=1;
+	private int result= -1;
 
 	private JPanel pnlCO2 = new JPanel();
 	private JSpinner tic= new JSpinner();
@@ -39,21 +43,34 @@ public class ChangeCO2ClassDialog extends JDialog {
 		
 		pnlCO2.add(la, BorderLayout.NORTH);
 		
+		JPanel pnlMedio = new JPanel();
+		pnlMedio.setLayout(new FlowLayout());
 		
 		JLabel ve= new JLabel ("vehicle: ");
 		JLabel co= new JLabel ("CO2 Class; ");
 		JLabel ti= new JLabel("Ticks: ");
-		tic= new JSpinner (new SpinnerNumberModel(0,0,5,1));
+		tic= new JSpinner (new SpinnerNumberModel(1,1,20,1));
 		
-		pnlCO2.add(ve);
-		pnlCO2.add(co);
-		pnlCO2.add(ti);
-		pnlCO2.add(tic);
+		pnlMedio.add(ve);
+		pnlMedio.add(co);
+		pnlMedio.add(ti);
+		pnlMedio.add(tic);
 		
-		
+		pnlCO2.add(pnlMedio, BorderLayout.CENTER);
 		
 		pnlCO2.setVisible(true);
 		this.add(pnlCO2);
+	}
+
+
+	public int showConfirmDialog(String title) {
+		setTitle(title);
+		setLocationRelativeTo(getParent()); //para que la ventana 
+											//salga en el centro
+		pack();
+		setSize(350,150);
+		setVisible(true);
+		return result;
 	}
 	
 	
