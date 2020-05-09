@@ -49,6 +49,7 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 			break;
 		case 3:
 			s = _junctionsList.get(rowIndex).getInRoads(); //Posiblemente mal
+			break;
 		}
 		return s;
 	}

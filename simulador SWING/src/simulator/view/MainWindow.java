@@ -55,9 +55,9 @@ public class MainWindow extends JFrame {
 		tablesPanel.add(eventsView);
 		
 		// TODO add other tables
-		JPanel vehiclesView = createViewPanel(new JTable(new VehiclesTableModel()), "Vehicles");
-		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel()), "Roads");
-		JPanel junctionsView = createViewPanel(new JTable(new JunctionsTableModel()), "Junctions");
+		JPanel vehiclesView = createViewPanel(new JTable(new VehiclesTableModel(this._ctrl)), "Vehicles");
+		JPanel roadsView = createViewPanel(new JTable(new RoadsTableModel(this._ctrl)), "Roads");
+		JPanel junctionsView = createViewPanel(new JTable(new JunctionsTableModel(this._ctrl)), "Junctions");
 		tablesPanel.add(vehiclesView);
 		tablesPanel.add(roadsView);
 		tablesPanel.add(junctionsView);
