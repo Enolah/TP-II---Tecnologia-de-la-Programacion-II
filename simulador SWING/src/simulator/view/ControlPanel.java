@@ -210,7 +210,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	}
 
 	private void cambiaTiempo() {
-
+		//solo slihgag
 	}
 
 	//Posible cambio cuando se ejecute
