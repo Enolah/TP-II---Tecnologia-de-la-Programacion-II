@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -19,8 +20,10 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
+import simulator.misc.Pair;
 import simulator.model.Event;
 import simulator.model.RoadMap;
+import simulator.model.SetContClassEvent;
 import simulator.model.TrafficSimObserver;
 
 public class ControlPanel extends JPanel implements TrafficSimObserver{
@@ -32,6 +35,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private JSpinner spinTicks;
 	private boolean _stopped;
 	
+	//atributos de los ON
+	private RoadMap map;
+	private List<Event> listE;
+	private int ticks;
 
 	public ControlPanel(Controller ctrl) {
 		this._ctrl = ctrl;
@@ -186,11 +193,18 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		
 	}
 
+	
 	private void cambiaClase() {
-		ChangeCO2ClassDialog myCo2= new ChangeCO2ClassDialog();
+		ChangeCO2ClassDialog myCo2= new ChangeCO2ClassDialog(map);
 		int res=myCo2.showConfirmDialog("Change co2 class");
 		if (res == 0) {
-			
+			//crear un evento nuevo del tipo setContClass
+			System.out.println(myCo2.getComboCo2()+"/"+myCo2.getComboV()+"/"+myCo2.getTic());
+			Pair<String, Integer> p = new Pair<String, Integer>(myCo2.getComboV(), myCo2.getComboCo2());
+			List<Pair<String, Integer>> cs = new ArrayList<Pair<String,Integer>>();
+			cs.add(p);
+			Event e = new SetContClassEvent(ticks+myCo2.getTic(), cs);
+			_ctrl.addEvent(e);
 		} 
 			
 	}
@@ -205,13 +219,19 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		System.exit(0);
 	}
 
-	
+	private void update(RoadMap map, List<Event> events, int time) {
+		this.map= map;
+		this.listE= events;
+		this.ticks= time;
+		
+	}
 	
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
+		update( map,  events, time);
 		
 	}
+
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
