@@ -68,11 +68,6 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	}
 
 	@Override
-	public String getColumnName(int col) {
-		return _colNames[col];
-	}
-	
-	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub
 		
