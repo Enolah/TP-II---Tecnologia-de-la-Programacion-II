@@ -1,7 +1,16 @@
 package extra.jtable;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.border.Border;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -11,18 +20,33 @@ import simulator.model.TrafficSimObserver;
 
 public class EventsTableModel extends AbstractTableModel implements TrafficSimObserver{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 	
-	private List<EventEx> _events;
-	private String[] _colNames = { "#", "Time", "Priority" };
+	private List<Event> _events;
+	private String[] _colNames = { "#", "Time", "Desc" };
 
 	public EventsTableModel(Controller _ctrl) {
 		this._ctrl = _ctrl;
 		_events=null;
+		initGUI();
+		_ctrl.addObserver(this);
+	}
+	
+	public void initGUI(){
+		
+		JPanel pnlEvent = new JPanel();
+		pnlEvent.setLayout(new BorderLayout());
+		
+		JTable tblEvents = new JTable(this);
+		
+		pnlEvent.add(new JScrollPane(tblEvents, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+		
+		_events= new ArrayList<Event>();
+		this.setEventsList(_events);
+		
+		
 	}
 
 	public void update() {
@@ -31,10 +55,10 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 		// en este caso de un ArrayList, hay que notificar los cambios.
 		
 		// We need to notify changes, otherwise the table does not refresh.
-		fireTableDataChanged();;		
+		fireTableDataChanged();	
 	}
 	
-	public void setEventsList(List<EventEx> events) {
+	public void setEventsList(List<Event> events) {
 		_events = events;
 		update();
 	}
@@ -82,10 +106,10 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 			s = rowIndex;
 			break;
 		case 1:
-			s = _events.get(rowIndex).getTime();
+		//	s = _events.get(rowIndex).getTime();
 			break;
 		case 2:
-			s = _events.get(rowIndex).getPriority();
+		//	s = _events.get(rowIndex).getPriority();
 			break;
 		}
 		return s;
