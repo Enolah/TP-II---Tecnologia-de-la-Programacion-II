@@ -26,7 +26,7 @@ public class SetContClassEvent extends Event {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Change CO2 class: [(" + cs.get(0).getFirst() + "," + cs.get(0).getSecond() + ")]";
 	}
 
 }

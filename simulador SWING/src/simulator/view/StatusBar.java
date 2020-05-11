@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import simulator.control.Controller;
@@ -11,10 +12,20 @@ import simulator.model.TrafficSimObserver;
 
 public class StatusBar extends JPanel implements TrafficSimObserver{
 
+	private JLabel time, event;
 	private Controller _ctrl;
 	
 	public StatusBar(Controller ctrl) {
 		this._ctrl = ctrl;
+		this.initStatusBar();
+	}
+	
+	private void initStatusBar() {
+		this.time = new JLabel();
+		this.time.setText("Time: 0");
+		this.event = new JLabel();
+		this.event.setText("No events added yet");
+		
 	}
 	
 	@Override

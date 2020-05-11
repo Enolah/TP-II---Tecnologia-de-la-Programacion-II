@@ -18,7 +18,7 @@ public class NewCityRoadEvent extends NewRoadEvent{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return null;
+		return "New CityRoad '" + getId() + "'";
 	}
 
 }

@@ -36,6 +36,6 @@ public class NewJunctionEvent extends Event {
 	@Override
 	public String toString() {
 		//TODO devuelve su descripcion (imagino que completa)
-	return "New Vehicle '" + id + "'" ;
+	return "New Junction '" + id + "'" ;
 	}
 }
