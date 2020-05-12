@@ -96,6 +96,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				_stopped=false;
 				run_sim((int) spinTicks.getValue()); //Provisional - Tiene que coger el valor de ticks
 				
 			}
@@ -141,9 +142,11 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	//TODO no funciona bien, solo se muestra la primera vez que se da al play
 	private void run_sim(int n) {
+		//System.out.println(_stopped);
 		if (n > 0 && !_stopped) {
 			try {
 				_ctrl.run(1,null);
+				//sleep(1)
 				enableToolBar(false);
 			} catch (Exception e) {
 				// TODO show error message
@@ -155,6 +158,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 				@Override
 				public void run() {
 					run_sim(n - 1);
+					
 				}
 			});
 		} else {
@@ -196,7 +200,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	
 	private void cambiaClase() {
-		ChangeCO2ClassDialog myCo2= new ChangeCO2ClassDialog(map);
+		ChangeCO2ClassDialog myCo2= new ChangeCO2ClassDialog(map);//pasar lista de vehiculos
 		int res=myCo2.showConfirmDialog("Change co2 class");
 		if (res == 0) {
 			//crear un evento nuevo del tipo setContClass

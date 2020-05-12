@@ -101,6 +101,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	public void addObserver(TrafficSimObserver o) {
 		// TODO Auto-generated method stub
 		listO.add(o);		
+		//onregister--  o.onrefgister
 	}
 
 	@Override

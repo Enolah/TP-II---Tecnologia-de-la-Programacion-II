@@ -74,7 +74,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 			i++;
 		}
 		JLabel ti= new JLabel("Ticks: ");
-		tic= new JSpinner (new SpinnerNumberModel(1,1,20,1));
+		tic= new JSpinner (new SpinnerNumberModel(1,1,1000,1));
 		
 		pnlMedio.add(ve);
 		pnlMedio.add(comboV);

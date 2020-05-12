@@ -97,7 +97,7 @@ public class JTableExamples extends JFrame {
 		eventsPanel.setBorder(BorderFactory.createTitledBorder(_defaultBorder, "Events", TitledBorder.LEFT,
 				TitledBorder.TOP));
 
-		// the model
+		// the model 
 		_model = new EventsTableModel(null);
 		_eventsTable = new JTable(_model);
 
