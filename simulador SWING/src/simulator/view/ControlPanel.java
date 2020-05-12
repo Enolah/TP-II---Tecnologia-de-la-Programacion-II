@@ -22,9 +22,11 @@ import javax.swing.SwingUtilities;
 import simulator.control.Controller;
 import simulator.misc.Pair;
 import simulator.model.Event;
+import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.SetContClassEvent;
 import simulator.model.TrafficSimObserver;
+import simulator.model.Vehicle;
 
 public class ControlPanel extends JPanel implements TrafficSimObserver{
 
@@ -39,6 +41,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private RoadMap map;
 	private List<Event> listE;
 	private int ticks;
+	
+	//atributos para las clases change
+	private List<Vehicle> listV;
+	private List<Road> listR;
 
 	public ControlPanel(Controller ctrl) {
 		this._ctrl = ctrl;
@@ -200,7 +206,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	
 	private void cambiaClase() {
-		ChangeCO2ClassDialog myCo2= new ChangeCO2ClassDialog(map);//pasar lista de vehiculos
+		listV= map.getVehicles();
+		ChangeCO2ClassDialog myCo2= new ChangeCO2ClassDialog(listV);//pasar lista de vehiculos
 		int res=myCo2.showConfirmDialog("Change co2 class");
 		if (res == 0) {
 			//crear un evento nuevo del tipo setContClass
@@ -215,7 +222,14 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	}
 
 	private void cambiaTiempo() {
-		//solo slihgag
+		listR= map.getRoads();
+		ChangeWeatherDialog myWea= new ChangeWeatherDialog(listR);//pasar lista de vehiculos
+		int res=myWea.showConfirmDialog("Change weather class");
+		if (res == 0) {
+			//crear un evento nuevo del tipo setContClass
+			System.out.println(myWea.getComboR()+"/"+myWea.getComboWea()+"/"+myWea.getTic());
+		
+		} 
 	}
 
 	//Posible cambio cuando se ejecute

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -27,7 +28,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 	public static final int CANCEL_OPTION=1;
 	private int result= -1;
 
-	private RoadMap map;
+	private List<Vehicle> listV;
 	
 	private JPanel pnlCO2 = new JPanel();
 	private JSpinner tic= new JSpinner();
@@ -36,9 +37,9 @@ public class ChangeCO2ClassDialog extends JDialog {
 	private JButton aceptar;
 	private JButton cancelar;
 	
-	public ChangeCO2ClassDialog(RoadMap map){
+	public ChangeCO2ClassDialog(List<Vehicle> listV){
 		super (new JFrame(), "CO2class", true);
-		this.map= map;
+		this.listV= listV;
 		initGUI();
 		
 		
@@ -63,7 +64,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		
 		JLabel ve= new JLabel ("vehicle: ");
 		comboV = new JComboBox<>();
-		for (Vehicle v: map.getVehicles()) {
+		for (Vehicle v: listV) {
 			comboV.addItem(v.getId());
 		}
 		JLabel co= new JLabel ("CO2 Class: ");
