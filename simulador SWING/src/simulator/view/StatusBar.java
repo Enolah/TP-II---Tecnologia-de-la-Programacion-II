@@ -31,13 +31,15 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub
-		
+		/*this.time.setText("Time " + time);
+		this.event.setText("Event added (" + e.toString() + ")");*/
 	}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub
-		
+		/*this.time.setText("Time " + time);
+		this.event.setText("Event added (" + e.toString() + ")");*/
 	}
 
 	@Override
@@ -63,7 +65,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 	@Override
 	public void onError(String err) {
 		// TODO Auto-generated method stub
-		
+		this.event.setText(err);
 	}
 
 }
