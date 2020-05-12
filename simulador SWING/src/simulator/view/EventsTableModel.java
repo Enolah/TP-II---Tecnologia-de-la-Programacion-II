@@ -24,12 +24,12 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	private Controller _ctrl;
 	
 	private List<Event> _events;
-	private JTable eventsTable;
-	private String[] _colNames = { "#", "Time", "Priority"};
 
-	public EventsTableModel(Controller _ctrl) {
-		this._ctrl = _ctrl;
-		_events=null;
+	private String[] _colNames = {"Time", "Priority"};
+
+	public EventsTableModel(Controller ctrl) {
+		this._ctrl = ctrl;
+		//_events=null;
 		_ctrl.addObserver(this);
 	}
 	
@@ -95,12 +95,9 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 		Object s = null;
 		switch (columnIndex) {
 		case 0:
-			s = rowIndex;
-			break;
-		case 1:
 			s = _events.get(rowIndex).getTime();
 			break;
-		case 2:
+		case 1:
 			s = _events.get(rowIndex).toString();
 			break;
 		}
@@ -111,13 +108,13 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {	
-		
+		update(events);
 	}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub
-		update(events);
+	//	update(events);
 	}
 
 	@Override
@@ -129,13 +126,13 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub
-		update(events);
+		//update(events);
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub
-		update(events);
+		//update(events);
 	}
 
 	@Override

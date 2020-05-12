@@ -13,13 +13,29 @@ import simulator.model.Vehicle;
 
 public class VehiclesTableModel extends AbstractTableModel implements TrafficSimObserver{
 
+
+	private static final long serialVersionUID = 1L;
+
 	private List<Vehicle> _vehicles;
+
 	private Controller _ctrl;
 	private String[] _colNames = {"id", "Location", "Itinerary", "CO2 Class", "Max. Speed", "Speed", "Total CO2", "Distance"};
 	
-	public VehiclesTableModel(Controller _ctrl) {
-		this._ctrl = _ctrl;
-		this._vehicles = null;
+	public VehiclesTableModel(Controller ctrl) {
+		this._ctrl = ctrl;
+	//	this._vehicles = null;
+		_ctrl.addObserver(this);
+	}
+	
+	public void update(RoadMap map) {
+		
+		_vehicles= map.getVehicles();
+		fireTableDataChanged();
+	}
+	
+	@Override
+	public String getColumnName(int col) {
+		return _colNames[col];
 	}
 	
 	@Override
@@ -30,7 +46,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
+		
 		return this._colNames.length;
 	}
 
@@ -39,27 +55,24 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 		Object s = null;
 		switch (columnIndex) {
 		case 0:
-			s = rowIndex;
-			break;
-		case 1:
 			s = _vehicles.get(rowIndex).getId();
 			break;
-		case 2:
+		case 1:
 			s = _vehicles.get(rowIndex).getLocation();
 			break;
-		case 3:
+		case 2:
 			s = _vehicles.get(rowIndex).getContClass();
 			break;
-		case 4:
+		case 3:
 			s = _vehicles.get(rowIndex).getMaxSpeed();
 			break;
-		case 5:
+		case 4:
 			s = _vehicles.get(rowIndex).getSpeed();
 			break;
-		case 6:
+		case 5:
 			s = _vehicles.get(rowIndex).getTotalPollution();
 			break;
-		case 7:
+		case 6:
 			s = _vehicles.get(rowIndex).getTotalDistance();
 			break;
 		}
@@ -68,7 +81,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
+		update(map);
 		
 	}
 
@@ -80,7 +93,7 @@ public class VehiclesTableModel extends AbstractTableModel implements TrafficSim
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
+		update(map);
 		
 	}
 

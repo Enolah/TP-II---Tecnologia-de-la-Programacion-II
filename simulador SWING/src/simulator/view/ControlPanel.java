@@ -124,7 +124,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		ImageIcon icon5= new ImageIcon("resources/icons/exit.png");
 		JLabel tic= new JLabel("Ticks: ");
 		//empieza desde 1, pq es el valor minimo que puedes añadir a los ticks
-		spinTicks= new JSpinner (new SpinnerNumberModel(1,1,10,1));
+		spinTicks= new JSpinner (new SpinnerNumberModel(1,1,1000,1));
 		
 		this.btnExit = new JButton(icon5);
 		this.btnExit.addActionListener(new ActionListener() {

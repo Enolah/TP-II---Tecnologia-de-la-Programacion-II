@@ -1,6 +1,5 @@
 package simulator.model;
 
-import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -55,6 +54,10 @@ public class Junction extends SimulatedObject {
 
 	public List<Road> getInRoads() {
 		return this.listR;
+	}
+	
+	public Map<String, List<Vehicle>> getMapR_Q(){
+		return this.mapR_Q;
 	}
 
 	/*

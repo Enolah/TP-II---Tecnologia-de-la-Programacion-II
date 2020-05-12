@@ -12,12 +12,15 @@ import simulator.model.TrafficSimObserver;
 
 public class StatusBar extends JPanel implements TrafficSimObserver{
 
+	
+	private static final long serialVersionUID = 1L;
 	private JLabel time, event;
 	private Controller _ctrl;
 	
 	public StatusBar(Controller ctrl) {
 		this._ctrl = ctrl;
 		this.initStatusBar();
+		_ctrl.addObserver(this);
 	}
 	
 	private void initStatusBar() {
