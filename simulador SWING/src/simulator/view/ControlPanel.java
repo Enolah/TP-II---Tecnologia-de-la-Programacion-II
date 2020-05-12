@@ -154,7 +154,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		if (n > 0 && !_stopped) {
 			try {
 				_ctrl.run(1,null);
-				//sleep(1)
+				Thread.sleep(1000);
 				enableToolBar(false);
 			} catch (Exception e) {
 				// TODO show error message

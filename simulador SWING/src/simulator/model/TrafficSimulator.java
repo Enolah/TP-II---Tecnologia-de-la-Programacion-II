@@ -99,14 +99,12 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	
 	@Override
 	public void addObserver(TrafficSimObserver o) {
-		// TODO Auto-generated method stub
 		listO.add(o);		
-		//onregister--  o.onrefgister
+		notiOnRegister(mapR, listE, tick);
 	}
 
 	@Override
 	public void removeObserver(TrafficSimObserver o) {
-		// TODO Auto-generated method stub
 		listO.remove(o);
 	}
 	
