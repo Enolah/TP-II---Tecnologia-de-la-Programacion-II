@@ -228,9 +228,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		ChangeWeatherDialog myWea= new ChangeWeatherDialog(listR);
 		int res=myWea.showConfirmDialog("Change weather class"); 
 		if (res == 0) {
-			//crear un evento nuevo del tipo setContClass
+			
 			System.out.println(myWea.getComboR()+"/"+myWea.getComboWea()+"/"+myWea.getTic());
-		
+			//crear evento de set weather
 		} 
 	}
 
