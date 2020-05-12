@@ -62,7 +62,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		JPanel pnlMedio = new JPanel();
 		pnlMedio.setLayout(new FlowLayout());
 		
-		JLabel ve= new JLabel ("vehicle: ");
+		JLabel ve= new JLabel ("Vehicle: ");
 		comboV = new JComboBox<>();
 		for (Vehicle v: listV) {
 			comboV.addItem(v.getId());
@@ -130,7 +130,7 @@ public class ChangeCO2ClassDialog extends JDialog {
 		setLocationRelativeTo(getParent()); //para que la ventana 
 											//salga en el centro
 		pack();
-		setSize(350,150);
+		setSize(550,150);
 		setVisible(true);
 		return result;
 	}

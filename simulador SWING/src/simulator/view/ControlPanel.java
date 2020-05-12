@@ -49,6 +49,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	public ControlPanel(Controller ctrl) {
 		this._ctrl = ctrl;
 		this._stopped = false;
+		listV=new ArrayList<Vehicle>();
+		listR=new ArrayList<Road>();
 		initGUI();
 		_ctrl.addObserver(this);
 	}
@@ -207,7 +209,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	
 	private void cambiaClase() {
 		listV= map.getVehicles();
-		ChangeCO2ClassDialog myCo2= new ChangeCO2ClassDialog(listV);//pasar lista de vehiculos
+		ChangeCO2ClassDialog myCo2= new ChangeCO2ClassDialog(listV);
 		int res=myCo2.showConfirmDialog("Change co2 class");
 		if (res == 0) {
 			//crear un evento nuevo del tipo setContClass
@@ -223,8 +225,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	private void cambiaTiempo() {
 		listR= map.getRoads();
-		ChangeWeatherDialog myWea= new ChangeWeatherDialog(listR);//pasar lista de vehiculos
-		int res=myWea.showConfirmDialog("Change weather class");
+		ChangeWeatherDialog myWea= new ChangeWeatherDialog(listR);
+		int res=myWea.showConfirmDialog("Change weather class"); 
 		if (res == 0) {
 			//crear un evento nuevo del tipo setContClass
 			System.out.println(myWea.getComboR()+"/"+myWea.getComboWea()+"/"+myWea.getTic());
@@ -260,7 +262,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
+		update(map,events,time);
 		
 	}
 
