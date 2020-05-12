@@ -1,4 +1,4 @@
-package extra.jtable;
+package simulator.view;
 
 import java.util.List;
 
@@ -7,26 +7,25 @@ import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
 import simulator.model.Event;
-import simulator.model.Junction;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
+import simulator.model.Vehicle;
 
-public class JunctionsTableModel extends AbstractTableModel implements TrafficSimObserver{
+public class VehiclesTableModel extends AbstractTableModel implements TrafficSimObserver{
 
-	private static final long serialVersionUID = 1L;
-	private List<Junction> _junctionsList;
+	private List<Vehicle> _vehicles;
 	private Controller _ctrl;
-	private String[] _colNames = {"id", "Green", "Queues"};
+	private String[] _colNames = {"id", "Location", "Itinerary", "CO2 Class", "Max. Speed", "Speed", "Total CO2", "Distance"};
 	
-	public JunctionsTableModel(Controller _ctrl) {
+	public VehiclesTableModel(Controller _ctrl) {
 		this._ctrl = _ctrl;
-		this._junctionsList = null;
+		this._vehicles = null;
 	}
 	
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return this._junctionsList == null ? 0 : this._junctionsList.size();
+		return this._vehicles == null ? 0 : this._vehicles.size();
 	}
 
 	@Override
@@ -43,13 +42,25 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 			s = rowIndex;
 			break;
 		case 1:
-			s = _junctionsList.get(rowIndex).getId();
+			s = _vehicles.get(rowIndex).getId();
 			break;
 		case 2:
-			s = _junctionsList.get(rowIndex).getGreenLightIndex();
+			s = _vehicles.get(rowIndex).getLocation();
 			break;
 		case 3:
-			s = _junctionsList.get(rowIndex).getInRoads(); //Posiblemente mal
+			s = _vehicles.get(rowIndex).getContClass();
+			break;
+		case 4:
+			s = _vehicles.get(rowIndex).getMaxSpeed();
+			break;
+		case 5:
+			s = _vehicles.get(rowIndex).getSpeed();
+			break;
+		case 6:
+			s = _vehicles.get(rowIndex).getTotalPollution();
+			break;
+		case 7:
+			s = _vehicles.get(rowIndex).getTotalDistance();
 			break;
 		}
 		return s;

@@ -1,4 +1,4 @@
-package extra.jtable;
+package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

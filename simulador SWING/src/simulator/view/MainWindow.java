@@ -16,10 +16,6 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import extra.jtable.EventsTableModel;
-import extra.jtable.JunctionsTableModel;
-import extra.jtable.RoadsTableModel;
-import extra.jtable.VehiclesTableModel;
 import simulator.control.Controller;
 
 public class MainWindow extends JFrame {

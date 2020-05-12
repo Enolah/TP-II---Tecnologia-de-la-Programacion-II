@@ -1,4 +1,4 @@
-package extra.jtable;
+package simulator.view;
 
 import java.util.List;
 
@@ -7,29 +7,26 @@ import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
 import simulator.model.Event;
-import simulator.model.Road;
+import simulator.model.Junction;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
-public class RoadsTableModel extends AbstractTableModel implements TrafficSimObserver{
+public class JunctionsTableModel extends AbstractTableModel implements TrafficSimObserver{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private List<Road> _roadsList;
+	private List<Junction> _junctionsList;
 	private Controller _ctrl;
-	private String[] _colNames = {"id", "Length", "Weather", "Max. Speed", "Speed Limit", "Total CO2", "CO2 Limit"};
+	private String[] _colNames = {"id", "Green", "Queues"};
 	
-	public RoadsTableModel(Controller _ctrl) {
+	public JunctionsTableModel(Controller _ctrl) {
 		this._ctrl = _ctrl;
-		this._roadsList = null;
+		this._junctionsList = null;
 	}
 	
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return this._roadsList == null ? 0 : this._roadsList.size();
+		return this._junctionsList == null ? 0 : this._junctionsList.size();
 	}
 
 	@Override
@@ -40,32 +37,19 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
 		Object s = null;
 		switch (columnIndex) {
 		case 0:
 			s = rowIndex;
 			break;
 		case 1:
-			s = _roadsList.get(rowIndex).getId();
+			s = _junctionsList.get(rowIndex).getId();
 			break;
 		case 2:
-			s = _roadsList.get(rowIndex).getLength();
+			s = _junctionsList.get(rowIndex).getGreenLightIndex();
 			break;
 		case 3:
-			s = _roadsList.get(rowIndex).getWeather(); 
-			break;
-		case 4:
-			s = _roadsList.get(rowIndex).getMaxSpeed();
-			break;
-		case 5:
-			s = _roadsList.get(rowIndex).getLimitSpeed();
-			break;
-		case 6:
-			s = _roadsList.get(rowIndex).getTotalPollution();
-			break;
-		case 7:
-			s = _roadsList.get(rowIndex).getContLimit();
+			s = _junctionsList.get(rowIndex).getInRoads(); //Posiblemente mal
 			break;
 		}
 		return s;
