@@ -106,7 +106,7 @@ public class JTableExamples extends JFrame {
 
 		// the actual events list
 		_events = new ArrayList<EventEx>();
-		_model.setEventsList1(_events);
+	//	_model.setEventsList1(_events);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(700, 300);
