@@ -189,6 +189,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 			_ctrl.reset();
 			InputStream in = new FileInputStream(archivoElegido);
 			_ctrl.loadEvents(in);
+			
 		}
 		
 	}

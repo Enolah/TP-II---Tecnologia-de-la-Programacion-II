@@ -106,7 +106,7 @@ public class JTableExamples extends JFrame {
 
 		// the actual events list
 		_events = new ArrayList<EventEx>();
-	//	_model.setEventsList(_events);
+		_model.setEventsList1(_events);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(700, 300);
@@ -128,7 +128,7 @@ public class JTableExamples extends JFrame {
 			// required in the assignment, it will be notified directly by the 
 			// TrafficSimulator since it is an observer
 			//
-			_model.update();
+	//		_model.update();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog( //
 					(Frame) SwingUtilities.getWindowAncestor(this), //

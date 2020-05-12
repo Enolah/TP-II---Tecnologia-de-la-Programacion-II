@@ -13,6 +13,7 @@ import simulator.model.TrafficSimObserver;
 
 public class JunctionsTableModel extends AbstractTableModel implements TrafficSimObserver{
 
+	private static final long serialVersionUID = 1L;
 	private List<Junction> _junctionsList;
 	private Controller _ctrl;
 	private String[] _colNames = {"id", "Green", "Queues"};

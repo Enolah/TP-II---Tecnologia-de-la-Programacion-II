@@ -24,43 +24,34 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	private Controller _ctrl;
 	
 	private List<Event> _events;
-	private String[] _colNames = { "#", "Time", "Desc" };
+	private JTable eventsTable;
+	private String[] _colNames = { "#", "Time", "Priority"};
 
 	public EventsTableModel(Controller _ctrl) {
 		this._ctrl = _ctrl;
 		_events=null;
-		initGUI();
 		_ctrl.addObserver(this);
 	}
 	
-	public void initGUI(){
-		
-		JPanel pnlEvent = new JPanel();
-		pnlEvent.setLayout(new BorderLayout());
-		
-		JTable tblEvents = new JTable(this);
-		
-		pnlEvent.add(new JScrollPane(tblEvents, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
-		
-		_events= new ArrayList<Event>();
-		this.setEventsList(_events);
-		
-		
-	}
 
-	public void update() {
+	public void update(List<Event> e) {
 		// observar que si no refresco la tabla no se carga
 		// La tabla es la represantación visual de una estructura de datos,
 		// en este caso de un ArrayList, hay que notificar los cambios.
 		
 		// We need to notify changes, otherwise the table does not refresh.
-		fireTableDataChanged();	
+		_events=e;
+		fireTableDataChanged();
 	}
 	
-	public void setEventsList(List<Event> events) {
-		_events = events;
-		update();
+
+	public void setEventsList(List<Event> listE){
+		_events=listE;
+		update(listE);
+	}
+	public void setEventsList1(List<EventEx> events) { //set de ejemplo, eliminar
+		//_events = events;
+		//update();
 	}
 
 	@Override
@@ -106,43 +97,44 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 			s = rowIndex;
 			break;
 		case 1:
-		//	s = _events.get(rowIndex).getTime();
+			s = _events.get(rowIndex).getTime();
 			break;
 		case 2:
-		//	s = _events.get(rowIndex).getPriority();
+			s = _events.get(rowIndex).toString();
 			break;
 		}
 		return s;
 	}
+	
+	
 
 	@Override
-	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
+	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {	
 		
 	}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub
-		
+		update(events);
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
 		
+		update(events);
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub
-		
+		update(events);
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
 		// TODO Auto-generated method stub
-		
+		update(events);
 	}
 
 	@Override
