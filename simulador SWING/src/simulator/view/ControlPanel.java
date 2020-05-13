@@ -25,8 +25,10 @@ import simulator.model.Event;
 import simulator.model.Road;
 import simulator.model.RoadMap;
 import simulator.model.SetContClassEvent;
+import simulator.model.SetWeatherEvent;
 import simulator.model.TrafficSimObserver;
 import simulator.model.Vehicle;
+import simulator.model.Weather;
 
 public class ControlPanel extends JPanel implements TrafficSimObserver{
 
@@ -197,7 +199,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		int respuesta = fc.showOpenDialog(this);
 		if (respuesta == JFileChooser.APPROVE_OPTION) {
 			File archivoElegido = fc.getSelectedFile();
-			System.out.println(archivoElegido.getName());
+	//		System.out.println(archivoElegido.getName());
 			_ctrl.reset();
 			InputStream in = new FileInputStream(archivoElegido);
 			_ctrl.loadEvents(in);
@@ -213,7 +215,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 		int res=myCo2.showConfirmDialog("Change co2 class");
 		if (res == 0) {
 			//crear un evento nuevo del tipo setContClass
-			System.out.println(myCo2.getComboCo2()+"/"+myCo2.getComboV()+"/"+myCo2.getTic());
+	//		System.out.println(myCo2.getComboCo2()+"/"+myCo2.getComboV()+"/"+myCo2.getTic());
 			Pair<String, Integer> p = new Pair<String, Integer>(myCo2.getComboV(), myCo2.getComboCo2());
 			List<Pair<String, Integer>> cs = new ArrayList<Pair<String,Integer>>();
 			cs.add(p);
@@ -226,18 +228,28 @@ public class ControlPanel extends JPanel implements TrafficSimObserver{
 	private void cambiaTiempo() {
 		listR= map.getRoads();
 		ChangeWeatherDialog myWea= new ChangeWeatherDialog(listR);
+		
 		int res=myWea.showConfirmDialog("Change weather class"); 
 		if (res == 0) {
-			
-			System.out.println(myWea.getComboR()+"/"+myWea.getComboWea()+"/"+myWea.getTic());
 			//crear evento de set weather
+		//	System.out.println(myWea.getComboR()+"/"+myWea.getComboWea()+"/"+myWea.getTic());
+			Pair<String, Weather> p = new Pair<String, Weather>(myWea.getComboR(), myWea.getComboWea());
+			List<Pair<String, Weather>> cs = new ArrayList<Pair<String,Weather>>();
+			cs.add(p);
+			Event e = new SetWeatherEvent(ticks+myWea.getTic(), cs);
+			_ctrl.addEvent(e);
 		} 
 	}
 
 	//Posible cambio cuando se ejecute
 	private void exit() {
-		JOptionPane.showConfirmDialog(this, "¿Desea salir del programa?");
-		System.exit(0);
+		 int confirm = JOptionPane.showOptionDialog(
+	             null, "¿Quieres salir de la aplicacion?", 
+	             "Confirmacion de salida", JOptionPane.YES_NO_OPTION, 
+	             JOptionPane.QUESTION_MESSAGE, null, null, null);
+	        if (confirm == 0) {
+	           System.exit(0);
+	        }
 	}
 
 	private void update(RoadMap map, List<Event> events, int time) {

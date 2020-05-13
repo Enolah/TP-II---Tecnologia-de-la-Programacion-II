@@ -21,7 +21,6 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	
 	public JunctionsTableModel(Controller ctrl) {
 		this._ctrl = ctrl;
-		//this._junctionsList = null;
 		_ctrl.addObserver(this);
 	}
 	
@@ -38,13 +37,11 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 	
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
 		return this._junctionsList == null ? 0 : this._junctionsList.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
 		return this._colNames.length;
 	}
 
@@ -56,13 +53,16 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 			s = _junctionsList.get(rowIndex).getId();
 			break;
 		case 1:
-			if(_junctionsList.get(rowIndex).getGreenLightIndex()<=0)
+			if(_junctionsList.get(rowIndex).getGreenLightIndex()<0)
 				s= "NONE";
 			else
-				s = _junctionsList.get(rowIndex).getGreenLightIndex();
+				s = _junctionsList.get(rowIndex).getRoadCurrGreen();
 			break;
 		case 2:
-			s = _junctionsList.get(rowIndex).getMapR_Q();
+			if(_junctionsList==null)
+				s=" ";
+			else
+				s = _junctionsList.get(rowIndex).getMapR_Q();
 			break;
 		}
 		return s;

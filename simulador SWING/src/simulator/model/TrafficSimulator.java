@@ -59,8 +59,9 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 				listE.remove(i);
 				try{
 				e.execute(mapR);
-				} catch (Exception e1){
-					System.out.println(e1);
+				} catch (Exception ex){
+					notiOnError(ex.getMessage());
+					System.out.println(ex);
 				}
 				i--;
 			}

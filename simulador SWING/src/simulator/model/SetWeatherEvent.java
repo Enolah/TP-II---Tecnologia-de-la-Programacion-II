@@ -27,8 +27,13 @@ public class SetWeatherEvent extends Event{
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "Change Weather [(" + ws.get(0).getFirst() + "," + ws.get(0).getSecond() + ")]";
+		String s= "Change Weather [";
+		for (Pair<String, Weather> pair : ws) {
+			s+= "(" +pair.getFirst() + "," ;
+			s+= pair.getSecond() + ")";
+		}
+		s+= "]";
+		return s;
 	}
 
 }

@@ -25,8 +25,15 @@ public class SetContClassEvent extends Event {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "Change CO2 class: [(" + cs.get(0).getFirst() + "," + cs.get(0).getSecond() + ")]";
+		
+		String s= "Change CO2 class: [";
+		for (Pair<String, Integer> pair : cs) {
+			s+="(" + pair.getFirst() + "," ;
+			s+= pair.getSecond() + ")";
+			
+		}
+		s+= "]";
+		return s;
 	}
 
 }

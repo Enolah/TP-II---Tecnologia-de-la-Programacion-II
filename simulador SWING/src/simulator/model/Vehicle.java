@@ -15,7 +15,7 @@ public class Vehicle extends SimulatedObject {
 	private int actSpeed; //velocidad actual
 	private VehicleStatus status; //estado
 	private Road road; //carretera
-	private int location; //localizacion
+	private int location; //localizacio
 	private int contClass; //grado de contaminacion del vehiculo
 	private int totalPollution; //contaminacion total
 	private int totalDistance; //distancia total recorrida
@@ -58,7 +58,7 @@ public class Vehicle extends SimulatedObject {
 	}
 	
 	public int getTotalPollution() {
-		return totalPollution+road.getTotalPollution();
+		return totalPollution;
 	}
 	
 	protected void setSpeed(int s) {

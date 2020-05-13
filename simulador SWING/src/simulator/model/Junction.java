@@ -51,6 +51,10 @@ public class Junction extends SimulatedObject {
 	public int getGreenLightIndex() {
 		return this.currGreen;
 	}
+	
+	public String getRoadCurrGreen(){
+		return this.listR.get(currGreen).getId();
+	}
 
 	public List<Road> getInRoads() {
 		return this.listR;

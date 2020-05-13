@@ -1,9 +1,11 @@
 package simulator.view;
 
+
 import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 
 import simulator.control.Controller;
 import simulator.model.Event;
@@ -14,7 +16,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 
 	
 	private static final long serialVersionUID = 1L;
-	private JLabel time, event;
+	private JLabel lblTime, lblEvent;
 	private Controller _ctrl;
 	
 	public StatusBar(Controller ctrl) {
@@ -24,37 +26,42 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 	}
 	
 	private void initStatusBar() {
-		this.time = new JLabel();
-		this.time.setText("Time: 0");
-		this.event = new JLabel();
-		this.event.setText("No events added yet");
+	
+		this.lblTime = new JLabel();
+		this.lblTime.setText("Time: ");
+		this.lblEvent = new JLabel();
+		this.lblEvent.setText("Welcome ");
+		
+		this.add(lblTime);
+		this.add(lblEvent);
 		
 	}
 	
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		this.time.setText("Time " + time);
+		
+		this.lblTime.setText("Time " + time);
+		this.lblEvent.setText("");
 	}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		this.time.setText("Time " + time);
+		
+		this.lblTime.setText("Time " + time);
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		// TODO Auto-generated method stub
-		this.time.setText("Time " + time);
-		this.event.setText("Event added (" + e.toString() + ")");
+		
+		this.lblTime.setText("Time " + time);
+		this.lblEvent.setText("Event added (" + e.toString() + ")");
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		this.time.setText("Time: 0");
-		this.event.setText("No events added yet");
+		
+		this.lblTime.setText("");
+		this.lblEvent.setText("");
 	}
 
 	@Override
@@ -66,7 +73,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 	@Override
 	public void onError(String err) {
 		// TODO Auto-generated method stub
-		this.event.setText(err);
+		this.lblEvent.setText(err);
 	}
 
 }

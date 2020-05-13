@@ -122,7 +122,6 @@ public class ChangeCO2ClassDialog extends JDialog {
 	}
 
 	
-	//getters
 	
 
 	public int showConfirmDialog(String title) {

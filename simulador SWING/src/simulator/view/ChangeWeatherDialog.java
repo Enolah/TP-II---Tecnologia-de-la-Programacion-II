@@ -132,8 +132,8 @@ public class ChangeWeatherDialog extends JDialog {
 		return (int) tic.getValue();
 	}
 
-	public String getComboWea() {
-		return comboWea.getSelectedItem().toString();
+	public Weather getComboWea() {
+		return Weather.valueOf(comboWea.getSelectedItem().toString());
 	}
 
 	public String getComboR() {
