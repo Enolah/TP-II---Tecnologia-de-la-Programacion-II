@@ -111,8 +111,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				_stopped = false;
-				ticks = (int) spinTicks.getValue();
-				run_sim(ticks); // Provisional - Tiene que coger el valor de ticks
+				run_sim((int) spinTicks.getValue()); 
 
 			}
 		});
@@ -154,7 +153,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	}
 
-	// TODO no funciona bien, solo se muestra la primera vez que se da al play
+	
 	private void run_sim(int n) {
 		// System.out.println(_stopped);
 		if (n > 0 && !_stopped) {
