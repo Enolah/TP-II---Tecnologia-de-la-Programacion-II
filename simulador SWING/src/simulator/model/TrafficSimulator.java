@@ -73,7 +73,12 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 		}
 		//4. llama al método advance de todas las carreteras.
 		for (Road r : mapR.getRoads()) {
-			r.advance(tick);
+			try {
+				r.advance(tick);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		notiOnAdvanceEnd(mapR,listE,tick);
