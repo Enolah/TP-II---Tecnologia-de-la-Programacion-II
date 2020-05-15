@@ -151,6 +151,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		this.add(spinTicks);
 		this.add(btnExit);
 
+		//Deja deshabilitados los botones para cambiar el tiempo o la clase de contaminacion
+		this.enableToolBarStart();
+		
 	}
 
 	private void run_sim(int n) {
@@ -189,6 +192,16 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	}
 
+	private void enableToolBarStart() {
+
+		this.btnCargaEventos.setEnabled(true);
+		this.btnCambiaClase.setEnabled(false);
+		this.btnCambiaTiempo.setEnabled(false);
+		this.btnPlay.setEnabled(true);
+		this.btnExit.setEnabled(true);
+
+	}
+	
 	private void stop() {
 		this._stopped = true;
 		this.enableToolBar(true);
@@ -212,7 +225,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				this._ctrl.loadEvents(in);
 			} else
 				throw new IOException("Archivo con formato erroneo");
-
+			//Una vez se ha cargado un fichero valido, habilita el resto de los botones
+			this.enableToolBar(true);
 		}
 
 	}
