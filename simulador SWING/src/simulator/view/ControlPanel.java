@@ -50,10 +50,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	public ControlPanel(Controller ctrl) {
 		this._ctrl = ctrl;
 		this._stopped = false;
-		listV = new ArrayList<Vehicle>();
-		listR = new ArrayList<Road>();
-		initGUI();
-		_ctrl.addObserver(this);
+		this.listV = new ArrayList<Vehicle>();
+		this.listR = new ArrayList<Road>();
+		this.initGUI();
+		this._ctrl.addObserver(this);
 	}
 
 	private void initGUI() {
@@ -66,9 +66,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					cargaEventos();
-				} catch (IOException e1) {
+				} catch (IOException ex) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					onError(ex.getMessage());
 				}
 
 			}
@@ -83,7 +83,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				try {
 					cambiaClase();
 				} catch (NullPointerException ex) {
-					ex.printStackTrace();
+					onError(ex.getMessage());
 				}
 
 			}
@@ -98,7 +98,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				try {
 					cambiaTiempo();
 				} catch (NullPointerException ex) {
-					ex.printStackTrace();
+					onError(ex.getMessage());
 				}
 
 			}
@@ -111,7 +111,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				_stopped = false;
-				run_sim((int) spinTicks.getValue()); 
+				run_sim((int) spinTicks.getValue());
 
 			}
 		});
@@ -130,7 +130,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		// ImageIcon icon5 = new ImageIcon("resources/icons/exit.png");
 		JLabel tic = new JLabel("Ticks: ");
 		// empieza desde 1, pq es el valor minimo que puedes añadir a los ticks
-		spinTicks = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
+		this.spinTicks = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
 
 		this.btnExit = new JButton(new ImageIcon("resources/icons/exit.png"));
 		this.btnExit.addActionListener(new ActionListener() {
@@ -153,18 +153,17 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	}
 
-	
 	private void run_sim(int n) {
 		// System.out.println(_stopped);
-		if (n > 0 && !_stopped) {
+		if (n > 0 && !this._stopped) {
 			try {
-				_ctrl.run(1, null);
+				this._ctrl.run(1, null);
 				Thread.sleep(1000);
-				enableToolBar(false);
+				this.enableToolBar(false);
 			} catch (Exception e) {
 				// TODO show error message
-				e.printStackTrace();
-				_stopped = true;
+				this.onError(e.getMessage());
+				this._stopped = true;
 				return;
 			}
 			SwingUtilities.invokeLater(new Runnable() {
@@ -175,8 +174,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				}
 			});
 		} else {
-			enableToolBar(true);
-			_stopped = true;
+			this.enableToolBar(true);
+			this._stopped = true;
 		}
 	}
 
@@ -191,8 +190,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 
 	private void stop() {
-		_stopped = true;
-		enableToolBar(true);
+		this._stopped = true;
+		this.enableToolBar(true);
 
 	}
 
@@ -208,9 +207,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 			if (nombreFichero.substring(nombreFichero.lastIndexOf("."), nombreFichero.length())
 					.equalsIgnoreCase(".json")) {
-				_ctrl.reset();
+				this._ctrl.reset();
 				InputStream in = new FileInputStream(archivoElegido);
-				_ctrl.loadEvents(in);
+				this._ctrl.loadEvents(in);
 			} else
 				throw new IOException("Archivo con formato erroneo");
 
@@ -218,43 +217,52 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	}
 
-	private void cambiaClase() {
-		listV = map.getVehicles();
-		ChangeCO2ClassDialog myCo2 = new ChangeCO2ClassDialog(listV);
-		int res = myCo2.showConfirmDialog("Change co2 class");
-		if (res == 0) {
-			// crear un evento nuevo del tipo setContClass
-			// System.out.println(myCo2.getComboCo2()+"/"+myCo2.getComboV()+"/"+myCo2.getTic());
-			Pair<String, Integer> p = new Pair<String, Integer>(myCo2.getComboV(), myCo2.getComboCo2());
-			List<Pair<String, Integer>> cs = new ArrayList<Pair<String, Integer>>();
+	private void cambiaClase() throws NullPointerException {
+		this.listV = this.map.getVehicles();
 
-			if (p != null && cs != null) {
-				cs.add(p);
-				Event e = new SetContClassEvent(ticks + myCo2.getTic(), cs);
-				_ctrl.addEvent(e);
-			} else
-				throw new NullPointerException("Error al recoger los datos de ChangeCO2ClassDialog.");
-		}
+		if (this.listV.size() != 0) {
+			ChangeCO2ClassDialog myCo2 = new ChangeCO2ClassDialog(listV);
+			int res = myCo2.showConfirmDialog("Change co2 class");
+			if (res == 0) {
+				// crear un evento nuevo del tipo setContClass
+				// System.out.println(myCo2.getComboCo2()+"/"+myCo2.getComboV()+"/"+myCo2.getTic());
+				Pair<String, Integer> p = new Pair<String, Integer>(myCo2.getComboV(), myCo2.getComboCo2());
+				List<Pair<String, Integer>> cs = new ArrayList<Pair<String, Integer>>();
+
+				if (p != null && cs != null) {
+					cs.add(p);
+					Event e = new SetContClassEvent(this.ticks + myCo2.getTic(), cs);
+					this._ctrl.addEvent(e);
+				} else
+					throw new NullPointerException("Error al recoger los datos de ChangeCO2ClassDialog.");
+			}
+		} else
+			throw new NullPointerException("Lista de vehiculos vacía.");
 
 	}
 
-	private void cambiaTiempo() {
-		listR = map.getRoads();
-		ChangeWeatherDialog myWea = new ChangeWeatherDialog(listR);
+	private void cambiaTiempo() throws NullPointerException {
+		this.listR = this.map.getRoads();
 
-		int res = myWea.showConfirmDialog("Change weather class");
-		if (res == 0) {
-			// crear evento de set weather
-			// System.out.println(myWea.getComboR()+"/"+myWea.getComboWea()+"/"+myWea.getTic());
-			Pair<String, Weather> p = new Pair<String, Weather>(myWea.getComboR(), myWea.getComboWea());
-			List<Pair<String, Weather>> cs = new ArrayList<Pair<String, Weather>>();
-			if (p != null && cs != null) {
-				cs.add(p);
-				Event e = new SetWeatherEvent(ticks + myWea.getTic(), cs);
-				_ctrl.addEvent(e);
-			} else
-				throw new NullPointerException("Error al recoger los datos de ChangeWeatherDialog.");
-		}
+		if (this.listR.size() != 0) {
+			ChangeWeatherDialog myWea = new ChangeWeatherDialog(this.listR);
+
+			int res = myWea.showConfirmDialog("Change weather class");
+			if (res == 0) {
+				// crear evento de set weather
+				// System.out.println(myWea.getComboR()+"/"+myWea.getComboWea()+"/"+myWea.getTic());
+				Pair<String, Weather> p = new Pair<String, Weather>(myWea.getComboR(), myWea.getComboWea());
+				List<Pair<String, Weather>> cs = new ArrayList<Pair<String, Weather>>();
+				if (p != null && cs != null) {
+					cs.add(p);
+					Event e = new SetWeatherEvent(this.ticks + myWea.getTic(), cs);
+					this._ctrl.addEvent(e);
+				} else
+					throw new NullPointerException("Error al recoger los datos de ChangeWeatherDialog.");
+			}
+
+		} else
+			throw new NullPointerException("Lista de carreteras vacía.");
 	}
 
 	// Posible cambio cuando se ejecute
@@ -275,7 +283,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		update(map, events, time);
+		this.update(map, events, time);
 
 	}
 
@@ -287,7 +295,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		update(map, events, time);
+		this.update(map, events, time);
 
 	}
 
@@ -306,7 +314,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	@Override
 	public void onError(String err) {
 		// TODO Auto-generated method stub
-
+		JOptionPane.showMessageDialog(null, err);
 	}
 
 }
