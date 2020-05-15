@@ -153,13 +153,10 @@ public abstract class Road extends SimulatedObject {
 		}*/
 		
 		for (Vehicle v : listV) {
-			if(v != null)
+			
 				//a) velocidad= calculate
-				v.setSpeed(calculateVehicleSpeed(v));
-			
-			else 
-				throw new Exception("HE PETAO");
-			
+			v.setSpeed(calculateVehicleSpeed(v));
+		
 			v.advance(time);
 			
 		}

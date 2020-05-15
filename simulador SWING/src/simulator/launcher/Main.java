@@ -52,6 +52,8 @@ public class Main {
 	private static Integer _timeLimit = null;// numnero de pasos
 	private static String _outFile = null; // fichero de salida
 	private static Factory<Event> _eventsFactory = null;
+	private final static String _modeDefaultValue= "gui";
+	private static String _model= "";
 
 	private static void parseArgs(String[] args) {
 
@@ -65,9 +67,11 @@ public class Main {
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
 			parseHelpOption(line, cmdLineOptions);
+			parseModeOption(line);
 			parseInFileOption(line);
 			parseOutFileOption(line);
 			parseTickOption(line);
+			
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -95,6 +99,7 @@ public class Main {
 				Option.builder("o").longOpt("output").hasArg().desc("Output file, where reports are written.").build());
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message").build());
 		cmdLineOptions.addOption(Option.builder("t").longOpt("tick").hasArg().build());
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg().build());
 
 		return cmdLineOptions;
 	}
@@ -108,23 +113,40 @@ public class Main {
 	}
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
+		
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null) {
+		if (_inFile == null && _model=="console") {
 			throw new ParseException("An events file is missing");
 		}
 	}
 
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		_outFile = line.getOptionValue("o");
+		if (_outFile == null && _model=="console") {
+			throw new ParseException("An events file is missing");
+		}
 	}
 
 	private static void parseTickOption(CommandLine line) { // indica el numero de ticks que necesita el simulador
 
 		String s = line.getOptionValue("t");
-		_timeLimit = Integer.valueOf(s);
-		if (_timeLimit == null)
+		if (s != null) {
+			_timeLimit = Integer.valueOf(s);
+			if (_timeLimit == null)
+				_timeLimit = _timeLimitDefaultValue;
+		}
+		else 
 			_timeLimit = _timeLimitDefaultValue;
 
+	}
+	
+	private static void parseModeOption(CommandLine line){ //indica el modo en el que se ejecuta el TS
+		
+		String s= line.getOptionValue("m");
+		_model= s;
+		if(_model==null){
+			_model=_modeDefaultValue;
+		}
 	}
 
 	private static void initFactories() {
@@ -170,11 +192,14 @@ public class Main {
 
 	private static void startGUIMode() throws IOException {
 		
-		InputStream in = new FileInputStream(new File(_inFile));
-	//	OutputStream out = _outFile == null ? System.out : new FileOutputStream(new File(_outFile));
+		
 		TrafficSimulator sim = new TrafficSimulator();
 		Controller ctrl = new Controller(sim, _eventsFactory);
-		ctrl.loadEvents(in);
+		if(_inFile!=null){
+			InputStream in = new FileInputStream(new File(_inFile));
+			ctrl.loadEvents(in);
+			in.close(); //????
+		}
 		
 		SwingUtilities.invokeLater( new Runnable() {
 			@ Override
@@ -183,22 +208,33 @@ public class Main {
 			}
 			});
  
-	//	ctrl.run(_timeLimit, out);
-		in.close();
+	
+		
 	}
 
 	private static void start(String[] args) throws IOException {
 		initFactories();
 		parseArgs(args); // procesa los argumentos de entrada
-		startGUIMode();
-		//startBatchMode(); // inicia la simulacion con E/S estandar
+		
+		switch (_model) {
+		case "gui":
+			startGUIMode();
+			break;
+		case "console":
+			startBatchMode(); // inicia la simulacion con E/S estandar
+			break;
+		}
+		
+		
 	}
 
 	// example command lines:
 	//
 	// -i resources/examples/ex1.json
 	// -i resources/examples/ex1.json -t 300
-	// -i resources/examples/ex1.json -o resources/tmp/ex1.out.json
+	// -i resources/examples/ex1.json -o resources/examples/ex1.out.json
+	// -m console -i resources/examples/ex1.json -t 300
+	// -m gui
 	// --help
 
 	public static void main(String[] args) {
