@@ -188,7 +188,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		this.btnCambiaClase.setEnabled(b);
 		this.btnCambiaTiempo.setEnabled(b);
 		this.btnPlay.setEnabled(b);
-		this.btnExit.setEnabled(b);
+		this.btnStop.setEnabled(b);
 
 	}
 
@@ -197,8 +197,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		this.btnCargaEventos.setEnabled(true);
 		this.btnCambiaClase.setEnabled(false);
 		this.btnCambiaTiempo.setEnabled(false);
-		this.btnPlay.setEnabled(true);
-		this.btnExit.setEnabled(true);
+		this.btnPlay.setEnabled(false);
+		this.btnStop.setEnabled(false);
 
 	}
 	
@@ -223,10 +223,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				this._ctrl.reset();
 				InputStream in = new FileInputStream(archivoElegido);
 				this._ctrl.loadEvents(in);
+				//Una vez se ha cargado un fichero valido, habilita el resto de los botones
+				this.btnPlay.setEnabled(true);
+				this.btnStop.setEnabled(true);
 			} else
 				throw new IOException("Archivo con formato erroneo");
-			//Una vez se ha cargado un fichero valido, habilita el resto de los botones
-			this.enableToolBar(true);
+			
 		}
 
 	}
