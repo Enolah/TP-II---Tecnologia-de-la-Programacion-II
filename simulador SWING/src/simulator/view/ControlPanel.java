@@ -162,7 +162,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			try {
 				this._ctrl.run(1, null);
 				Thread.sleep(1000);
-				this.enableToolBar(false);
+				this.play();
 			} catch (Exception e) {
 				// TODO show error message
 				this.onError(e.getMessage());
@@ -189,6 +189,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		this.btnCambiaTiempo.setEnabled(b);
 		this.btnPlay.setEnabled(b);
 		this.btnStop.setEnabled(b);
+		this.btnExit.setEnabled(true);
 
 	}
 
@@ -199,6 +200,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		this.btnCambiaTiempo.setEnabled(false);
 		this.btnPlay.setEnabled(false);
 		this.btnStop.setEnabled(false);
+		this.btnExit.setEnabled(true);
 
 	}
 	
@@ -208,6 +210,15 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	}
 
+	private void play() {
+		this.btnCargaEventos.setEnabled(false);
+		this.btnCambiaClase.setEnabled(false);
+		this.btnCambiaTiempo.setEnabled(false);
+		this.btnPlay.setEnabled(false);
+		this.btnStop.setEnabled(true);
+		this.btnExit.setEnabled(true);
+	}
+	
 	private void cargaEventos() throws IOException {
 		// TODO lanzar excepción
 		JFileChooser fc = new JFileChooser();
