@@ -79,7 +79,7 @@ public abstract class NewRoadEventBuilder extends Builder<Event> {
 				this.maxSpeed = data.getInt("maxspeed");
 
 				String posiblew = data.getString("weather").toUpperCase();
-				this.w = w.valueOf(posiblew);
+				this.w = Weather.valueOf(posiblew);
 
 				e = (NewRoadEvent) createTheRoad();
 			}

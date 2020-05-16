@@ -31,7 +31,7 @@ public class SetContClassEventBuilder extends Builder<Event>{
 					String s= o.getString("vehicle");
 					Integer j= o.getInt("class");
 					
-					c.add(new Pair(s,j));
+					c.add(new Pair<String, Integer>(s,j));
 				}
 				try{
 				e= new SetContClassEvent(data.getInt("time"), c);
