@@ -133,32 +133,18 @@ public abstract class Road extends SimulatedObject {
 		}
 		
 	}
-	void advance (int time) throws Exception{
+	void advance (int time){
 		//1. llama a reduce total contamination
 		reduceTotalContamination();
 		//2. updateSpeedLimit
 		updateSpeedLimit();
 		//3. recorre listV , b) advance de vehiculo
 		
-		/*for (Vehicle v : listV) {
-			try{
-				//a) velocidad= calculate
-				v.setSpeed(calculateVehicleSpeed(v));
-			}
-			catch (Exception e) {
-				System.out.println(e);
-			}
-			v.advance(time);
-			
-		}*/
-		
 		for (Vehicle v : listV) {
 			
-				//a) velocidad= calculate
+			//a) velocidad= calculate
 			v.setSpeed(calculateVehicleSpeed(v));
-		
 			v.advance(time);
-			
 		}
 		
 		//RECUERDA ORDENAR LA LISTA

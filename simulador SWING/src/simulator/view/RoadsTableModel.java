@@ -21,7 +21,6 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	
 	public RoadsTableModel(Controller _ctrl) {
 		this._ctrl = _ctrl;
-		//this._roadsList = null;
 		_ctrl.addObserver(this);
 	}
 	
@@ -38,19 +37,19 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
+
 		return this._roadsList == null ? 0 : this._roadsList.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
+
 		return this._colNames.length;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
+
 		Object s = null;
 		switch (columnIndex) {
 		case 0:
@@ -86,9 +85,7 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	}
 
 	@Override
-	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {		
 	}
 
 	@Override
@@ -98,21 +95,15 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 	}
 
 	@Override
-	public void onReset(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+	public void onReset(RoadMap map, List<Event> events, int time) {	
 	}
 
 	@Override
-	public void onRegister(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
+	public void onRegister(RoadMap map, List<Event> events, int time) {		
 	}
 
 	@Override
-	public void onError(String err) {
-		// TODO Auto-generated method stub
-		
+	public void onError(String err) {		
 	}
 
 }

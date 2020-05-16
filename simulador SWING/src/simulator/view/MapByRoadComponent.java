@@ -39,7 +39,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	private Image _car;
 
 	MapByRoadComponent(Controller ctrl) {
-		setPreferredSize(new Dimension(300,200)); //comprobar esto
+		setPreferredSize(new Dimension(300,200)); 
 		initGUI();
 		ctrl.addObserver(this);
 	}
@@ -62,7 +62,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			g.setColor(Color.red);
 			g.drawString("No map yet!", getWidth() / 2 - 50, getHeight() / 2);
 		} else {
-			updatePrefferedSize(); //mirar esto si sale bien
+			updatePrefferedSize(); 
 			drawMap(g);
 		}
 	}
@@ -214,7 +214,6 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 
 					// draw an image of a car (with circle as background) and it
 					// identifier
-					//g.fillOval(vX - 1, vY - 6, 14, 14);
 					g.drawImage(_car, vX, vY - 6, 16, 16, this);
 					g.drawString(v.getId(), vX, vY - 6);
 				}
@@ -256,38 +255,6 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 		   setSize(new Dimension(maxW, maxH));
 		}
 	}
-
-	// This method draws a line from (x1,y1) to (x2,y2) with an arrow.
-	// The arrow is of height h and width w.
-	// The last two arguments are the colors of the arrow and the line
-//	private void drawLineWithArrow(//
-//			Graphics g, //
-//			int x1, int y, //
-//			int x2, //
-//			int w, int h, //
-//			Color lineColor, Color arrowColor) {
-//
-//		int dx = x2 - x1, dy = y - y;
-//		double D = Math.sqrt(dx * dx + dy * dy);
-//		double xm = D - w, xn = xm, ym = h, yn = -h, x;
-//		double sin = dy / D, cos = dx / D;
-//
-//		x = xm * cos - ym * sin + x1;
-//		ym = xm * sin + ym * cos + y;
-//		xm = x;
-//
-//		x = xn * cos - yn * sin + x1;
-//		yn = xn * sin + yn * cos + y;
-//		xn = x;
-//
-//		int[] xpoints = { x2, (int) xm, (int) xn };
-//		int[] ypoints = { y, (int) ym, (int) yn };
-//
-//		g.setColor(lineColor);
-//		g.drawLine(x1, y, x2, y);
-//		g.setColor(arrowColor);
-//		g.fillPolygon(xpoints, ypoints, 3);
-//	}
 
 	// loads an image from a file
 	private Image loadImage(String img) {

@@ -29,7 +29,6 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	public EventsTableModel(Controller ctrl) {
 		this._ctrl = ctrl;
-		//_events=null;
 		_ctrl.addObserver(this);
 	}
 	
@@ -50,10 +49,6 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 		update(listE);
 	}
 	
-//	public void setEventsList1(List<EventEx> events) { //set de ejemplo, eliminar
-//		//_events = events;
-//		//update();
-//	}
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
@@ -113,31 +108,26 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-	//	update(events);
+
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		
 		update(events);
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		//update(events);
+
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		//update(events);
+
 	}
 
 	@Override
 	public void onError(String err) {
-		// TODO Auto-generated method stub
-		
+	
 	}
 }

@@ -30,7 +30,7 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 		this.lblTime = new JLabel();
 		this.lblTime.setText("Time: ");
 		this.lblEvent = new JLabel();
-		this.lblEvent.setText("Welcome ");
+		this.lblEvent.setText("Welcome! ");
 		
 		this.add(lblTime);
 		this.add(lblEvent);
@@ -66,13 +66,10 @@ public class StatusBar extends JPanel implements TrafficSimObserver{
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onError(String err) {
-		// TODO Auto-generated method stub
 		this.lblEvent.setText(err);
 	}
 

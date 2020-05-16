@@ -40,7 +40,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	// atributos de los ON
 	private RoadMap map;
-	private List<Event> listE;
 	private int ticks;
 
 	// atributos para las clases change
@@ -58,7 +57,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	private void initGUI() {
 
-		// ImageIcon icon = new ImageIcon("resources/icons/open.png");
+	
 		this.btnCargaEventos = new JButton(new ImageIcon("resources/icons/open.png"));
 		this.btnCargaEventos.addActionListener(new ActionListener() {
 
@@ -74,7 +73,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			}
 		});
 
-		// ImageIcon icon1 = new ImageIcon("resources/icons/co2class.png");
+
 		this.btnCambiaClase = new JButton(new ImageIcon("resources/icons/co2class.png"));
 		this.btnCambiaClase.addActionListener(new ActionListener() {
 
@@ -89,7 +88,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			}
 		});
 
-		// ImageIcon icon2 = new ImageIcon("resources/icons/weather.png");
+
 		this.btnCambiaTiempo = new JButton(new ImageIcon("resources/icons/weather.png"));
 		this.btnCambiaTiempo.addActionListener(new ActionListener() {
 
@@ -104,7 +103,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			}
 		});
 
-		// ImageIcon icon3 = new ImageIcon("resources/icons/run.png");
+
 		this.btnPlay = new JButton(new ImageIcon("resources/icons/run.png"));
 		this.btnPlay.addActionListener(new ActionListener() {
 
@@ -116,7 +115,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			}
 		});
 
-		// ImageIcon icon4 = new ImageIcon("resources/icons/stop.png");
+
 		this.btnStop = new JButton(new ImageIcon("resources/icons/stop.png"));
 		this.btnStop.addActionListener(new ActionListener() {
 
@@ -127,7 +126,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			}
 		});
 
-		// ImageIcon icon5 = new ImageIcon("resources/icons/exit.png");
+
 		JLabel tic = new JLabel("Ticks: ");
 		// empieza desde 1, pq es el valor minimo que puedes añadir a los ticks
 		this.spinTicks = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
@@ -157,14 +156,13 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 
 	private void run_sim(int n) {
-		// System.out.println(_stopped);
+
 		if (n > 0 && !this._stopped) {
 			try {
 				this._ctrl.run(1, null);
 				Thread.sleep(1000);
 				this.play();
 			} catch (Exception e) {
-				// TODO show error message
 				this.onError(e.getMessage());
 				this._stopped = true;
 				return;
@@ -220,7 +218,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 	
 	private void cargaEventos() throws IOException {
-		// TODO lanzar excepción
+		
 		JFileChooser fc = new JFileChooser();
 		String nombreFichero;
 		int respuesta = fc.showOpenDialog(this);
@@ -252,7 +250,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			int res = myCo2.showConfirmDialog("Change co2 class");
 			if (res == 0) {
 				// crear un evento nuevo del tipo setContClass
-				// System.out.println(myCo2.getComboCo2()+"/"+myCo2.getComboV()+"/"+myCo2.getTic());
 				Pair<String, Integer> p = new Pair<String, Integer>(myCo2.getComboV(), myCo2.getComboCo2());
 				List<Pair<String, Integer>> cs = new ArrayList<Pair<String, Integer>>();
 
@@ -277,7 +274,6 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			int res = myWea.showConfirmDialog("Change weather class");
 			if (res == 0) {
 				// crear evento de set weather
-				// System.out.println(myWea.getComboR()+"/"+myWea.getComboWea()+"/"+myWea.getTic());
 				Pair<String, Weather> p = new Pair<String, Weather>(myWea.getComboR(), myWea.getComboWea());
 				List<Pair<String, Weather>> cs = new ArrayList<Pair<String, Weather>>();
 				if (p != null && cs != null) {
@@ -292,7 +288,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			throw new NullPointerException("Lista de carreteras vacía.");
 	}
 
-	// Posible cambio cuando se ejecute
+
 	private void exit() {
 		int confirm = JOptionPane.showOptionDialog(null, "¿Quieres salir de la aplicacion?", "Confirmacion de salida",
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -301,46 +297,42 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		}
 	}
 
-	private void update(RoadMap map, List<Event> events, int time) {
+	private void update(RoadMap map, int time) {
 		this.map = map;
-		this.listE = events;
+
 		this.ticks = time;
 
 	}
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		this.update(map, events, time);
+		this.update(map,time);
 
 	}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		this.update(map, events, time);
+		this.update(map, time);
 
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onError(String err) {
-		// TODO Auto-generated method stub
 		JOptionPane.showMessageDialog(null, err);
 	}
 
