@@ -29,21 +29,15 @@ import simulator.factories.MoveFirstStrategyBuilder;
 import simulator.factories.NewCityRoadEventBuilder;
 import simulator.factories.NewInterCityRoadEventBuilder;
 import simulator.factories.NewJunctionEventBuilder;
-import simulator.factories.NewRoadEventBuilder;
 import simulator.factories.NewVehicleEventBuilder;
 import simulator.factories.RoundRobinStrategyBuilder;
 import simulator.factories.SetContClassEventBuilder;
 import simulator.factories.SetWeatherEventBuilder;
-import simulator.misc.SortedArrayList;
 import simulator.model.DequeuingStrategy;
 import simulator.model.Event;
 import simulator.model.LigthSwitchingStrategy;
-import simulator.model.Road.MiCompi;
-import simulator.model.RoadMap;
 import simulator.model.TrafficSimulator;
-import simulator.model.Vehicle;
 import simulator.view.MainWindow;
-
 
 public class Main {
 
@@ -52,8 +46,8 @@ public class Main {
 	private static Integer _timeLimit = null;// numnero de pasos
 	private static String _outFile = null; // fichero de salida
 	private static Factory<Event> _eventsFactory = null;
-	private final static String _modeDefaultValue= "gui";
-	private static String _model= "";
+	private final static String _modeDefaultValue = "gui";
+	private static String _model = "";
 
 	private static void parseArgs(String[] args) {
 
@@ -71,7 +65,6 @@ public class Main {
 			parseInFileOption(line);
 			parseOutFileOption(line);
 			parseTickOption(line);
-			
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -113,16 +106,16 @@ public class Main {
 	}
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
-		
+
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null && _model=="console") {
+		if (_inFile == null && _model == "console") {
 			throw new ParseException("An events file is missing");
 		}
 	}
 
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		_outFile = line.getOptionValue("o");
-		if (_outFile == null && _model=="console") {
+		if (_outFile == null && _model == "console") {
 			throw new ParseException("An events file is missing");
 		}
 	}
@@ -134,18 +127,17 @@ public class Main {
 			_timeLimit = Integer.valueOf(s);
 			if (_timeLimit == null)
 				_timeLimit = _timeLimitDefaultValue;
-		}
-		else 
+		} else
 			_timeLimit = _timeLimitDefaultValue;
 
 	}
-	
-	private static void parseModeOption(CommandLine line){ //indica el modo en el que se ejecuta el TS
-		
-		String s= line.getOptionValue("m");
-		_model= s;
-		if(_model==null){
-			_model=_modeDefaultValue;
+
+	private static void parseModeOption(CommandLine line) { // indica el modo en el que se ejecuta el TS
+
+		String s = line.getOptionValue("m");
+		_model = s;
+		if (_model == null) {
+			_model = _modeDefaultValue;
 		}
 	}
 
@@ -191,31 +183,28 @@ public class Main {
 	}
 
 	private static void startGUIMode() throws IOException {
-		
-		
+
 		TrafficSimulator sim = new TrafficSimulator();
 		Controller ctrl = new Controller(sim, _eventsFactory);
-		if(_inFile!=null){
+		if (_inFile != null) {
 			InputStream in = new FileInputStream(new File(_inFile));
 			ctrl.loadEvents(in);
-			in.close(); //????
+			in.close(); // ????
 		}
-		
-		SwingUtilities.invokeLater( new Runnable() {
-			@ Override
+
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
-			new MainWindow(ctrl);
+				new MainWindow(ctrl);
 			}
-			});
- 
-	
-		
+		});
+
 	}
 
 	private static void start(String[] args) throws IOException {
 		initFactories();
 		parseArgs(args); // procesa los argumentos de entrada
-		
+
 		switch (_model) {
 		case "gui":
 			startGUIMode();
@@ -224,8 +213,7 @@ public class Main {
 			startBatchMode(); // inicia la simulacion con E/S estandar
 			break;
 		}
-		
-		
+
 	}
 
 	// example command lines:

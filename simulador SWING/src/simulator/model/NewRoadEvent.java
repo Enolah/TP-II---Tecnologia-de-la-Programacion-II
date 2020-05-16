@@ -78,7 +78,7 @@ public abstract class NewRoadEvent extends Event {
 	}
 
 	abstract Road createRoadObject(Junction srcJun, Junction destJun);
-	
+
 	abstract public String toString();
 
 }

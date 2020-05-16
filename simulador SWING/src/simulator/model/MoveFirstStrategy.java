@@ -12,5 +12,4 @@ public class MoveFirstStrategy implements DequeuingStrategy {
 		return a;
 	}
 
-
 }

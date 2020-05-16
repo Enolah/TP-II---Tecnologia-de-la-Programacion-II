@@ -47,20 +47,20 @@ public class Junction extends SimulatedObject {
 	public int getY() {
 		return this.yCoor;
 	};
-	
+
 	public int getGreenLightIndex() {
 		return this.currGreen;
 	}
-	
-	public String getRoadCurrGreen(){
+
+	public String getRoadCurrGreen() {
 		return this.listR.get(currGreen).getId();
 	}
 
 	public List<Road> getInRoads() {
 		return this.listR;
 	}
-	
-	public Map<String, List<Vehicle>> getMapR_Q(){
+
+	public Map<String, List<Vehicle>> getMapR_Q() {
 		return this.mapR_Q;
 	}
 
@@ -183,7 +183,5 @@ public class Junction extends SimulatedObject {
 
 		return jo1;
 	}
-
-
 
 }

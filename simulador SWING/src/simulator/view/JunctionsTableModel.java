@@ -2,7 +2,6 @@ package simulator.view;
 
 import java.util.List;
 
-import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -11,30 +10,30 @@ import simulator.model.Junction;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
-public class JunctionsTableModel extends AbstractTableModel implements TrafficSimObserver{
+public class JunctionsTableModel extends AbstractTableModel implements TrafficSimObserver {
 
 	private static final long serialVersionUID = 1L;
 	private List<Junction> _junctionsList;
 
 	private Controller _ctrl;
-	private String[] _colNames = {"id", "Green", "Queues"};
-	
+	private String[] _colNames = { "id", "Green", "Queues" };
+
 	public JunctionsTableModel(Controller ctrl) {
 		this._ctrl = ctrl;
-		_ctrl.addObserver(this);
+		this._ctrl.addObserver(this);
 	}
-	
+
 	public void update(RoadMap map) {
 
-		_junctionsList = map.getJunctions();
+		this._junctionsList = map.getJunctions();
 		fireTableDataChanged();
 	}
-	
+
 	@Override
 	public String getColumnName(int col) {
-		return _colNames[col];
+		return this._colNames[col];
 	}
-	
+
 	@Override
 	public int getRowCount() {
 		return this._junctionsList == null ? 0 : this._junctionsList.size();
@@ -50,19 +49,19 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 		Object s = null;
 		switch (columnIndex) {
 		case 0:
-			s = _junctionsList.get(rowIndex).getId();
+			s = this._junctionsList.get(rowIndex).getId();
 			break;
 		case 1:
-			if(_junctionsList.get(rowIndex).getGreenLightIndex()<0)
-				s= "NONE";
+			if (this._junctionsList.get(rowIndex).getGreenLightIndex() < 0)
+				s = "NONE";
 			else
-				s = _junctionsList.get(rowIndex).getRoadCurrGreen();
+				s = this._junctionsList.get(rowIndex).getRoadCurrGreen();
 			break;
 		case 2:
-			if(_junctionsList==null)
-				s=" ";
+			if (this._junctionsList == null)
+				s = " ";
 			else
-				s = _junctionsList.get(rowIndex).getMapR_Q();
+				s = this._junctionsList.get(rowIndex).getMapR_Q();
 			break;
 		}
 		return s;
@@ -70,35 +69,28 @@ public class JunctionsTableModel extends AbstractTableModel implements TrafficSi
 
 	@Override
 	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
-		update(map);
-		
+		this.update(map);
 	}
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {
-		
 	}
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		update(map);
-		
+		this.update(map);
 	}
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {
-		
 	}
 
 	@Override
 	public void onRegister(RoadMap map, List<Event> events, int time) {
-
-		
 	}
 
 	@Override
 	public void onError(String err) {
-		
 	}
 
 }

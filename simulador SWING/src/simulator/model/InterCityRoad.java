@@ -11,29 +11,29 @@ public class InterCityRoad extends Road {
 	/*
 	 * METODOS
 	 */
-	
+
 	@Override
 	public void reduceTotalContamination() {
 		int tc = getTotalPollution();
 		int x = 0;
-		
-		Weather w=getWeather();
+
+		Weather w = getWeather();
 		switch (w) {
-		case SUNNY:
-			x = 2;
-			break;
-		case CLOUDY:
-			x = 3;
-			break;
-		case RAINY:
-			x = 10;
-			break;
-		case WINDY:
-			x = 15;
-			break;
-		case STORM:
-			x = 20;
-			break;
+			case SUNNY:
+				x = 2;
+				break;
+			case CLOUDY:
+				x = 3;
+				break;
+			case RAINY:
+				x = 10;
+				break;
+			case WINDY:
+				x = 15;
+				break;
+			case STORM:
+				x = 20;
+				break;
 		}
 		try {
 			setTotalPollution((int) ((100.0 - x) / 100 * tc));
@@ -48,21 +48,20 @@ public class InterCityRoad extends Road {
 		if (getTotalPollution() > getContLimit())
 			setLimitSpeed((int) (getMaxSpeed() * 0.5));
 		else {
-			setLimitSpeed(getMaxSpeed()); 
+			setLimitSpeed(getMaxSpeed());
 		}
 
 	}
 
 	@Override
 	public int calculateVehicleSpeed(Vehicle v) {
-		Weather w=getWeather();
-		int s=0;
-			if (w == w.STORM) {
-				s=(int)(getLimitSpeed()* 0.8);
-			}
-			else
-				s=getLimitSpeed();
-		
+		Weather w = getWeather();
+		int s = 0;
+		if (w == Weather.STORM) {
+			s = (int) (getLimitSpeed() * 0.8);
+		} else
+			s = getLimitSpeed();
+
 		return s;
 	}
 }

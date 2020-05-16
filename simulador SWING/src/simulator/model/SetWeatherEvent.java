@@ -4,35 +4,37 @@ import java.util.List;
 
 import simulator.misc.Pair;
 
-public class SetWeatherEvent extends Event{
+public class SetWeatherEvent extends Event {
 
-	private List<Pair<String,Weather>> ws;
-	
-	public SetWeatherEvent(int time, List<Pair<String,Weather>> ws) {
+	private List<Pair<String, Weather>> ws;
+
+	public SetWeatherEvent(int time, List<Pair<String, Weather>> ws) {
 		super(time);
-		this.ws= ws;
-		
-		if( ws==null) throw new IllegalArgumentException("Invalid value");
+		this.ws = ws;
+
+		if (ws == null)
+			throw new IllegalArgumentException("Invalid value");
 	}
 
 	@Override
 	void execute(RoadMap map) {
-		
+
 		for (Pair<String, Weather> r : ws) {
-			if(map.getRoads().contains(r.getFirst())) throw new IllegalArgumentException("no existe la carretera");
-				map.getRoad(r.getFirst()).setWeather(r.getSecond());
+			if (map.getRoads().contains(r.getFirst()))
+				throw new IllegalArgumentException("no existe la carretera");
+			map.getRoad(r.getFirst()).setWeather(r.getSecond());
 		}
-		
+
 	}
 
 	@Override
 	public String toString() {
-		String s= "Change Weather [";
+		String s = "Change Weather [";
 		for (Pair<String, Weather> pair : ws) {
-			s+= "(" +pair.getFirst() + "," ;
-			s+= pair.getSecond() + ")";
+			s += "(" + pair.getFirst() + ",";
+			s += pair.getSecond() + ")";
 		}
-		s+= "]";
+		s += "]";
 		return s;
 	}
 

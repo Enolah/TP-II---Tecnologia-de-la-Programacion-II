@@ -39,7 +39,7 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 
 	MapComponent(Controller ctrl) {
 		initGUI();
-		ctrl.addObserver(this); 
+		ctrl.addObserver(this);
 	}
 
 	private void initGUI() {
@@ -90,7 +90,8 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 			// choose a color for the road depending on the total contamination, the darker
 			// the
 			// more contaminated (wrt its co2 limit)
-			int roadColorValue = 200 - (int) (200.0 * Math.min(1.0, (double) r.getTotalPollution() / (1.0 + (double) r.getContLimit())));
+			int roadColorValue = 200
+					- (int) (200.0 * Math.min(1.0, (double) r.getTotalPollution() / (1.0 + (double) r.getContLimit())));
 			Color roadColor = new Color(roadColorValue, roadColorValue, roadColorValue);
 
 			// draw line from (x1,y1) to (x2,y2) with arrow of color arrowColor and line of
@@ -165,8 +166,8 @@ public class MapComponent extends JPanel implements TrafficSimObserver {
 		maxW += 20;
 		maxH += 20;
 		if (maxW > getWidth() || maxH > getHeight()) {
-		    setPreferredSize(new Dimension(maxW, maxH));
-		   setSize(new Dimension(maxW, maxH));
+			setPreferredSize(new Dimension(maxW, maxH));
+			setSize(new Dimension(maxW, maxH));
 		}
 	}
 

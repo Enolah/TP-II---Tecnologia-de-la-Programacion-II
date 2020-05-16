@@ -6,33 +6,35 @@ import simulator.misc.Pair;
 
 public class SetContClassEvent extends Event {
 
-	private List<Pair<String,Integer>> cs;
-	
-	public SetContClassEvent(int time, List<Pair<String,Integer>> cs) {
+	private List<Pair<String, Integer>> cs;
+
+	public SetContClassEvent(int time, List<Pair<String, Integer>> cs) {
 		super(time);
-		this.cs=cs;
-		if( cs==null) throw new IllegalArgumentException("Invalid value");
+		this.cs = cs;
+		if (cs == null)
+			throw new IllegalArgumentException("Invalid value");
 	}
 
 	@Override
 	void execute(RoadMap map) {
-		
+
 		for (Pair<String, Integer> c : cs) {
-			if(map.getVehicles().contains(c.getFirst()))throw new IllegalArgumentException("no existe la carretera");
-				map.getVehicle(c.getFirst()).setContaminationClass(c.getSecond());
+			if (map.getVehicles().contains(c.getFirst()))
+				throw new IllegalArgumentException("no existe la carretera");
+			map.getVehicle(c.getFirst()).setContaminationClass(c.getSecond());
 		}
 	}
 
 	@Override
 	public String toString() {
-		
-		String s= "Change CO2 class: [";
+
+		String s = "Change CO2 class: [";
 		for (Pair<String, Integer> pair : cs) {
-			s+="(" + pair.getFirst() + "," ;
-			s+= pair.getSecond() + ")";
-			
+			s += "(" + pair.getFirst() + ",";
+			s += pair.getSecond() + ")";
+
 		}
-		s+= "]";
+		s += "]";
 		return s;
 	}
 

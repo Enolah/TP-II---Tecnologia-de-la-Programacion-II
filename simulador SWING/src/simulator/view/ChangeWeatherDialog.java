@@ -27,7 +27,6 @@ public class ChangeWeatherDialog extends JDialog {
 	private int result = -1;
 
 	private List<Road> listR;
-	private Weather w;
 
 	private JPanel pnlWea = new JPanel();
 	private JSpinner tic = new JSpinner();
@@ -44,78 +43,76 @@ public class ChangeWeatherDialog extends JDialog {
 
 	private void initGUI() {
 
-		//panel principal
-				pnlWea.setLayout(new BorderLayout());
-				pnlWea.setPreferredSize(new Dimension(350,75));
-				
-				//parte de arriba
-				JLabel la = new JLabel ("<html>Schedule an event to change the weather "
-						+ "of a road after a given number os simulation ticks from now </html>");
-				
-				pnlWea.add(la, BorderLayout.NORTH);
-				
-				//parte central
-				JPanel pnlMedio = new JPanel();
-				pnlMedio.setLayout(new FlowLayout());
-				
-				JLabel ve= new JLabel ("Road: ");
-				comboR = new JComboBox<>();
-				for (Road r: listR) {
-					comboR.addItem(r.getId());
-				}
-				JLabel co= new JLabel ("Weather: ");
-				comboWea= new JComboBox<>();
-				for (Weather w : w.values()) {
-					comboWea.addItem(w.toString());
-				}
-				
-				
-				
-				JLabel ti= new JLabel("Ticks: ");
-				tic= new JSpinner (new SpinnerNumberModel(1,1,1000,1));
-				
-				pnlMedio.add(ve);
-				pnlMedio.add(comboR);
-				pnlMedio.add(co);
-				pnlMedio.add(comboWea);
-				pnlMedio.add(ti);
-				pnlMedio.add(tic);
-				
-				pnlWea.add(pnlMedio, BorderLayout.CENTER);
-				
-				//parte final
-				aceptar= new JButton("OK");
-				cancelar = new JButton("Cancel");
-				JPanel sur= new JPanel();
-				sur.setLayout(new FlowLayout());
-				sur.add(aceptar);
-				sur.add(cancelar);
-				aceptar.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
-						result=OK_OPTION;
-						setVisible(false);
-						dispose();
-					}
-				});
-				
-				cancelar.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
-						result= CANCEL_OPTION;
-						setVisible(false);
-						dispose();
-					}
-				});
-				
-				pnlWea.add(sur,BorderLayout.SOUTH);
-				
-				pnlWea.setVisible(true);
-				this.add(pnlWea);
+		// panel principal
+		pnlWea.setLayout(new BorderLayout());
+		pnlWea.setPreferredSize(new Dimension(350, 75));
+
+		// parte de arriba
+		JLabel la = new JLabel("<html>Schedule an event to change the weather "
+				+ "of a road after a given number os simulation ticks from now </html>");
+
+		pnlWea.add(la, BorderLayout.NORTH);
+
+		// parte central
+		JPanel pnlMedio = new JPanel();
+		pnlMedio.setLayout(new FlowLayout());
+
+		JLabel ve = new JLabel("Road: ");
+		comboR = new JComboBox<>();
+		for (Road r : listR) {
+			comboR.addItem(r.getId());
+		}
+		JLabel co = new JLabel("Weather: ");
+		comboWea = new JComboBox<>();
+		for (Weather w : Weather.values()) {
+			comboWea.addItem(w.toString());
+		}
+
+		JLabel ti = new JLabel("Ticks: ");
+		tic = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
+
+		pnlMedio.add(ve);
+		pnlMedio.add(comboR);
+		pnlMedio.add(co);
+		pnlMedio.add(comboWea);
+		pnlMedio.add(ti);
+		pnlMedio.add(tic);
+
+		pnlWea.add(pnlMedio, BorderLayout.CENTER);
+
+		// parte final
+		aceptar = new JButton("OK");
+		cancelar = new JButton("Cancel");
+		JPanel sur = new JPanel();
+		sur.setLayout(new FlowLayout());
+		sur.add(aceptar);
+		sur.add(cancelar);
+		aceptar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				result = OK_OPTION;
+				setVisible(false);
+				dispose();
+			}
+		});
+
+		cancelar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				result = CANCEL_OPTION;
+				setVisible(false);
+				dispose();
+			}
+		});
+
+		pnlWea.add(sur, BorderLayout.SOUTH);
+
+		pnlWea.setVisible(true);
+		this.add(pnlWea);
 	}
 
 	public int showConfirmDialog(String title) {

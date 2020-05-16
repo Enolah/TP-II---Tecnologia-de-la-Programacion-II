@@ -1,16 +1,7 @@
 package simulator.view;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.Border;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -18,49 +9,46 @@ import simulator.model.Event;
 import simulator.model.RoadMap;
 import simulator.model.TrafficSimObserver;
 
-public class EventsTableModel extends AbstractTableModel implements TrafficSimObserver{
+public class EventsTableModel extends AbstractTableModel implements TrafficSimObserver {
 
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
-	
+
 	private List<Event> _events;
 
-	private String[] _colNames = {"Time", "Priority"};
+	private String[] _colNames = { "Time", "Priority" };
 
 	public EventsTableModel(Controller ctrl) {
 		this._ctrl = ctrl;
-		_ctrl.addObserver(this);
+		this._ctrl.addObserver(this);
 	}
-	
 
 	public void update(List<Event> e) {
 		// observar que si no refresco la tabla no se carga
 		// La tabla es la represantación visual de una estructura de datos,
 		// en este caso de un ArrayList, hay que notificar los cambios.
-		
+
 		// We need to notify changes, otherwise the table does not refresh.
-		_events=e;
+		this._events = e;
 		fireTableDataChanged();
 	}
-	
 
-	public void setEventsList(List<Event> listE){
-		_events=listE;
-		update(listE);
+	public void setEventsList(List<Event> listE) {
+		this._events = listE;
+		this.update(listE);
 	}
-	
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}
 
-	//si no pongo esto no coge el nombre de las columnas
+	// si no pongo esto no coge el nombre de las columnas
 	//
-	//this is for the column header
+	// this is for the column header
 	@Override
 	public String getColumnName(int col) {
-		return _colNames[col];
+		return this._colNames[col];
 	}
 
 	@Override
@@ -68,7 +56,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	//
 	// this is for the number of columns
 	public int getColumnCount() {
-		return _colNames.length;
+		return this._colNames.length;
 	}
 
 	@Override
@@ -76,7 +64,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	//
 	// the number of row, like those in the events list
 	public int getRowCount() {
-		return _events == null ? 0 : _events.size();
+		return this._events == null ? 0 : this._events.size();
 	}
 
 	@Override
@@ -85,25 +73,23 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 	// el índice del arrayList es el número de fila pq en este ejemplo
 	// quiero enumerarlos.
 	//
-	// returns the value of a particular cell 
+	// returns the value of a particular cell
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Object s = null;
 		switch (columnIndex) {
 		case 0:
-			s = _events.get(rowIndex).getTime();
+			s = this._events.get(rowIndex).getTime();
 			break;
 		case 1:
-			s = _events.get(rowIndex).toString();
+			s = this._events.get(rowIndex).toString();
 			break;
 		}
 		return s;
 	}
-	
-	
 
 	@Override
-	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {	
-		update(events);
+	public void onAdvanceStart(RoadMap map, List<Event> events, int time) {
+		this.update(events);
 	}
 
 	@Override
@@ -113,7 +99,7 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	@Override
 	public void onEventAdded(RoadMap map, List<Event> events, Event e, int time) {
-		update(events);
+		this.update(events);
 	}
 
 	@Override
@@ -128,6 +114,6 @@ public class EventsTableModel extends AbstractTableModel implements TrafficSimOb
 
 	@Override
 	public void onError(String err) {
-	
+
 	}
 }
