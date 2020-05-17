@@ -220,22 +220,6 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 		}
 	}
 
-	private void drawJunctions(Graphics g) {
-		for (Junction j : _map.getJunctions()) {
-
-			// (x,y) are the coordinates of the junction
-			int x = j.getX();
-			int y = j.getY();
-
-			// draw a circle with center at (x,y) with radius _JRADIUS
-			g.setColor(_JUNCTION_COLOR);
-			g.fillOval(x - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
-
-			// draw the junction's identifier at (x,y)
-			g.setColor(_JUNCTION_LABEL_COLOR);
-			g.drawString(j.getId(), x, y);
-		}
-	}
 
 	// this method is used to update the preffered and actual size of the component,
 	// so when we draw outside the visible area the scrollbars show up

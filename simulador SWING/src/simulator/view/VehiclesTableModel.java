@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.util.List;
 
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;

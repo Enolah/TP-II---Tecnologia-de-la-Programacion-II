@@ -66,12 +66,12 @@ public class MainWindow extends JFrame {
 		//maps
 		
 		JPanel mapView = createViewPanel(new MapComponent(_ctrl), "Map");
-		mapView.setPreferredSize(new Dimension(200, 400));
+		mapView.setPreferredSize(new Dimension(500, 200));
 		mapsPanel.add(mapView);
 	
 		//maps by road
 		JPanel byRoadView = createViewPanel(new MapByRoadComponent(_ctrl), "ByRoad");
-		mapView.setPreferredSize(new Dimension(200, 400));
+		mapView.setPreferredSize(new Dimension(500, 200));
 		mapsPanel.add(byRoadView);
 		
 		
@@ -85,7 +85,8 @@ public class MainWindow extends JFrame {
 	
 		Border blackline = BorderFactory.createLineBorder(Color.BLACK);
 		TitledBorder tit = BorderFactory.createTitledBorder(blackline,title);
-		c.setBorder(tit);
+		
+		p.setBorder(tit);
 		p.add(new JScrollPane(c));
 		return p;
 	}
