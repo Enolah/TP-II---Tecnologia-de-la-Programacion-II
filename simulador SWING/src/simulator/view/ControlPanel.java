@@ -161,7 +161,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		if (n > 0 && !this._stopped) {
 			try {
 				this._ctrl.run(1, null);
-				Thread.sleep(1000);
+				Thread.sleep(300);
 				this.play();
 			} catch (Exception e) {
 				this.onError(e.getMessage());

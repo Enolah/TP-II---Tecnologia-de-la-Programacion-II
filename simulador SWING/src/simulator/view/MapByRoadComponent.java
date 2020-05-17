@@ -30,7 +30,6 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 
 	private static final Color _BG_COLOR = Color.WHITE;
 	private static final Color _JUNCTION_COLOR = Color.BLUE;
-	private static final Color _JUNCTION_LABEL_COLOR = new Color(200, 100, 0);
 	private static final Color _GREEN_LIGHT_COLOR = Color.GREEN;
 	private static final Color _RED_LIGHT_COLOR = Color.RED;
 
@@ -39,8 +38,8 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 	private Image _car;
 
 	MapByRoadComponent(Controller ctrl) {
-		setPreferredSize(new Dimension(300, 200));
 		initGUI();
+		setPreferredSize(new Dimension(300, 200));
 		ctrl.addObserver(this);
 	}
 
@@ -96,7 +95,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			// cruce origen
 			g.setColor(_JUNCTION_COLOR);
 			g.fillOval(x1 - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
-			g.drawString(r.getSrc().getId(), x1, y);
+			g.drawString(r.getSrc().getId(), x1, y-10);
 
 			// cruce destino
 			// color cruce destino dependiendo del semaforo
@@ -106,7 +105,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 			else
 				g.setColor(_RED_LIGHT_COLOR);
 			g.fillOval(x2 - _JRADIUS / 2, y - _JRADIUS / 2, _JRADIUS, _JRADIUS);
-			g.drawString(r.getDest().getId(), x2, y);
+			g.drawString(r.getDest().getId(), x2, y-10);
 
 			// 3.Dibuja los vehículos utilizando la imagen car.png
 			drawVehicles(g, x1, x2, y, y, r);
@@ -117,10 +116,10 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 
 			// 5.Dibuja una imagen de 32x32 para las condiciones climatológicas de la
 			// carretera
-			drawWeather(g, x2 + 30, y, r);
+			drawWeather(g, x2 +20, y-20, r);
 
 			// 6.Dibuja una imagen de 32x32 para el nivel de contaminación
-			drawContClass(g, x2 + 60, y, r);
+			drawContClass(g, x2 +60, y-20, r);
 
 			i++;
 		}
@@ -200,7 +199,7 @@ public class MapByRoadComponent extends JComponent implements TrafficSimObserver
 					double x = x1 + (int) ((x2 - x1) * ((double) v.getLocation() / (double) r_vehicle.getLength()));
 					double y = Math.cos(alpha) * relLoc;
 					int xDir = x1 < x2 ? 1 : -1;
-					int yDir = y < y ? 1 : -1;
+					int yDir = y1 < y2 ? 1 : -1;
 
 					int vX = x1 + xDir * ((int) x);
 					int vY = y1 + yDir * ((int) y);

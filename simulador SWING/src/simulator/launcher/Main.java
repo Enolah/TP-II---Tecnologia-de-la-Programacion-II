@@ -189,7 +189,7 @@ public class Main {
 		if (_inFile != null) {
 			InputStream in = new FileInputStream(new File(_inFile));
 			ctrl.loadEvents(in);
-			in.close(); // ????
+			in.close(); 
 		}
 
 		SwingUtilities.invokeLater(new Runnable() {
@@ -212,7 +212,10 @@ public class Main {
 		case "console":
 			startBatchMode(); // inicia la simulacion con E/S estandar
 			break;
+		default:
+			startGUIMode();
 		}
+		
 
 	}
 
