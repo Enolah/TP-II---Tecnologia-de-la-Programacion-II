@@ -1,6 +1,7 @@
 package simulator.view;
 
 
+import java.awt.MediaTracker;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -59,7 +60,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private void initGUI() {
 
 	
-		this.btnCargaEventos = new JButton(new ImageIcon("resources/icons/open.png"));
+		this.btnCargaEventos=cargarImg("open.png", btnCargaEventos, "Cargar Fichero");
 		this.btnCargaEventos.addActionListener(new ActionListener() {
 
 			@Override
@@ -67,15 +68,14 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 				try {
 					cargaEventos();
 				} catch (IOException ex) {
-					// TODO Auto-generated catch block
 					onError(ex.getMessage());
 				}
 
 			}
 		});
 
-
-		this.btnCambiaClase = new JButton(new ImageIcon("resources/icons/co2class.png"));
+	
+		this.btnCambiaClase=cargarImg("co2class.png", btnCambiaClase, "Cambia CO2");
 		this.btnCambiaClase.addActionListener(new ActionListener() {
 
 			@Override
@@ -89,8 +89,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			}
 		});
 
-
-		this.btnCambiaTiempo = new JButton(new ImageIcon("resources/icons/weather.png"));
+	
+		this.btnCambiaTiempo=cargarImg("weather.png", btnCambiaTiempo, "Cambia Tiempo");
 		this.btnCambiaTiempo.addActionListener(new ActionListener() {
 
 			@Override
@@ -104,20 +104,23 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			}
 		});
 
-
-		this.btnPlay = new JButton(new ImageIcon("resources/icons/run.png"));
+	
+		this.btnPlay=cargarImg("run.png", btnPlay, "Play");
 		this.btnPlay.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				_stopped = false;
-				run_sim((int) spinTicks.getValue());
+				if(_ctrl.getNumPasos()==0)
+					run_sim((int) spinTicks.getValue());
+				else
+					run_sim(_ctrl.getNumPasos());
 
 			}
 		});
 
-
-		this.btnStop = new JButton(new ImageIcon("resources/icons/stop.png"));
+	
+		this.btnStop=cargarImg("stop.png", btnStop, "Stop");
 		this.btnStop.addActionListener(new ActionListener() {
 
 			@Override
@@ -127,12 +130,14 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			}
 		});
 
-
 		JLabel tic = new JLabel("Ticks: ");
 		// empieza desde 1, pq es el valor minimo que puedes añadir a los ticks
 		this.spinTicks = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
 
-		this.btnExit = new JButton(new ImageIcon("resources/icons/exit.png"));
+		
+		
+		
+		this.btnExit = cargarImg("exit.png", btnExit, "Exit");
 		this.btnExit.addActionListener(new ActionListener() {
 
 			@Override
@@ -197,7 +202,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		this.btnCargaEventos.setEnabled(true);
 		this.btnCambiaClase.setEnabled(false);
 		this.btnCambiaTiempo.setEnabled(false);
-		this.btnPlay.setEnabled(false);
+		this.btnPlay.setEnabled(true);
 		this.btnStop.setEnabled(false);
 		this.btnExit.setEnabled(true);
 
@@ -287,6 +292,21 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 		} else
 			throw new NullPointerException("Lista de carreteras vacía.");
+	}
+	
+
+
+	private JButton cargarImg(String icon, JButton btn, String s){
+		
+		ImageIcon img= new ImageIcon ("src/icons/" + icon);
+		//Complete: Flag indicating that the downloading of media was completed successfully.
+		if(img.getImageLoadStatus()==MediaTracker.COMPLETE){ 
+			btn = new JButton(img);
+		}
+		else
+			btn = new JButton(s);
+		
+		return btn;
 	}
 
 

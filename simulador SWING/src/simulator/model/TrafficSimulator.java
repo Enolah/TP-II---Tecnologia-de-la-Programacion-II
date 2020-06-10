@@ -108,7 +108,8 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	@Override
 	public void addObserver(TrafficSimObserver o) {
 		listO.add(o);		
-		notiOnRegister(mapR, listE, tick);
+		//notiOnRegister(mapR, listE, tick);
+		o.onRegister(mapR, listE, tick);
 	}
 
 	@Override

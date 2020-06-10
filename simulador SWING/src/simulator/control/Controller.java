@@ -19,6 +19,9 @@ public class Controller {
 	// eventsFactory y sim se crean en “Main”
 	private TrafficSimulator _sim;
 	private Factory<Event> _eventsFactory;
+	
+	//atributo para starGuiMode con archivo y ticks como parametros
+	private int numPasos;
 
 	public Controller(TrafficSimulator sim, Factory<Event> eventsFactory) {
 		this._sim = sim;
@@ -80,6 +83,15 @@ public class Controller {
 
 	public void addEvent(Event e) {
 		_sim.addEvent(e);
+	}
+
+	//----------------------------------------------------
+	public int getNumPasos() {
+		return numPasos;
+	}
+
+	public void setNumPasos(int numPasos) {
+		this.numPasos = numPasos;
 	}
 
 }

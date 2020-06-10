@@ -80,6 +80,7 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 
 	@Override
 	public void onAdvanceEnd(RoadMap map, List<Event> events, int time) {		
+		this.update(map);
 	}
 
 	@Override
@@ -89,10 +90,12 @@ public class RoadsTableModel extends AbstractTableModel implements TrafficSimObs
 
 	@Override
 	public void onReset(RoadMap map, List<Event> events, int time) {	
+		this.update(map);
 	}
 
 	@Override
-	public void onRegister(RoadMap map, List<Event> events, int time) {		
+	public void onRegister(RoadMap map, List<Event> events, int time) {	
+		this.update(map);
 	}
 
 	@Override
