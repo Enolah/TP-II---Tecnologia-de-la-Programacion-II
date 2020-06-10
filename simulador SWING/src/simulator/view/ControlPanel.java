@@ -111,10 +111,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				_stopped = false;
-				if(_ctrl.getNumPasos()==0)
+
 					run_sim((int) spinTicks.getValue());
-				else
-					run_sim(_ctrl.getNumPasos());
+
 
 			}
 		});
@@ -133,9 +132,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		JLabel tic = new JLabel("Ticks: ");
 		// empieza desde 1, pq es el valor minimo que puedes añadir a los ticks
 		this.spinTicks = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
-
-		
-		
+		if( _ctrl.getNumPasos()!=0)//comando -t 300 o si es por defecto == 10
+			this.spinTicks.setValue(_ctrl.getNumPasos());
+	
 		
 		this.btnExit = cargarImg("exit.png", btnExit, "Exit");
 		this.btnExit.addActionListener(new ActionListener() {

@@ -186,11 +186,10 @@ public class Main {
 
 		TrafficSimulator sim = new TrafficSimulator();
 		Controller ctrl = new Controller(sim, _eventsFactory);
-		if (_inFile != null) { //los ticks solo los quiero si me dan un fichero o 
-			//puede ser tbn cuando me den solo tick sin fichero
+		ctrl.setNumPasos(_timeLimit);
+		if (_inFile != null) { 
 			InputStream in = new FileInputStream(new File(_inFile));
 			ctrl.loadEvents(in);
-			ctrl.setNumPasos(_timeLimit);
 			in.close(); 
 		}
 

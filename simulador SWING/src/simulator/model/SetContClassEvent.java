@@ -19,9 +19,10 @@ public class SetContClassEvent extends Event {
 	void execute(RoadMap map) {
 
 		for (Pair<String, Integer> c : cs) {
-			if (map.getVehicles().contains(c.getFirst()))
-				throw new IllegalArgumentException("no existe la carretera");
-			map.getVehicle(c.getFirst()).setContaminationClass(c.getSecond());
+			if (map.getVehicles().contains(map.getVehicle(c.getFirst().toString())))
+				map.getVehicle(c.getFirst()).setContaminationClass(c.getSecond());
+			else
+				throw new IllegalArgumentException("No existe el vehiculo " + c.getFirst().toString());
 		}
 	}
 

@@ -20,9 +20,13 @@ public class SetWeatherEvent extends Event {
 	void execute(RoadMap map) {
 
 		for (Pair<String, Weather> r : ws) {
-			if (map.getRoads().contains(r.getFirst()))
-				throw new IllegalArgumentException("no existe la carretera");
-			map.getRoad(r.getFirst()).setWeather(r.getSecond());
+			if (map.getRoads().contains(map.getRoad(r.getFirst().toString()))) 
+				map.getRoad(r.getFirst()).setWeather(r.getSecond());
+			else
+				throw new NullPointerException("No existe la carretera " + r.getFirst().toString());
+				
+		
+			
 		}
 
 	}

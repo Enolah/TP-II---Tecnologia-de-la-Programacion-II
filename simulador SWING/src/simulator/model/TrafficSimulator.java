@@ -57,10 +57,10 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 				Event e= listE.get(i);
 				listE.remove(i);
 				try{
-				e.execute(mapR);
+					e.execute(mapR);
 				} catch (Exception ex){
 					notiOnError(ex.getMessage());
-					System.out.println(ex);
+					
 				}
 				i--;
 			}
@@ -72,6 +72,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 			j.advance(tick);
 			} catch(Exception e){
 				notiOnError(e.getMessage());
+				
 			}
 		}
 		//4. llama al método advance de todas las carreteras.
@@ -80,6 +81,7 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 				r.advance(tick);
 			} catch (Exception e) {
 				notiOnError(e.getMessage());
+				
 			}
 		}
 		
@@ -108,7 +110,6 @@ public class TrafficSimulator implements Observable<TrafficSimObserver>{
 	@Override
 	public void addObserver(TrafficSimObserver o) {
 		listO.add(o);		
-		//notiOnRegister(mapR, listE, tick);
 		o.onRegister(mapR, listE, tick);
 	}
 
