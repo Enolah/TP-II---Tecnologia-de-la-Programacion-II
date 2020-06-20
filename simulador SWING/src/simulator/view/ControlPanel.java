@@ -298,7 +298,8 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private JButton cargarImg(String icon, JButton btn, String s){
 		
 		ImageIcon img= new ImageIcon ("src/icons/" + icon);
-		//Complete: Flag indicating that the downloading of media was completed successfully.
+		//Complete: Flag indicating that the downloading 
+		//of media was completed successfully.
 		if(img.getImageLoadStatus()==MediaTracker.COMPLETE){ 
 			btn = new JButton(img);
 		}
