@@ -40,6 +40,9 @@ import simulator.model.TrafficSimulator;
 import simulator.view.MainWindow;
 
 public class Main {
+	
+	//esto es solo una prueba
+	
 
 	private final static Integer _timeLimitDefaultValue = 10;
 	private static String _inFile = null; // fichero de entrada
