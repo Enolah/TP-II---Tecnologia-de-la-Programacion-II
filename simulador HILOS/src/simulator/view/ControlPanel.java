@@ -37,8 +37,9 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 	private JButton btnCargaEventos, btnCambiaClase, btnCambiaTiempo, btnPlay, btnStop, btnExit;
-	private JSpinner spinTicks;
-	private boolean _stopped;
+	private JSpinner spinTicks, spinDelay;
+//	private boolean _stopped;
+	private volatile Thread _thread;
 
 	// atributos de los ON
 	private RoadMap map;
@@ -50,7 +51,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 	public ControlPanel(Controller ctrl) {
 		this._ctrl = ctrl;
-		this._stopped = false;
+	//	this._stopped = false;
 		this.listV = new ArrayList<Vehicle>();
 		this.listR = new ArrayList<Road>();
 		this.initGUI();
@@ -110,20 +111,28 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				_stopped = false;
-
-					run_sim((int) spinTicks.getValue());
-
+			//	_stopped = false;
+				play();
+				_thread = new Thread(){
+					@Override
+					public void run() {
+						run_sim((int) spinTicks.getValue(),(int) spinDelay.getValue());
+						
+					}
+				};
+				_thread.start();
 
 			}
 		});
-
+		
+		
 	
 		this.btnStop=cargarImg("stop.png", btnStop, "Stop");
 		this.btnStop.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+		
 				stop();
 
 			}
@@ -134,6 +143,10 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		this.spinTicks = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
 		if( _ctrl.getNumPasos()!=0)//comando -t 300 o si es por defecto == 10
 			this.spinTicks.setValue(_ctrl.getNumPasos());
+		
+		
+		JLabel delay = new JLabel ("Delay: ");
+		this.spinDelay = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 1));
 	
 		
 		this.btnExit = cargarImg("exit.png", btnExit, "Exit");
@@ -153,35 +166,47 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 		this.add(btnStop);
 		this.add(tic);
 		this.add(spinTicks);
+		this.add(delay);
+		this.add(spinDelay);
 		this.add(btnExit);
 
 		//Deja deshabilitados los botones para cambiar el tiempo o la clase de contaminacion
 		this.enableToolBarStart();
 		
 	}
+	
+	
 
-	private void run_sim(int n) {
+	private void run_sim(int n, long delay) {
 
-		if (n > 0 && !this._stopped) {
+		/*
+		 * while ( n>0 && (the current thread has not been intereptred) ) { //
+		 * 1. execute the simulator one step, i.e., call method // _ctrl.run(1)
+		 * and handle exceptions if any // 2. sleep the current thread for
+		 * ’delay’ milliseconds n--; }
+		 */
+		
+		if (n > 0 && !_thread.isInterrupted()) {
 			try {
 				this._ctrl.run(1, null);
-				Thread.sleep(300);
-				this.play();
-			} catch (Exception e) {
+				_thread.sleep(delay);
+				
+			} catch (InterruptedException e) {
 				this.onError(e.getMessage());
-				this._stopped = true;
+				_thread.interrupt();
+			//	this._stopped = true;
 				return;
 			}
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					run_sim(n - 1);
+					run_sim(n - 1,delay);
 
 				}
 			});
 		} else {
 			this.enableToolBar(true);
-			this._stopped = true;
+	//		this._stopped = true;
 		}
 	}
 
@@ -208,8 +233,12 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	}
 	
 	private void stop() {
-		this._stopped = true;
-		this.enableToolBar(true);
+	//	this._stopped = true;
+		if(_thread!=null){
+			_thread.interrupt();
+			this.enableToolBar(true);
+		}
+	
 
 	}
 
@@ -356,5 +385,7 @@ public class ControlPanel extends JPanel implements TrafficSimObserver {
 	public void onError(String err) {
 		JOptionPane.showMessageDialog(null, err);
 	}
+
+
 
 }
